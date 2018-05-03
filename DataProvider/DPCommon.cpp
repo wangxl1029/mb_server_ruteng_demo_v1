@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include "CFBaseObj.hpp"
 #include "DPCommon.hpp"
 
@@ -182,4 +183,12 @@ bool CDPCommon::GetBasePointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iL
 	iLat += uiWidth / 2;
 
 	return false;
+}
+
+int CDPCommon::UpdateRegionName2Id(const char *pcUpdateRegionName)
+{
+	if (pcUpdateRegionName[0] == 'C') {
+		++pcUpdateRegionName;
+	}
+	return std::strtol(pcUpdateRegionName, NULL, 16);
 }

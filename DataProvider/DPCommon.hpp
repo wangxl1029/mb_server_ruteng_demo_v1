@@ -24,5 +24,10 @@ public:
 
 	// 取得指定TileNum的基准点经纬度
 	static bool GetBasePointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat);
+
+
+	static int UpdateRegionName2Id(const char *pcUpdateRegionName);
+
+
 };
 
