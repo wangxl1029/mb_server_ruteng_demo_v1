@@ -1,3 +1,4 @@
+#include "CFBaseObj.hpp"
 #include "RPCommon.hpp"
 #include "RPRCUpSearch.h"
 

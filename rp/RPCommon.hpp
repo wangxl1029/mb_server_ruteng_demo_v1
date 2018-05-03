@@ -1,12 +1,4 @@
 #pragma once
-class CBaseObj
-{
-public:
-	CBaseObj();
-	virtual ~CBaseObj();
-};
-
-
 //typedef		long					RESULT;
 
 
@@ -20,3 +12,4 @@ public:
 
 #include <stdint.h>
 #include <vector>
+#include <memory>

@@ -1,8 +1,8 @@
-#include "RouteSession.hpp"
+#include "CFBaseObj.hpp"
 #include "RPCommon.hpp"
 #include "RPRouteCalcRequest.hpp"
 #include "RPRCSectionDirector.hpp"
-
+#include "RouteSession.hpp"
 
 //	CRPWayPoint
 CRPWayPoint::CRPWayPoint()
@@ -19,11 +19,6 @@ CRPWayPoint::~CRPWayPoint()
 {
 }
 
-
-CBaseObj::CBaseObj()
-{}
-CBaseObj::~CBaseObj()
-{}
 
 CRouteSession::CRouteSession()
 {

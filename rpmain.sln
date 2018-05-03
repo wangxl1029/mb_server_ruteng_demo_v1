@@ -14,7 +14,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rp", "rp\rp.vcxproj", "{681
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataProvider", "DataProvider\DataProvider.vcxproj", "{40598327-D606-4A4C-A1B9-A9032051FF07}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommFunc", "CommonLib\CommonFunc\src\CommFunc\CommFunc.vcxproj", "{FE57E00D-D679-4DE9-B97B-955A9CD7E751}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CommFunc", "CommonLib\CommonFunc\src\CommFunc.vcxproj", "{FE57E00D-D679-4DE9-B97B-955A9CD7E751}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,4 +1,5 @@
 #include <string>
+#include "CFBaseObj.hpp"
 #include "RPCommon.hpp"
 #include "RPRCTermSearch.hpp"
 

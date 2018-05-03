@@ -1,6 +1,6 @@
 #pragma once
-#include <memory>
 
+#include "RPRouteCalcRequest.hpp"
 class CRPRCSectionDirector :
 	public CBaseObj
 {
