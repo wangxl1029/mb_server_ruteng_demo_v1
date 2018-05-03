@@ -33,10 +33,13 @@
     <ClInclude Include="RPRCUpSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRCConnectSearch.h">
+    <ClInclude Include="RPRCRouteEdit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRCRouteEdit.hpp">
+    <ClInclude Include="RPRCConnectSearch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Function\RouteSession.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -57,6 +60,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RPRCRouteEdit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RouteSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

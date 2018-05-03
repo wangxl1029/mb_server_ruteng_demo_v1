@@ -1,4 +1,4 @@
-#include "RPRCConnectSearch.h"
+#include "RPRCConnectSearch.hpp"
 
 
 CRPRCConnectSearch::CRPRCConnectSearch()

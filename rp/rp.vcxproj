@@ -47,6 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Function\;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -74,8 +75,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Function\RouteSession.hpp" />
     <ClInclude Include="RPCommon.hpp" />
-    <ClInclude Include="RPRCConnectSearch.h" />
+    <ClInclude Include="RPRCConnectSearch.hpp" />
     <ClInclude Include="RPRCRouteEdit.hpp" />
     <ClInclude Include="RPRCSectionDirector.hpp" />
     <ClInclude Include="RPRCTermSearch.hpp" />
@@ -83,6 +85,7 @@
     <ClInclude Include="RPRouteCalcRequest.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RouteSession.cpp" />
     <ClCompile Include="RPRCConnectSearch.cpp" />
     <ClCompile Include="RPRCRouteEdit.cpp" />
     <ClCompile Include="RPRCSectionDirector.cpp" />
