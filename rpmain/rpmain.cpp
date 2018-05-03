@@ -8,6 +8,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	CRouteSession sess;
 
+	sess.calcRoute();
 
 	return 0;
 }

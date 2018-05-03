@@ -9,7 +9,7 @@ public:
 	virtual ~CRPRCSectionDirector();
 	bool StartCalculateSection();
 private:
-	std::shared_ptr<CBaseObj> m_termSearch;
+	//std::shared_ptr<CRPRCTermSearch> m_termSearch;
 	std::shared_ptr<CBaseObj> m_upSearch;
 	std::shared_ptr<CBaseObj> m_connectSearch;
 	std::shared_ptr<CBaseObj> m_routeEdit;

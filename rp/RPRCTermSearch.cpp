@@ -10,3 +10,8 @@ CRPRCTermSearch::CRPRCTermSearch()
 CRPRCTermSearch::~CRPRCTermSearch()
 {
 }
+
+bool CRPRCTermSearch::Do()
+{
+	return false;
+}

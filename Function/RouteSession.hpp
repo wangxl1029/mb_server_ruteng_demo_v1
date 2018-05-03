@@ -5,6 +5,8 @@ public:
 	CRouteSession();
 	~CRouteSession();
 
+	void calcRoute();
+
 private:
 
 };

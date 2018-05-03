@@ -5,6 +5,7 @@ class CRPRCTermSearch :
 {
 public:
 	CRPRCTermSearch();
+	bool Do();
 	virtual ~CRPRCTermSearch();
 };
 
