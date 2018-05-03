@@ -62,6 +62,20 @@ bool CDPCommon::CoordToTileNo(int iLevelNo, int iLong, int iLat, uint32_t& uiTil
 	return true;
 }
 
+// 取得指定Level单个Tile的经纬度跨度
+bool CDPCommon::GetTileWidth(int iLevelNo, uint32_t& uiTileWidth)
+{
+	if (iLevelNo < 0 || iLevelNo > 15)
+	{
+		return false;
+	}
+
+	uiTileWidth = (1UL << (31 - iLevelNo));
+
+	return true;
+}
+
+
 // 取得PackedTileId
 bool CDPCommon::TileNoToPackedTileID(int iLevelNo, uint32_t uiTileNo, uint32_t& uiPackedTileId)
 {
@@ -77,3 +91,95 @@ bool CDPCommon::TileNoToPackedTileID(int iLevelNo, uint32_t uiTileNo, uint32_t& 
 	return false;
 }
 
+// 取得指定TileNum的左下角经纬度
+bool CDPCommon::GetLBPointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat)
+{
+	if (iLevelNo < 0 || iLevelNo > 15)
+	{
+		return false;
+	}
+
+	if (uiTileNo >= (1UL << (iLevelNo + 16)))
+	{
+		return false;
+	}
+
+	uint32_t uiWidth = 0;
+	uint32_t uiTmpId = uiTileNo;
+	uint32_t uiTmpLong = 0;
+	uint32_t uiTmpLat = 0;
+
+	if (true == GetTileWidth(iLevelNo, uiWidth))
+	{
+		return false;
+	}
+
+	for (int i = iLevelNo; i >= 0; i--)
+	{
+		uint32_t uiPos = uiTmpId & 0x3;
+		if (1 == i)
+		{
+			uiPos ^= 0x2;
+		}
+
+		if (uiPos & 0x1)
+		{
+			uiTmpLong += uiWidth;
+		}
+
+		if (uiPos & 0x2)
+		{
+			uiTmpLat += uiWidth;
+		}
+
+		uiTmpId >>= 2;
+		uiWidth <<= 1;
+	}
+
+	iLong = (int)uiTmpLong;
+	iLat = (int)uiTmpLat - (0x1 << 30);
+
+	return true;
+}
+
+// 取得指定TileNum的右上角经纬度
+bool CDPCommon::GetRTPointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat)
+{
+	if (false == GetLBPointCoordOfTile(iLevelNo, uiTileNo, iLong, iLat))
+	{
+		return false;
+	}
+
+	uint32_t uiWidth = 0;
+
+	if (false == GetTileWidth(iLevelNo, uiWidth))
+	{
+		return false;
+	}
+
+	iLong += uiWidth;
+	iLat += uiWidth;
+
+	return true;
+}
+
+// 取得指定TileNum的基准点经纬度
+bool CDPCommon::GetBasePointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat)
+{
+	if (false == GetLBPointCoordOfTile(iLevelNo, uiTileNo, iLong, iLat))
+	{
+		return false;
+	}
+
+	uint32_t uiWidth = 0;
+
+	if (false == GetTileWidth(iLevelNo, uiWidth))
+	{
+		return false;
+	}
+
+	iLong += uiWidth / 2;
+	iLat += uiWidth / 2;
+
+	return false;
+}
