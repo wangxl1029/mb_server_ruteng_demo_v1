@@ -7,7 +7,7 @@ class CRPRCSectionDirector :
 public:
 	CRPRCSectionDirector();
 	virtual ~CRPRCSectionDirector();
-	bool StartCalculateSection();
+	bool StartCalculateSection(CRPRouteCalcRequest &clRequest);
 private:
 	//std::shared_ptr<CRPRCTermSearch> m_termSearch;
 	std::shared_ptr<CBaseObj> m_upSearch;

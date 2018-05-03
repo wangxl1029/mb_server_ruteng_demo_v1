@@ -19,3 +19,4 @@ public:
 #define	RP_ROUTE_SEARCH_TYPE_ALL								(0x1F)
 
 #include <stdint.h>
+#include <vector>
