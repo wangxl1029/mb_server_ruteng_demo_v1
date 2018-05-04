@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DPCommon.hpp" />
-    <ClInclude Include="DPFacade.h" />
+    <ClInclude Include="DPFacade.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp" />

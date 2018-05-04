@@ -23,7 +23,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\DataProvider\DPFacade.hpp">
+    <ClInclude Include="..\include\CFBaseObj.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

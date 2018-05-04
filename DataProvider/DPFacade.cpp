@@ -1,5 +1,5 @@
 #include "DPFacade.hpp"
-
+#include "DPCommon.hpp"
 
 class CDPFacadeImpl : public CDPFacade
 {
@@ -8,7 +8,7 @@ public:
 	virtual ~CDPFacadeImpl();
 
 	virtual bool Initialize();
-
+	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList);
 };
 
 std::shared_ptr< CDPFacade > CDPFacade::Create()
@@ -34,6 +34,11 @@ CDPFacadeImpl::~CDPFacadeImpl()
 }
 
 bool CDPFacadeImpl::Initialize()
+{
+	return false;
+}
+
+bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList)
 {
 	return false;
 }
