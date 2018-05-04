@@ -4,6 +4,7 @@
 #include "RPRCSectionDirector.hpp"
 #include "RouteSession.hpp"
 
+#include "DPFacade.hpp"
 //	CRPWayPoint
 CRPWayPoint::CRPWayPoint()
 : m_enWayPointType(RPWayPointType_Invalid)
@@ -37,6 +38,9 @@ void CRouteSession::calcRoute()
 	
 	CRPRouteCalcRequest		clSectionRequest(req);
 
+	auto spclDPFacade = CDPFacade::Create();
+
 	auto spclSessionDirector = std::make_shared<CRPRCSectionDirector>();
+	spclSessionDirector->Initialize(spclDPFacade);
 	spclSessionDirector->StartCalculateSection(clSectionRequest);
 }

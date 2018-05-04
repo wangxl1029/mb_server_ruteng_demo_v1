@@ -5,7 +5,7 @@
 
 
 
-CRPRCTermSearch::CRPRCTermSearch()
+CRPRCTermSearch::CRPRCTermSearch(std::shared_ptr< CDPFacade > spclDataProvider)
 {
 }
 

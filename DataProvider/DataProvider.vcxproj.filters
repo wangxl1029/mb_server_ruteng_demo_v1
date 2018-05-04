@@ -21,9 +21,15 @@
     <ClInclude Include="DPCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DPFacade.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DPFacade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
