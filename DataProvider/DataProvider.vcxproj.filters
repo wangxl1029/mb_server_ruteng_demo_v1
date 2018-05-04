@@ -24,12 +24,18 @@
     <ClInclude Include="DPFacade.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DPProvFolderRoot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DPFacade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DPProvFolderRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

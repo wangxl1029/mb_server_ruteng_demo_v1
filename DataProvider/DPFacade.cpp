@@ -43,5 +43,11 @@ bool CDPFacadeImpl::Initialize()
 
 bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList)
 {
+	if (m_bDbSwitching) {
+		//ERR("");
+		return false;
+	}
+
+
 	return false;
 }

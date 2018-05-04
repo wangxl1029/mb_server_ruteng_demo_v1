@@ -12,13 +12,21 @@ CRPRCTermSearch::~CRPRCTermSearch()
 {
 }
 
-bool CRPRCTermSearch::Do()
+bool CRPRCTermSearch::Do(std::shared_ptr< CDPFacade > spclDataProvider)
 {
-
-	std::vector< std::string >	vstrUpdateRegion;
 
 	uint32_t	uiTileNo = 0;
 	CDPCommon::CoordToTileNo(m_iLevel, m_clWayPoint.m_clCoord.x, m_clWayPoint.m_clCoord.y, uiTileNo);
 
-	return false;
+	//CDPCommon::TileNoToPackedTileID(m_iLevel, uiTileNo, clTileID.m_uiPackedTileID);
+	uint32_t uiPackedTileID = 0;
+	CDPCommon::TileNoToPackedTileID(m_iLevel, uiTileNo, uiPackedTileID);
+
+	std::vector< std::string >	vstrUpdateRegion;
+	if (true != spclDataProvider->GetUpdateRegionByTile(BUILDING_BLOCK_ID_ROUTING, uiPackedTileID/*clTileID.m_uiPackedTileID*/, vstrUpdateRegion)) {
+		//ERR("");
+		return false;
+	}
+
+	return true;
 }

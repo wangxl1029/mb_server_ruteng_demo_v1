@@ -31,7 +31,7 @@ bool CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clRequest)
 	m_clEndWayPoint = clRequest.m_spclWayPoints->At(1);
 
 	auto spclTermSearch = std::make_shared<CRPRCTermSearch>(m_clStartWayPoint, 13, m_spclDataProvider);
-	spclTermSearch->Do();
+	spclTermSearch->Do(m_spclDataProvider);
 
 	return true;
 }

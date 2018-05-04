@@ -77,10 +77,12 @@
   <ItemGroup>
     <ClInclude Include="DPCommon.hpp" />
     <ClInclude Include="DPFacade.hpp" />
+    <ClInclude Include="DPProvFolderRoot.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp" />
     <ClCompile Include="DPFacade.cpp" />
+    <ClCompile Include="DPProvFolderRoot.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

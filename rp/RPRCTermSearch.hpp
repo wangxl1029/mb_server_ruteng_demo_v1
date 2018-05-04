@@ -7,7 +7,7 @@ class CRPRCTermSearch :
 public:
 	CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, std::shared_ptr< CDPFacade > spclDataProvider);
 	CRPRCTermSearch() = delete;
-	bool Do();
+	bool Do(std::shared_ptr< CDPFacade > spclDataProvider);
 	virtual ~CRPRCTermSearch();
 public:
 	//	input
