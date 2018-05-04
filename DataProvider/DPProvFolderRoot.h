@@ -1,6 +1,6 @@
 #pragma once
 #include "CFBaseObj.hpp"
-class CDPProvFolderRoot :
+class CDPProvFolderRoot : // class name same as znavi
 	public CBaseObj
 {
 public:
