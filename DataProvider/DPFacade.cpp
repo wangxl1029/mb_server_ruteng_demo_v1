@@ -1,5 +1,6 @@
 #include "DPFacade.hpp"
 #include "DPCommon.hpp"
+#include "DPProvFolderRoot.hpp"
 
 class CDPFacadeImpl : public CDPFacade
 {
@@ -11,6 +12,9 @@ public:
 	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList);
 
 public:
+	std::string													m_strProductName;
+	std::shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRoot;
+	std::shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRootOld;
 	volatile bool												m_bDbSwitching;
 };
 
@@ -48,6 +52,23 @@ bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, u
 		return false;
 	}
 
+	auto spclProvFolderProduct = m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName);
+	if (!spclProvFolderProduct)
+	{
+		return false;
+	}
 
-	return false;
+	auto spclDPProvProduct = spclProvFolderProduct->GetProvProduct();
+	if (!spclProvFolderProduct)
+	{
+		return false;
+	}
+
+	if (!spclDPProvProduct->GetUpdateRegionByTile(enBuildingBlockID, uiPackedTileID, vstrUpdateRegionList))
+	{
+		return false;
+	}
+
+	return true;
 }
+

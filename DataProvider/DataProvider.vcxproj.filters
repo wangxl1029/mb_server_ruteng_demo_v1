@@ -24,7 +24,13 @@
     <ClInclude Include="DPFacade.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPProvFolderRoot.h">
+    <ClInclude Include="DPProvFolderRoot.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DPProvFolderProduct.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DPProvProduct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -36,6 +42,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DPProvFolderRoot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DPProvFolderProduct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DPProvProduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
