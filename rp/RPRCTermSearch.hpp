@@ -1,13 +1,19 @@
 #pragma once
 #include "DPFacade.hpp"
+#include "RPRouteCalcRequest.hpp"
 class CRPRCTermSearch :
 	public CBaseObj
 {
 public:
-	CRPRCTermSearch(std::shared_ptr< CDPFacade > spclDataProvider);
+	CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, std::shared_ptr< CDPFacade > spclDataProvider);
+	CRPRCTermSearch() = delete;
 	bool Do();
 	virtual ~CRPRCTermSearch();
 public:
-	std::shared_ptr< CDPFacade >									m_spclDataProvider;
+	//	input
+	CRPWayPoint													m_clWayPoint;
+	int															m_iLevel;
+
+	std::shared_ptr< CDPFacade >								m_spclDataProvider;
 };
 

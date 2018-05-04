@@ -18,5 +18,7 @@ private:
 	std::shared_ptr<CBaseObj> m_connectSearch;
 	std::shared_ptr<CBaseObj> m_routeEdit;
 
+	CRPWayPoint													m_clStartWayPoint;
+	CRPWayPoint													m_clEndWayPoint;
 };
 

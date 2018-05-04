@@ -9,6 +9,9 @@ public:
 
 	virtual bool Initialize();
 	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList);
+
+public:
+	volatile bool												m_bDbSwitching;
 };
 
 std::shared_ptr< CDPFacade > CDPFacade::Create()
@@ -25,7 +28,7 @@ std::shared_ptr< CDPFacade > CDPFacade::Create()
 }
 
 
-CDPFacadeImpl::CDPFacadeImpl() //: m_bDbSwitching(false)
+CDPFacadeImpl::CDPFacadeImpl() : m_bDbSwitching(false)
 {
 }
 

@@ -1,5 +1,8 @@
 #pragma once
 #include <memory>
+#include <vector>
+#include "CFBaseObj.hpp"
+#include "RPCommon.hpp"
 
 class CPointCoord2D
 {
@@ -30,12 +33,15 @@ public:
 	CPointCoord2D												m_clCoord;
 };
 
-
 class CRPWayPoints : public CBaseObj
 {
 public:
-	CRPWayPoints() {}
-	virtual ~CRPWayPoints() {}
+	CRPWayPoints();
+	virtual ~CRPWayPoints();
+public:
+	size_t Size();
+	CRPWayPoint& At(size_t uiNo);
+	void PushBack(const CRPWayPoint &clWayPoint);
 public:
 	std::vector< CRPWayPoint >										m_vclWayPointList;
 };
