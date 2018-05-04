@@ -42,7 +42,16 @@ CDPFacadeImpl::~CDPFacadeImpl()
 
 bool CDPFacadeImpl::Initialize()
 {
-	return false;
+	if (!m_spclDPProvFolderRoot)
+	{
+		m_spclDPProvFolderRoot = std::make_shared<CDPProvFolderRoot>();
+		if (!m_spclDPProvFolderRoot->Initialize())
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList)

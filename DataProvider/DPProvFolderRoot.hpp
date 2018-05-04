@@ -11,6 +11,7 @@ public:
 	CDPProvFolderRoot();
 	virtual ~CDPProvFolderRoot();
 
+	bool Initialize();
 	std::shared_ptr<CDPProvFolderProduct> GetFolderProduct(std::string strProductName);
 public:
 	volatile bool												m_bDbSwitching;
