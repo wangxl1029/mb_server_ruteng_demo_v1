@@ -14,5 +14,19 @@ bool CDPProvFolderProduct::Initialize(std::string strProductName, std::shared_pt
 
 std::shared_ptr< CDPProvProduct > CDPProvFolderProduct::GetProvProduct()
 {
-	return nullptr;
+	if (m_bDbSwitching) {
+		//ERR("");
+		return nullptr;
+	}
+
+	if (nullptr == m_spclDPProvProduct) {
+		auto spclDPProvProductTemp = std::make_shared<CDPProvProduct>();
+		if ( ! spclDPProvProductTemp->Initialize(m_strProductName, m_spclDBConnectionPool)) {
+			//ERR("");
+			return nullptr;
+		}
+		m_spclDPProvProduct = spclDPProvProductTemp;
+	}
+
+	return m_spclDPProvProduct;
 }

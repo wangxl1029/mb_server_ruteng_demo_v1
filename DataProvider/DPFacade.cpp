@@ -80,7 +80,7 @@ bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, u
 	}
 
 	auto spclDPProvProduct = spclProvFolderProduct->GetProvProduct();
-	if (!spclProvFolderProduct)
+	if (!spclDPProvProduct)
 	{
 		return false;
 	}

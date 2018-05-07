@@ -19,6 +19,7 @@ public:
 public:
 	std::shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
 	volatile bool												m_bDbSwitching;
+	std::shared_ptr< CDPProvProduct >							m_spclDPProvProduct;
 	CCFSimpleCache< std::string, CDPProvFolderUpdateRegion >	m_clDPProvFolderUpdateRegionCache;
 	std::string													m_strProductName;
 };

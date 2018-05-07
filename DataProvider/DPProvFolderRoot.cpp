@@ -19,7 +19,7 @@ std::shared_ptr<CDPProvFolderProduct>  CDPProvFolderRoot::GetFolderProduct(std::
 	if (nullptr == spclFolderProduct)
 	{
 		auto spclFolderProductTemp = std::make_shared< CDPProvFolderProduct >();
-		if (spclFolderProductTemp->Initialize(strProductName, m_spclDBConnectionPool)) {
+		if (!spclFolderProductTemp->Initialize(strProductName, m_spclDBConnectionPool)) {
 			//ERR("");
 			return nullptr;
 		}
