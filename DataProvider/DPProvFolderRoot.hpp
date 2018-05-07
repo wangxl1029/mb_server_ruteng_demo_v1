@@ -8,8 +8,8 @@ class CDPProvFolderRoot : // class name same as znavi
 	public CBaseObj
 {
 public:
-	CDPProvFolderRoot();
-	virtual ~CDPProvFolderRoot();
+	CDPProvFolderRoot() : m_bDbSwitching(false) {}
+	virtual ~CDPProvFolderRoot() {}
 
 	bool Initialize();
 	std::shared_ptr<CDPProvFolderProduct> GetFolderProduct(std::string strProductName);

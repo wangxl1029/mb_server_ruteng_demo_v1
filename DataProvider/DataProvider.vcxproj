@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DPCommon.hpp" />
+    <ClInclude Include="DPDBConnectionPool.hpp" />
     <ClInclude Include="DPFacade.hpp" />
     <ClInclude Include="DPProvFolderProduct.hpp" />
     <ClInclude Include="DPProvFolderRoot.hpp" />
@@ -83,6 +84,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp" />
+    <ClCompile Include="DPDBConnectionPool.cpp" />
     <ClCompile Include="DPFacade.cpp" />
     <ClCompile Include="DPProvFolderProduct.cpp" />
     <ClCompile Include="DPProvFolderRoot.cpp" />

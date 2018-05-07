@@ -6,9 +6,13 @@ class CDPProvFolderProduct :
 	public CBaseObj
 {
 public:
-	CDPProvFolderProduct();
-	virtual ~CDPProvFolderProduct();
-public:
+	CDPProvFolderProduct() : m_bDbSwitching(false) {}
+	virtual ~CDPProvFolderProduct() {}
+
+	//bool Initialize(std::string strProductName, std::shared_ptr< CDPDBConnectionPool > spclDBConnectionPool);
+
 	std::shared_ptr<CDPProvProduct> GetProvProduct();
+public:
+	volatile bool												m_bDbSwitching;
 };
 

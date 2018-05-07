@@ -33,6 +33,9 @@
     <ClInclude Include="DPProvProduct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DPDBConnectionPool.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp">
@@ -48,6 +51,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DPProvProduct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DPDBConnectionPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
