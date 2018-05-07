@@ -1,5 +1,6 @@
 #include "DPFacade.hpp"
 #include "DPCommon.hpp"
+#include "DPDBConnectionPool.hpp"
 #include "DPProvFolderRoot.hpp"
 
 class CDPFacadeImpl : public CDPFacade
@@ -13,6 +14,7 @@ public:
 
 public:
 	std::string													m_strProductName;
+	std::shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
 	std::shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRoot;
 	std::shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRootOld;
 	volatile bool												m_bDbSwitching;
@@ -42,10 +44,20 @@ CDPFacadeImpl::~CDPFacadeImpl()
 
 bool CDPFacadeImpl::Initialize()
 {
+	m_strProductName = PRODUCT_NAME;
+
+	if (nullptr == m_spclDBConnectionPool) {
+		m_spclDBConnectionPool = std::make_shared<CDPDBConnectionPool>();
+		if (true != m_spclDBConnectionPool->Initialize(DP_GetRootDirName())) {
+			//ERR("");
+			return false;
+		}
+	}
+
 	if (!m_spclDPProvFolderRoot)
 	{
 		m_spclDPProvFolderRoot = std::make_shared<CDPProvFolderRoot>();
-		if (!m_spclDPProvFolderRoot->Initialize())
+		if (!m_spclDPProvFolderRoot->Initialize(m_spclDBConnectionPool))
 		{
 			return false;
 		}

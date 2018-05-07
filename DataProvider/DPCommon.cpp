@@ -3,6 +3,14 @@
 #include "CFBaseObj.hpp"
 #include "DPCommon.hpp"
 
+const char	*PRODUCT_NAME = "PRODUCT";
+
+const char* DP_GetRootDirName()
+{
+	static const char s_acRootDirName[] = "D:\\ZNavi\\Data\\20160802/";
+	return s_acRootDirName;
+}
+
 bool CDPCommon::CoordToTileNo(int iLevelNo, int iLong, int iLat, uint32_t& uiTileNo)
 {
 	if (iLevelNo < 0 || iLevelNo > 15)

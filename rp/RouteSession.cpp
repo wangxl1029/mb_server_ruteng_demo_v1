@@ -42,6 +42,7 @@ void CRouteSession::calcRoute()
 	clSectionRequest.m_spclWayPoints->PushBack(spclWayPoints->At(1));
 
 	auto spclDPFacade = CDPFacade::Create();
+	spclDPFacade->Initialize();
 
 	auto spclSessionDirector = std::make_shared<CRPRCSectionDirector>();
 	spclSessionDirector->Initialize(spclDPFacade);

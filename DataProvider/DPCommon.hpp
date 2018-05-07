@@ -2,6 +2,11 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+
+extern const char	*PRODUCT_NAME;
+
+const char* DP_GetRootDirName();
+
 enum BUILDING_BLOCK_ID
 {
 	BUILDING_BLOCK_ID_SHARED_DATA = 0x0,

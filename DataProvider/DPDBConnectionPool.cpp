@@ -1,11 +1,9 @@
 #include "DPDBConnectionPool.hpp"
 
 
-CDPDBConnectionPool::CDPDBConnectionPool()
+//	CDPDBConnectionPool
+bool CDPDBConnectionPool::Initialize(const char *pcRootPath)
 {
-}
-
-
-CDPDBConnectionPool::~CDPDBConnectionPool()
-{
+	m_strRootPath = pcRootPath;
+	return true;
 }
