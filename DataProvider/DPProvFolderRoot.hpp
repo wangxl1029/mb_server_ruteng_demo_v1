@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 #include "CFBaseObj.hpp"
+#include "CFSimpleCache.hpp"
 #include "DPDBConnectionPool.hpp"
 #include "DPProvFolderProduct.hpp"
 
@@ -17,6 +18,7 @@ public:
 public:
 public:
 	std::shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
+	CCFSimpleCache<std::string, CDPProvFolderProduct >			m_clDPProvFolderProductCache;
 	volatile bool												m_bDbSwitching;
 };
 

@@ -26,5 +26,8 @@
     <ClInclude Include="..\include\CFBaseObj.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\CFSimpleCache.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
