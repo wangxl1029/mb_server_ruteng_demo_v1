@@ -1,3 +1,5 @@
+#include "InnerCommon.hpp"
+#include "RPCommon.hpp"
 #include "RPRouteCalcRequest.hpp"
 
 //	CRPWayPoints

@@ -46,8 +46,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Function\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)DataProvider\;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WXL_COMMENT_OUT;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Function\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Function\OSWrapper\include\;$(SolutionDir)ExternalLibrary\nds_sqlite3\include\;$(SolutionDir)Generated\SL_DAL\include\;$(SolutionDir)Generated\IOLibs\include\IOLibCommon\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)CommonLib\DataProvider\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

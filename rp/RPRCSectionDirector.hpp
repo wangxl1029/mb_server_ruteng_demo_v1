@@ -1,7 +1,5 @@
 #pragma once
 
-#include "RPRouteCalcRequest.hpp"
-#include "DPFacade.hpp"
 // class name CRPRCSectionDirector is not changed from znavi, easy to differ.
 class CRPRCSectionDirector :
 	public CBaseObj

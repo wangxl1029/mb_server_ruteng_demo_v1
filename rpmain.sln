@@ -24,8 +24,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IOLibUPD", "Generated\IOLib
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSWrapper", "Platform\OSWrapper\src\OSWrapper.vcxproj", "{FFD786A3-AC3D-4AC5-A4A2-E301D253DE9D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13A1B1F0-9563-4531-A094-0EA3864E23C2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ErrLog", "Platform\ErrLog\src\ErrLog.vcxproj", "{8D891031-CD9D-45CD-B286-EFBAD3D95636}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IOLibCommon", "Generated\IOLibs\src\IOLibCommon\IOLibCommon.vcxproj", "{66122753-5E13-4D2E-B970-53CD0BF0792F}"

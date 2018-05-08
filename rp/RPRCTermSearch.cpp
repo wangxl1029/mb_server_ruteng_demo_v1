@@ -1,7 +1,6 @@
 #include "InnerCommon.hpp"
-#include <string>
-#include "CFBaseObj.hpp"
 #include "RPCommon.hpp"
+#include "RPRouteCalcRequest.hpp"
 #include "RPRCTermSearch.hpp"
 
 CRPRCTermSearch::CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, std::shared_ptr< CDPFacade > spclDataProvider)
@@ -23,7 +22,7 @@ bool CRPRCTermSearch::Do(std::shared_ptr< CDPFacade > spclDataProvider)
 	uint32_t uiPackedTileID = 0;
 	CDPCommon::TileNoToPackedTileID(m_iLevel, uiTileNo, uiPackedTileID);
 
-	std::vector< std::string >	vstrUpdateRegion;
+	vector< string >	vstrUpdateRegion;
 	if (true != spclDataProvider->GetUpdateRegionByTile(BUILDING_BLOCK_ID_ROUTING, uiPackedTileID/*clTileID.m_uiPackedTileID*/, vstrUpdateRegion)) {
 		//ERR("");
 		return false;

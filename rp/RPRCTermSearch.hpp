@@ -1,6 +1,5 @@
 #pragma once
-#include "DPFacade.hpp"
-#include "RPRouteCalcRequest.hpp"
+
 class CRPRCTermSearch :
 	public CBaseObj
 {

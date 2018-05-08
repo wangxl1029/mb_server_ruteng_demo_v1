@@ -39,12 +39,13 @@ using namespace std;
 #include	"nds_sqlite3.h"
 
 #include	"IOLibCommon_HeaderAll.h"
+#if 0 // del by wxl
 #include	"IOLibNDS_HeaderAll.h"
-
-#include	"CFHeaderAll.h"
+#endif
+#include	"CFHeaderAll.hpp"
 
 #include	"SL_HeaderAll.h"
 
-#include	"DPHeaderAll.h"
+#include	"DPHeaderAll.hpp"
 
 #endif	//	INNERCOMMON_H

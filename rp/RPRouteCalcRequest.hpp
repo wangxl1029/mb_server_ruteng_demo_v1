@@ -1,8 +1,4 @@
 #pragma once
-#include <memory>
-#include <vector>
-#include "CFBaseObj.hpp"
-#include "RPCommon.hpp"
 
 class CPointCoord2D
 {
@@ -43,7 +39,7 @@ public:
 	CRPWayPoint& At(size_t uiNo);
 	void PushBack(const CRPWayPoint &clWayPoint);
 public:
-	std::vector< CRPWayPoint >										m_vclWayPointList;
+	vector< CRPWayPoint >										m_vclWayPointList;
 };
 
 class CRPRouteCalcRequest
