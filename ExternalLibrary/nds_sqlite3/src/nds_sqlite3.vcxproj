@@ -37,8 +37,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IntDir>$(ProjectDir)..\..\..\..\Build_Mid_$(Configuration)\ExternalLibrary\nds_sqlite3</IntDir>
-    <OutDir>$(ProjectDir)..\..\..\..\Build_Output_$(Configuration)</OutDir>
+    <IntDir>$(ProjectDir)$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
