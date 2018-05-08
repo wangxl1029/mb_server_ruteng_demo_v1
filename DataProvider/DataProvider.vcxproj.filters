@@ -36,6 +36,9 @@
     <ClInclude Include="DPDBConnectionPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SL_DAL_Adapter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp">

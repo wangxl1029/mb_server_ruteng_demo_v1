@@ -46,8 +46,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)Generated\SL_DAL\include\;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WXL_COMMENT_OUT;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)Generated\SL_DAL\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -81,6 +81,7 @@
     <ClInclude Include="DPProvFolderProduct.hpp" />
     <ClInclude Include="DPProvFolderRoot.hpp" />
     <ClInclude Include="DPProvProduct.hpp" />
+    <ClInclude Include="SL_DAL_Adapter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp" />

@@ -1,5 +1,5 @@
 #include "DPProvProduct.hpp"
-
+#include "SL_DAL_Adapter.hpp"
 
 bool CDPProvProduct::Initialize(std::string strProductName, std::shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
 {

@@ -25,7 +25,6 @@
 #include	<stdarg.h>
 #include	<assert.h>
 #include	<memory.h>
-
 #ifndef WXL_COMMENT_OUT
 #include	"boost/bind.hpp"
 #include	"boost/signals2.hpp"
@@ -34,7 +33,6 @@
 #include	"boost/smart_ptr/detail/atomic_count.hpp"
 #include	"boost/smart_ptr/detail/spinlock.hpp"
 #endif
-
 unsigned int PF_GetTickCount();
 
 void PF_Sleep( unsigned int uiTime );
