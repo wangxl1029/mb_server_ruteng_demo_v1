@@ -1,8 +1,10 @@
-#include "DPFacade.hpp"
+#include "InnerCommon.hpp"
 #include "DPCommon.hpp"
 #include "DPDBConnectionPool.hpp"
+#include "DPProvProduct.hpp"
+#include "DPProvFolderProduct.hpp"
 #include "DPProvFolderRoot.hpp"
-
+#include "DPFacade.hpp"
 class CDPFacadeImpl : public CDPFacade
 {
 public:
@@ -10,19 +12,19 @@ public:
 	virtual ~CDPFacadeImpl();
 
 	virtual bool Initialize();
-	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList);
+	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList);
 
 public:
-	std::string													m_strProductName;
-	std::shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
-	std::shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRoot;
-	std::shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRootOld;
+	string													m_strProductName;
+	shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
+	shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRoot;
+	shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRootOld;
 	volatile bool												m_bDbSwitching;
 };
 
-std::shared_ptr< CDPFacade > CDPFacade::Create()
+shared_ptr< CDPFacade > CDPFacade::Create()
 {
-	static std::shared_ptr< CDPFacadeImpl >	spclFacadeImpl = std::make_shared< CDPFacadeImpl >();
+	static shared_ptr< CDPFacadeImpl >	spclFacadeImpl = make_shared< CDPFacadeImpl >();
 #if 0
 	if (!spclFacadeImpl->Create()) {
 		//ERR("");
@@ -47,7 +49,7 @@ bool CDPFacadeImpl::Initialize()
 	m_strProductName = PRODUCT_NAME;
 
 	if (nullptr == m_spclDBConnectionPool) {
-		m_spclDBConnectionPool = std::make_shared<CDPDBConnectionPool>();
+		m_spclDBConnectionPool = make_shared<CDPDBConnectionPool>();
 		if (true != m_spclDBConnectionPool->Initialize(DP_GetRootDirName())) {
 			//ERR("");
 			return false;
@@ -56,7 +58,7 @@ bool CDPFacadeImpl::Initialize()
 
 	if (!m_spclDPProvFolderRoot)
 	{
-		m_spclDPProvFolderRoot = std::make_shared<CDPProvFolderRoot>();
+		m_spclDPProvFolderRoot = make_shared<CDPProvFolderRoot>();
 		if (!m_spclDPProvFolderRoot->Initialize(m_spclDBConnectionPool))
 		{
 			return false;
@@ -66,7 +68,7 @@ bool CDPFacadeImpl::Initialize()
 	return true;
 }
 
-bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, std::vector< std::string > &vstrUpdateRegionList)
+bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList)
 {
 	if (m_bDbSwitching) {
 		//ERR("");

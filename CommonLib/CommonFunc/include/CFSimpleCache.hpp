@@ -5,7 +5,7 @@
 
 //	最近最少使用算法的Cache的模板实现
 
-template < typename KEY, typename DATA, typename _Pr = std::less<KEY> >
+template < typename KEY, typename DATA, typename _Pr = less<KEY> >
 class CCFSimpleCache
 {
 public:
@@ -16,14 +16,14 @@ public:
 	{
 	public:
 		CDataRec() : pclPrev(NULL), pclNext(NULL) {}
-		CDataRec(KEY k1, std::shared_ptr<DATA> spData1) : pclPrev(NULL), pclNext(NULL), k(k1), spData(spData1) {}
+		CDataRec(KEY k1, shared_ptr<DATA> spData1) : pclPrev(NULL), pclNext(NULL), k(k1), spData(spData1) {}
 		CDataRec			*pclPrev;
 		CDataRec			*pclNext;
 		KEY					k;
-		std::shared_ptr<DATA>	spData;
+		shared_ptr<DATA>	spData;
 	};
 
-	std::shared_ptr<DATA> GetData(const KEY &k)
+	shared_ptr<DATA> GetData(const KEY &k)
 	{
 		if (NULL != m_pclHead) {
 			if (!(_Pr()(m_pclHead->k, k) || _Pr()(k, m_pclHead->k))) {
@@ -31,7 +31,7 @@ public:
 			}
 
 			if (m_uiLinearSearchCount > 0 && m_mapData.size() < m_uiLinearSearchCondition) {
-				size_t			uiSearchCount = std::min(m_uiLinearSearchCount, m_mapData.size());
+				size_t			uiSearchCount = min(m_uiLinearSearchCount, m_mapData.size());
 				CDataRec		*pclData = m_pclHead;
 				for (size_t i = 0; i < uiSearchCount; ++i) {
 					if (!(_Pr()(pclData->k, k) || _Pr()(k, pclData->k))) {
@@ -57,9 +57,9 @@ public:
 			}
 		}
 
-		typename std::map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
+		typename map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
 		if (it == m_mapData.end() || _Pr()(k, it->first)) {
-			return std::shared_ptr<DATA>();
+			return shared_ptr<DATA>();
 		}
 		if (&(it->second) != m_pclHead) {
 			CDataRec		&clDataRec = it->second;
@@ -81,12 +81,12 @@ public:
 		return it->second.spData;
 	}
 
-	bool PutData(const KEY &k, std::shared_ptr<DATA> &spData)
+	bool PutData(const KEY &k, shared_ptr<DATA> &spData)
 	{
-		typename std::map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
+		typename map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
 		if (it == m_mapData.end() || k < it->first) {
 			//	新Data
-			it = m_mapData.insert(it, std::pair<KEY, CDataRec>(k, CDataRec(k, spData)));
+			it = m_mapData.insert(it, pair<KEY, CDataRec>(k, CDataRec(k, spData)));
 			if (it == m_mapData.end()) {
 				return false;
 			}
@@ -182,7 +182,7 @@ public:
 		m_pclHead = NULL;
 	}
 
-	typedef	typename std::map< KEY, CDataRec, _Pr >::iterator		iterator;
+	typedef	typename map< KEY, CDataRec, _Pr >::iterator		iterator;
 
 	iterator begin()
 	{
@@ -195,7 +195,7 @@ public:
 	}
 
 protected:
-	std::map< KEY, CDataRec, _Pr >		m_mapData;
+	map< KEY, CDataRec, _Pr >		m_mapData;
 	CDataRec							*m_pclHead;
 	size_t								m_uiCapacity;
 	size_t								m_uiLinearSearchCount;
@@ -213,20 +213,20 @@ public:
 	CCFSimpleFileCache() {}
 	virtual ~CCFSimpleFileCache() {}
 
-	std::shared_ptr<DATA> GetData(const KEY &k)
+	shared_ptr<DATA> GetData(const KEY &k)
 	{
 		typename ThreadModel::Lock	clLock(m_clThreadModel);
 
-		std::shared_ptr<DATA>	spclData = m_clSimpleCache.GetData(k);
+		shared_ptr<DATA>	spclData = m_clSimpleCache.GetData(k);
 		if (spclData == NULL) {
 			if (!spclData.Create()) {
-				return std::shared_ptr<DATA>();
+				return shared_ptr<DATA>();
 			}
 			if (SUCCESS != ReadData(k, *spclData)) {
-				return std::shared_ptr<DATA>();
+				return shared_ptr<DATA>();
 			}
 			if (SUCCESS != m_clSimpleCache.PutData(k, spclData)) {
-				return std::shared_ptr<DATA>();
+				return shared_ptr<DATA>();
 			}
 		}
 		return spclData;
@@ -272,7 +272,7 @@ public:
 	{
 	}
 
-	CCFRefCountHolder(ELEMENT *p, std::shared_ptr<CONTAINER> spContainer)
+	CCFRefCountHolder(ELEMENT *p, shared_ptr<CONTAINER> spContainer)
 		: m_pclElem(p), m_spclContainer(spContainer)
 	{
 	}
@@ -293,5 +293,5 @@ public:
 	}
 
 	ELEMENT							*m_pclElem;
-	std::shared_ptr<CONTAINER>			m_spclContainer;
+	shared_ptr<CONTAINER>			m_spclContainer;
 };

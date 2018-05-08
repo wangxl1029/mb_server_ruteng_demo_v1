@@ -33,7 +33,7 @@ public:
 	bool Initialize(const char *pcRootPath);
 
 public:
-	std::string													m_strRootPath;
+	string													m_strRootPath;
 	volatile bool												m_bUpdating;
 };
 

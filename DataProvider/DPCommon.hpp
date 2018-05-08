@@ -1,7 +1,4 @@
 #pragma once
-#include <stdint.h>
-#include <string>
-#include <vector>
 
 extern const char	*PRODUCT_NAME;
 

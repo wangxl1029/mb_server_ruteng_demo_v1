@@ -1,5 +1,14 @@
 #pragma once
 
+#if defined( linux )
+#else
+#pragma warning( disable: 4819 )
+#endif
+
+#define		IN
+#define		OUT
+
+#include	"OSWrapper.h"
 #include	"ELErrLog.h"
 
 #include <math.h>
@@ -19,15 +28,14 @@
 using namespace std;
 
 #include	"nds_sqlite3.h"
-#ifdef WXL_CLIENT_SPECIFIED
 #include	"IOLibCommon_HeaderAll.h"
+#ifdef WXL_CLIENT_SPECIFIED
 #include	"IOLibNDS_HeaderAll.h"
 #endif
 
 #include	"CFHeaderAll.hpp"
-#ifdef WXL_CLIENT_SPECIFIED
+
 #include	"SL_HeaderAll.h"
-#endif
 
 #define		NEU_DB
 

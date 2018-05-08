@@ -1,3 +1,8 @@
+#include "InnerCommon.hpp"
+#include "DPCommon.hpp"
+#include "DPDBConnectionPool.hpp"
+#include "DPProvProduct.hpp"
+#include "DPProvFolderProduct.hpp"
 #include "DPProvFolderRoot.hpp"
 
 
@@ -8,7 +13,7 @@ bool CDPProvFolderRoot::Initialize(std::shared_ptr< CDPDBConnectionPool > spclDB
 	return true;
 }
 
-std::shared_ptr<CDPProvFolderProduct>  CDPProvFolderRoot::GetFolderProduct(std::string strProductName)
+std::shared_ptr<CDPProvFolderProduct>  CDPProvFolderRoot::GetFolderProduct(string strProductName)
 {
 	if (m_bDbSwitching) {
 //		ERR("");

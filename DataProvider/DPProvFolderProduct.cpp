@@ -1,7 +1,11 @@
+#include "InnerCommon.hpp"
+#include "DPCommon.hpp"
+#include "DPDBConnectionPool.hpp"
+#include "DPProvProduct.hpp"
 #include "DPProvFolderProduct.hpp"
 
 
-bool CDPProvFolderProduct::Initialize(std::string strProductName, std::shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
+bool CDPProvFolderProduct::Initialize(string strProductName, shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
 {
 	m_spclDBConnectionPool = spclDBConnectionPool;
 	m_strProductName = strProductName;
@@ -12,7 +16,7 @@ bool CDPProvFolderProduct::Initialize(std::string strProductName, std::shared_pt
 }
 
 
-std::shared_ptr< CDPProvProduct > CDPProvFolderProduct::GetProvProduct()
+shared_ptr< CDPProvProduct > CDPProvFolderProduct::GetProvProduct()
 {
 	if (m_bDbSwitching) {
 		//ERR("");
@@ -20,7 +24,7 @@ std::shared_ptr< CDPProvProduct > CDPProvFolderProduct::GetProvProduct()
 	}
 
 	if (nullptr == m_spclDPProvProduct) {
-		auto spclDPProvProductTemp = std::make_shared<CDPProvProduct>();
+		auto spclDPProvProductTemp = make_shared<CDPProvProduct>();
 		if ( ! spclDPProvProductTemp->Initialize(m_strProductName, m_spclDBConnectionPool)) {
 			//ERR("");
 			return nullptr;

@@ -1,6 +1,4 @@
-#include <cstdlib>
-
-#include "CFBaseObj.hpp"
+#include "InnerCommon.hpp"
 #include "DPCommon.hpp"
 
 const char	*PRODUCT_NAME = "PRODUCT";

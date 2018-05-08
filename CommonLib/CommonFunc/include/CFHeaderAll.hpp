@@ -13,7 +13,9 @@
 #ifdef WXL_CLIENT_SPECIFIED
 #include	"CFFactory.h"
 #include	"CFSingleton.h"
-#include	"CFSimpleCache.h"
+#endif
+#include	"CFSimpleCache.hpp"
+#ifdef WXL_CLIENT_SPECIFIED
 #include	"CFUtil.h"
 #include	"CFNotify.h"
 #include	"CFLocalBuffer.h"
