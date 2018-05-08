@@ -192,6 +192,17 @@ bool CDPCommon::GetBasePointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iL
 	return false;
 }
 
+string CDPCommon::UpdateRegionId2Name(int iUpdateRegionId)
+{
+	char	buf[10] = "";
+#ifdef NEU_DB
+	sprintf(buf, "%02X", iUpdateRegionId);
+#else
+	sprintf(buf, "C%01X", iUpdateRegionId);
+#endif
+	return string(buf);
+}
+
 int CDPCommon::UpdateRegionName2Id(const char *pcUpdateRegionName)
 {
 	if (pcUpdateRegionName[0] == 'C') {

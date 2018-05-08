@@ -19,6 +19,11 @@ bool CDPConnRec::Connect(std::shared_ptr< CDPDBConnectionPool > spclConnctionPoo
 	return false;
 }
 
+CRCPtr< CSL_Database >& CDPConnRec::Get()
+{
+	return m_spclDatabase;
+}
+
 //	CDPDBConnectionPool
 bool CDPDBConnectionPool::Initialize(const char *pcRootPath)
 {

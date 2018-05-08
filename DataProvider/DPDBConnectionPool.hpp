@@ -19,8 +19,11 @@ public:
 	CDPConnRec();
 	virtual ~CDPConnRec();
 
-	bool Connect(std::shared_ptr< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType);
-	std::shared_ptr< CDPDBConnectionPool >							m_spclConnctionPool;
+	bool Connect(shared_ptr< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType);
+	CRCPtr< CSL_Database >& Get();
+public:
+	CRCPtr< CSL_Database >										m_spclDatabase;
+	shared_ptr< CDPDBConnectionPool >							m_spclConnctionPool;
 };
 
 class CDPDBConnectionPool :

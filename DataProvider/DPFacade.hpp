@@ -1,7 +1,4 @@
 #pragma once
-//#include <memory>
-//#include "CFBaseObj.hpp"
-//#include "DPCommon.hpp"
 class CDPFacade :
 	public CBaseObj
 {

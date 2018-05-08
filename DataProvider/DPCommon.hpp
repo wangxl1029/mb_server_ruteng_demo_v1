@@ -49,7 +49,81 @@ public:
 	// 取得指定TileNum的基准点经纬度
 	static bool GetBasePointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat);
 
+	// 根据Tile的基准点坐标和正规化坐标计算经纬度
+	static RESULT NormCoordToCoord(int		iBasePointLong,
+		int		iBasePointLat,
+		int		iNormCoorX,
+		int		iNormCoorY,
+		int		iCoordShift,
+		int&	iLongitude,
+		int&	iLatitude);
 
+	// 根据Tile的基准点坐标和经纬度计算正规化坐标
+	static RESULT CoordAndBaseToNormCoord(int		iBasePointLong,
+		int		iBasePointLat,
+		int		iLongitude,
+		int		iLatitude,
+		int		iCoordShift,
+		int&	iNormCoorX,
+		int&	iNormCoorY);
+
+	// NDS7009 delete by huhuan for "DBcom代码整合" on 20140116 begin
+	// 根据Tile番号和正规化坐标计算经纬度
+	// static RESULT GetLLByTileNormCoor(int	iLevelNo, 
+	// 						uint	iTileNo, 
+	// 						int		iNormCoorX, 
+	// 						int		iNormCoorY, 
+	// 						int		iCoordShift,
+	// 						int&	iLongitude,
+	// 						int&	iLatitude);
+
+	// NDS7009 delete by huhuan for "DBcom代码整合" on 20140116 end
+
+	// 根据Tile番号和经纬度计算正规化坐标
+	static RESULT CoordAndTileToNormCoord(int	iLevelNo,
+		uint	iTileNo,
+		int		iLongitude,
+		int		iLatitude,
+		int		iCoordShift,
+		int&	iNormCoorX,
+		int&	iNormCoorY);
+
+	//////////////////////////////////////////////////////////////////////////
+	//
+	//	Coordination Convert Function
+	//
+	//	NNMF Coordination System To NDS Coordination System
+	//
+	//////////////////////////////////////////////////////////////////////////
+
+	// 1/2560秒的坐标系向NDS坐标系转换
+	static RESULT Cnv2560SecCoord2NdsCoord(int i2560SecLong, int i2560SecLat, int& iNdsLong, int& iNdsLat);
+
+	// NDS坐标系向1/2560秒的坐标系转换
+	static RESULT CnvNdsCoordTo2560SecCoord(int iNdsLong, int iNdsLat, int& i2560SecLong, int& i2560SecLat);
+
+	// 根据Level番号和经纬度计算取得PackedTileId
+	static RESULT CoordToPackedTileIDBy2560Sec(int iLevelNo, int i2560Long, int i2560Lat, uint& uiPackedTileId);
+
+	// 计算指定PackedTileId的基准点经纬度
+	static RESULT CalcBasePointCoordOfTile(uint uiPackedTileId, int& iNdsLong, int& iNdsLat);
+
+	// 计算指定PackedTileId的左下经纬度
+	static RESULT CalcLBPointCoordOfTile(uint uiPackedTileId, int& iLBNdsLong, int& iLBNdsLat);
+
+	// 将NDS经纬度转换为正规化坐标
+	static RESULT CnvNdsCoord2NormCoord(uint uiPackedTileId, int iNdsLong, int iNdsLat, int iCoordShift, int& iNormCoorX, int& iNormCoorY);
+
+	static float ConvCoord2Meters(int iCoord, int iLat);
+	static float ConvMeters2Coord(float fMeters, int iLat);
+	static RESULT ConvNDSCoord2DMS(int iCoord, int &d, int &m, int &s);
+	static RESULT ConvDMS2NDSCoord(int d, int m, int s, int &iCoord);
+
+	// 	static size_t BuildingBlockCount();
+	// 	static BUILDING_BLOCK_ID BuildingBlockNoToID( size_t uiBuildingBlockNo );
+	// 	static size_t BuildingBlockIDToNo( BUILDING_BLOCK_ID enBuildingBlockID );
+
+	static string UpdateRegionId2Name(int iUpdateRegionId);
 	static int UpdateRegionName2Id(const char *pcUpdateRegionName);
 
 
