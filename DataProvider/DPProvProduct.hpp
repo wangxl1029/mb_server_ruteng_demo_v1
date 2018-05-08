@@ -47,7 +47,7 @@ public:
 	string														m_strProductName;
 	CDPConnRec													m_clDatabase;
 	volatile bool													m_bDbSwitching;
-	class CDPUpdateRegionInfo{}; // temporary codes by WXL
+
 	vector< CDPTile2RegionBuildingBlockRect >					m_vclTile2RegionTable;
 	vector< CDPUpdateRegionInfo >								m_vclUpdateRegionList;
 

@@ -1,6 +1,8 @@
 #include "InnerCommon.hpp"
 #include "DPCommon.hpp"
 #include "DPDBConnectionPool.hpp"
+#include "DPData.hpp"
+#include "DPDataProduct.hpp"
 #include "DPProvProduct.hpp"
 #include "DPProvFolderProduct.hpp"
 #include "DPProvFolderRoot.hpp"

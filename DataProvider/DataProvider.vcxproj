@@ -76,6 +76,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DPCommon.hpp" />
+    <ClInclude Include="DPData.hpp" />
+    <ClInclude Include="DPDataProduct.hpp" />
     <ClInclude Include="DPDBConnectionPool.hpp" />
     <ClInclude Include="DPFacade.hpp" />
     <ClInclude Include="DPProvFolderProduct.hpp" />

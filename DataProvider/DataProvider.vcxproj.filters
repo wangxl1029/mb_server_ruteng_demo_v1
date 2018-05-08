@@ -39,6 +39,12 @@
     <ClInclude Include="InnerCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DPDataProduct.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DPData.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp">

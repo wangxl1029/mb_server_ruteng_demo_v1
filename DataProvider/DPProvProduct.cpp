@@ -1,6 +1,8 @@
 #include "InnerCommon.hpp"
 #include "DPCommon.hpp"
 #include "DPDBConnectionPool.hpp"
+#include "DPData.hpp"
+#include "DPDataProduct.hpp"
 #include "DPProvProduct.hpp"
 
 bool CDPProvProduct::Initialize(string strProductName, shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
@@ -79,14 +81,14 @@ bool CDPProvProduct::Initialize(string strProductName, shared_ptr< CDPDBConnecti
 	}
 	for (spclUpdateRegionTableIt->Begin(); !spclUpdateRegionTableIt->IsEnd(); spclUpdateRegionTableIt->Next()) {
 		CDPUpdateRegionInfo		clRecUpdateRegionTable;
-#if 0
+
 		if (SUCCESS != spclUpdateRegionTableIt->CurRec(clRecUpdateRegionTable.m_clUpdateRegionRec)) {
 			ERR("");
 			return false;
 		}
 
 		clRecUpdateRegionTable.m_strUpdateRegionName = CDPCommon::UpdateRegionId2Name(clRecUpdateRegionTable.m_clUpdateRegionRec.m_iUpdateRegionId);
-#endif
+
 		m_vclUpdateRegionList.push_back(clRecUpdateRegionTable);
 	}
 
