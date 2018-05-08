@@ -1,17 +1,16 @@
 #include "DPProvProduct.hpp"
 
 
-CDPProvProduct::CDPProvProduct()
-{
-}
-
-
-CDPProvProduct::~CDPProvProduct()
-{
-}
-
 bool CDPProvProduct::Initialize(std::string strProductName, std::shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
 {
+	m_spclDBConnectionPool = spclDBConnectionPool;
+	m_strProductName = strProductName;
+
+	if (m_spclDBConnectionPool == nullptr) {
+		//ERR("");
+		return false;
+	}
+
 	return false;
 }
 

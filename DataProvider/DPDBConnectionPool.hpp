@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "CFBaseObj.hpp"
+//#include "SL_Common.h"
 enum DPDB_TYPE {
 	DPDB_ROOT,
 	DPDB_PRODUCT,
@@ -10,6 +12,15 @@ enum DPDB_TYPE {
 	DPDB_NAME,
 	DPDB_3DOBJ,
 	DPDB_DRAWPARAMETER,
+};
+
+class CDPDBConnectionPool;
+
+//	CDPConnRec
+class CDPConnRec : public CBaseObj
+{
+
+	std::shared_ptr< CDPDBConnectionPool >							m_spclConnctionPool;
 };
 
 class CDPDBConnectionPool :
