@@ -1,6 +1,6 @@
 #pragma once
 #include "DPCommon.hpp"
-#include "DPDBConnectionPool.hpp"
+
 class CDPProvProduct :
 	public CBaseObj
 {
@@ -14,6 +14,7 @@ public:
 public:
 	std::shared_ptr< CDPDBConnectionPool >							m_spclDBConnectionPool;
 	std::string														m_strProductName;
+	CDPConnRec													m_clDatabase;
 	volatile bool													m_bDbSwitching;
 };
 

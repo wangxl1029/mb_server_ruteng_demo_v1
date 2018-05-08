@@ -1,8 +1,4 @@
 #pragma once
-#include <string>
-#include <memory>
-#include "CFBaseObj.hpp"
-//#include "SL_Common.h"
 enum DPDB_TYPE {
 	DPDB_ROOT,
 	DPDB_PRODUCT,
@@ -19,7 +15,11 @@ class CDPDBConnectionPool;
 //	CDPConnRec
 class CDPConnRec : public CBaseObj
 {
+public:
+	CDPConnRec();
+	virtual ~CDPConnRec();
 
+	bool Connect(std::shared_ptr< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType);
 	std::shared_ptr< CDPDBConnectionPool >							m_spclConnctionPool;
 };
 

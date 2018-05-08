@@ -1,5 +1,6 @@
 #include "InnerCommon.hpp"
 #include "DPCommon.hpp"
+#include "DPDBConnectionPool.hpp"
 #include "DPProvProduct.hpp"
 
 bool CDPProvProduct::Initialize(std::string strProductName, std::shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
