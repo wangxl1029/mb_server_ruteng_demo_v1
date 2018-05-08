@@ -46,7 +46,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WXL_COMMENT_OUT;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WXL_COMMENT_OUT;WXL_SERVER_SPECIFIED;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)ExternalLibrary\nds_sqlite3\include;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)Generated\SL_DAL\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -82,7 +82,6 @@
     <ClInclude Include="DPProvFolderRoot.hpp" />
     <ClInclude Include="DPProvProduct.hpp" />
     <ClInclude Include="InnerCommon.hpp" />
-    <ClInclude Include="SL_DAL_Adapter.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DPCommon.cpp" />

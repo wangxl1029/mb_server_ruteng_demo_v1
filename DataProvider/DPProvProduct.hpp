@@ -1,7 +1,4 @@
 #pragma once
-#include <string>
-#include <memory>
-#include "CFBaseObj.hpp"
 #include "DPCommon.hpp"
 #include "DPDBConnectionPool.hpp"
 class CDPProvProduct :
