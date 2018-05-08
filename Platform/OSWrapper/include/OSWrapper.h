@@ -26,12 +26,14 @@
 #include	<assert.h>
 #include	<memory.h>
 
+#ifndef WXL_COMMENT_OUT
 #include	"boost/bind.hpp"
 #include	"boost/signals2.hpp"
 #include	"boost/shared_ptr.hpp"
 #include	"boost/shared_array.hpp"
 #include	"boost/smart_ptr/detail/atomic_count.hpp"
 #include	"boost/smart_ptr/detail/spinlock.hpp"
+#endif
 
 unsigned int PF_GetTickCount();
 
