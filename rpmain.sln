@@ -28,6 +28,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IOLibUPD", "Generated\IOLib
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IOLibCommon", "D:\proj_20_NDS\ZhaoyiWei\ZNavi_For_WangLin\Generated\IOLibs\src\IOLibCommon\IOLibCommon.vcxproj", "{66122753-5E13-4D2E-B970-53CD0BF0792F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSWrapper", "Platform\OSWrapper\src\OSWrapper.vcxproj", "{FFD786A3-AC3D-4AC5-A4A2-E301D253DE9D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ErrLog", "Platform\Platform\ErrLog\src\ErrLog.vcxproj", "{8D891031-CD9D-45CD-B286-EFBAD3D95636}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -66,6 +70,14 @@ Global
 		{66122753-5E13-4D2E-B970-53CD0BF0792F}.Debug|Win32.Build.0 = Debug|Win32
 		{66122753-5E13-4D2E-B970-53CD0BF0792F}.Release|Win32.ActiveCfg = Release|Win32
 		{66122753-5E13-4D2E-B970-53CD0BF0792F}.Release|Win32.Build.0 = Release|Win32
+		{FFD786A3-AC3D-4AC5-A4A2-E301D253DE9D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FFD786A3-AC3D-4AC5-A4A2-E301D253DE9D}.Debug|Win32.Build.0 = Debug|Win32
+		{FFD786A3-AC3D-4AC5-A4A2-E301D253DE9D}.Release|Win32.ActiveCfg = Release|Win32
+		{FFD786A3-AC3D-4AC5-A4A2-E301D253DE9D}.Release|Win32.Build.0 = Release|Win32
+		{8D891031-CD9D-45CD-B286-EFBAD3D95636}.Debug|Win32.ActiveCfg = Debug|Win32
+		{8D891031-CD9D-45CD-B286-EFBAD3D95636}.Debug|Win32.Build.0 = Debug|Win32
+		{8D891031-CD9D-45CD-B286-EFBAD3D95636}.Release|Win32.ActiveCfg = Release|Win32
+		{8D891031-CD9D-45CD-B286-EFBAD3D95636}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
