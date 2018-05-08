@@ -81,6 +81,7 @@
     <ClInclude Include="DPProvFolderProduct.hpp" />
     <ClInclude Include="DPProvFolderRoot.hpp" />
     <ClInclude Include="DPProvProduct.hpp" />
+    <ClInclude Include="InnerCommon.hpp" />
     <ClInclude Include="SL_DAL_Adapter.hpp" />
   </ItemGroup>
   <ItemGroup>
