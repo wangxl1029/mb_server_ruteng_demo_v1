@@ -8,7 +8,9 @@
 #include	"CFCrc.h"
 #include	"CFStringConversion.h"
 #include	"CFThread.h"
-#include	"CFRefCntBase.h"
+#endif
+#include	"CFRefCntBase.hpp"
+#ifdef WXL_CLIENT_SPECIFIED
 #include	"CFFactory.h"
 #include	"CFSingleton.h"
 #include	"CFSimpleCache.h"

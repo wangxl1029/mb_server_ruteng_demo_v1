@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="..\include\CFBaseObj.hpp" />
     <ClInclude Include="..\include\CFHeaderAll.hpp" />
+    <ClInclude Include="..\include\CFRefCntBase.hpp" />
     <ClInclude Include="..\include\CFSimpleCache.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -13,6 +13,11 @@ bool CDPProvProduct::Initialize(std::string strProductName, std::shared_ptr< CDP
 		return false;
 	}
 
+	if ( ! m_clDatabase.Connect(m_spclDBConnectionPool, strProductName.c_str(), NULL, DPDB_PRODUCT)) {
+		//ERR("");
+		return false;
+	}
+
 	return false;
 }
 

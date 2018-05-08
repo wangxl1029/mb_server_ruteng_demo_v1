@@ -32,5 +32,8 @@
     <ClInclude Include="..\include\CFHeaderAll.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\include\CFRefCntBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
