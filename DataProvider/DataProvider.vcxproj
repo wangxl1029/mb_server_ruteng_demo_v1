@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WXL_COMMENT_OUT;WXL_SERVER_SPECIFIED;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ExternalLibrary\nds_sqlite3\include;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)Generated\IOLibs\include\IOLibCommon;$(SolutionDir)Generated\SL_DAL\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)DataProvider\include\;$(SolutionDir)ExternalLibrary\nds_sqlite3\include\;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)Generated\IOLibs\include\IOLibCommon;$(SolutionDir)Generated\SL_DAL\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -75,23 +75,23 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DPCommon.hpp" />
-    <ClInclude Include="DPData.hpp" />
-    <ClInclude Include="DPDataProduct.hpp" />
-    <ClInclude Include="DPDBConnectionPool.hpp" />
-    <ClInclude Include="DPFacade.hpp" />
-    <ClInclude Include="DPProvFolderProduct.hpp" />
-    <ClInclude Include="DPProvFolderRoot.hpp" />
-    <ClInclude Include="DPProvProduct.hpp" />
-    <ClInclude Include="InnerCommon.hpp" />
+    <ClInclude Include="include\DPCommon.hpp" />
+    <ClInclude Include="include\DPData.hpp" />
+    <ClInclude Include="include\DPDataProduct.hpp" />
+    <ClInclude Include="include\DPFacade.hpp" />
+    <ClInclude Include="src\DPDBConnectionPool.hpp" />
+    <ClInclude Include="src\DPProvFolderProduct.hpp" />
+    <ClInclude Include="src\DPProvFolderRoot.hpp" />
+    <ClInclude Include="src\DPProvProduct.hpp" />
+    <ClInclude Include="src\InnerCommon.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DPCommon.cpp" />
-    <ClCompile Include="DPDBConnectionPool.cpp" />
-    <ClCompile Include="DPFacade.cpp" />
-    <ClCompile Include="DPProvFolderProduct.cpp" />
-    <ClCompile Include="DPProvFolderRoot.cpp" />
-    <ClCompile Include="DPProvProduct.cpp" />
+    <ClCompile Include="src\DPCommon.cpp" />
+    <ClCompile Include="src\DPDBConnectionPool.cpp" />
+    <ClCompile Include="src\DPFacade.cpp" />
+    <ClCompile Include="src\DPProvFolderProduct.cpp" />
+    <ClCompile Include="src\DPProvFolderRoot.cpp" />
+    <ClCompile Include="src\DPProvProduct.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

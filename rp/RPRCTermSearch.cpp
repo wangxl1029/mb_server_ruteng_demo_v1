@@ -1,3 +1,4 @@
+#include "InnerCommon.hpp"
 #include <string>
 #include "CFBaseObj.hpp"
 #include "RPCommon.hpp"

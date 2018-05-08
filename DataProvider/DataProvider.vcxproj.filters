@@ -18,51 +18,51 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DPCommon.hpp">
+    <ClInclude Include="include\DPCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPFacade.hpp">
+    <ClInclude Include="include\DPData.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPProvFolderRoot.hpp">
+    <ClInclude Include="include\DPDataProduct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPProvFolderProduct.hpp">
+    <ClInclude Include="include\DPFacade.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPProvProduct.hpp">
+    <ClInclude Include="src\DPDBConnectionPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPDBConnectionPool.hpp">
+    <ClInclude Include="src\DPProvFolderProduct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InnerCommon.hpp">
+    <ClInclude Include="src\DPProvFolderRoot.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPDataProduct.hpp">
+    <ClInclude Include="src\DPProvProduct.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DPData.hpp">
+    <ClInclude Include="src\InnerCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DPCommon.cpp">
+    <ClCompile Include="src\DPCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DPFacade.cpp">
+    <ClCompile Include="src\DPDBConnectionPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DPProvFolderRoot.cpp">
+    <ClCompile Include="src\DPFacade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DPProvFolderProduct.cpp">
+    <ClCompile Include="src\DPProvFolderProduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DPProvProduct.cpp">
+    <ClCompile Include="src\DPProvFolderRoot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DPDBConnectionPool.cpp">
+    <ClCompile Include="src\DPProvProduct.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

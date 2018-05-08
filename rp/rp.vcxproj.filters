@@ -42,6 +42,9 @@
     <ClInclude Include="..\Function\RouteSession.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InnerCommon.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RPRCSectionDirector.cpp">

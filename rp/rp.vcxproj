@@ -76,6 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Function\RouteSession.hpp" />
+    <ClInclude Include="InnerCommon.hpp" />
     <ClInclude Include="RPCommon.hpp" />
     <ClInclude Include="RPRCConnectSearch.hpp" />
     <ClInclude Include="RPRCRouteEdit.hpp" />
