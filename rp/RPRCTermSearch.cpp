@@ -24,7 +24,7 @@ bool CRPRCTermSearch::Do(std::shared_ptr< CDPFacade > spclDataProvider)
 
 	vector< string >	vstrUpdateRegion;
 	if (true != spclDataProvider->GetUpdateRegionByTile(BUILDING_BLOCK_ID_ROUTING, uiPackedTileID/*clTileID.m_uiPackedTileID*/, vstrUpdateRegion)) {
-		//ERR("");
+		ERR("");
 		return false;
 	}
 

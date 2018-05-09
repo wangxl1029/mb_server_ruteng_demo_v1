@@ -1,7 +1,24 @@
 #include "InnerCommon.hpp"
 #include "DPCommon.hpp"
 
+
+const char	*DP_DATA_DIR_NAME = "DATA";
+const char	*DP_BACKUP_DIR_NAME = "BACKUP";
+const char	*DP_DOWNLOAD_DIR_NAME = "DOWNLOAD";
+const char	*DP_UNPACKED_DIR_NAME = "UNPACKED";
+const char	*DP_NDS_DB_SUFFIX = ".NDS";
+const char	*DP_BACKUP_DB_SUFFIX = ".bak";
+const char	*DP_EXCLUDE_DB_SUFFIX = ".exclude.rid";
+const char	*DP_INSUPD_DB_SUFFIX = ".insupd";
+const char	*DP_DELETE_DB_SUFFIX = ".del";
+const char	*DP_INSUPD_RID_DB_SUFFIX = ".insupd.rid";
+const char	*DP_DELETE_RID_DB_SUFFIX = ".del.rid";
+const char	*DP_DELETE_RID_DUP_DB_SUFFIX = ".del.rid.dup";
+
+
 const char	*PRODUCT_NAME = "PRODUCT";
+
+
 
 const char* DP_GetRootDirName()
 {

@@ -1,6 +1,20 @@
 #pragma once
 
+extern const char	*DP_DATA_DIR_NAME;
+extern const char	*DP_BACKUP_DIR_NAME;
+extern const char	*DP_DOWNLOAD_DIR_NAME;
+extern const char	*DP_UNPACKED_DIR_NAME;
+extern const char	*DP_NDS_DB_SUFFIX;
+extern const char	*DP_BACKUP_DB_SUFFIX;
+extern const char	*DP_EXCLUDE_DB_SUFFIX;
+extern const char	*DP_INSUPD_DB_SUFFIX;
+extern const char	*DP_DELETE_DB_SUFFIX;
+extern const char	*DP_INSUPD_RID_DB_SUFFIX;
+extern const char	*DP_DELETE_RID_DB_SUFFIX;
+extern const char	*DP_DELETE_RID_DUP_DB_SUFFIX;
+
 extern const char	*PRODUCT_NAME;
+
 
 const uint		NDS_LEVEL_MAX = 20;
 const uint		NDS_SUB_LEVEL_MAX = 3;
