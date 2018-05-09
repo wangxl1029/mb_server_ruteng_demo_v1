@@ -1,4 +1,4 @@
-#include "CFBaseObj.hpp"
+#include "InnerCommon.hpp"
 #include "RPCommon.hpp"
 #include "RPRCRouteEdit.hpp"
 

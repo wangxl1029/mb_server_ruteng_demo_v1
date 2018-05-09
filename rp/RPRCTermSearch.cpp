@@ -18,7 +18,8 @@ bool CRPRCTermSearch::Do(std::shared_ptr< CDPFacade > spclDataProvider)
 	uint32_t	uiTileNo = 0;
 	CDPCommon::CoordToTileNo(m_iLevel, m_clWayPoint.m_clCoord.x, m_clWayPoint.m_clCoord.y, uiTileNo);
 
-	//CDPCommon::TileNoToPackedTileID(m_iLevel, uiTileNo, clTileID.m_uiPackedTileID);
+	CRPTileID	clTileID;
+	CDPCommon::TileNoToPackedTileID(m_iLevel, uiTileNo, clTileID.m_uiPackedTileID);
 	uint32_t uiPackedTileID = 0;
 	CDPCommon::TileNoToPackedTileID(m_iLevel, uiTileNo, uiPackedTileID);
 

@@ -15,7 +15,6 @@ extern const char	*DP_DELETE_RID_DUP_DB_SUFFIX;
 
 extern const char	*PRODUCT_NAME;
 
-
 const uint		NDS_LEVEL_MAX = 20;
 const uint		NDS_SUB_LEVEL_MAX = 3;
 const uint		NDS_DETAIL_LEVEL_MAX = 100;
