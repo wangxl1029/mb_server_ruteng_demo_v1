@@ -8,6 +8,8 @@
 #include	"CFCrc.h"
 #include	"CFStringConversion.h"
 #include	"CFThread.h"
+#elif defined(WXL_SERVER_SPECIFIED)
+#include	"CFDummyFunc.hpp"
 #endif
 #include	"CFRefCntBase.hpp"
 #ifdef WXL_CLIENT_SPECIFIED

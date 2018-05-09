@@ -46,8 +46,8 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)../include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WXL_COMMENT_OUT;WXL_SERVER_SPECIFIED;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Generated\IOLibs\include\IOLibCommon\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)Platform\ErrLog\include\;$(ProjectDir)../include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -76,12 +76,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CFBaseObj.cpp" />
+    <ClCompile Include="CFRefCntBase.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\CFBaseObj.hpp" />
+    <ClInclude Include="..\include\CFDummyFunc.hpp" />
     <ClInclude Include="..\include\CFHeaderAll.hpp" />
     <ClInclude Include="..\include\CFRefCntBase.hpp" />
     <ClInclude Include="..\include\CFSimpleCache.hpp" />
+    <ClInclude Include="InnerCommon.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

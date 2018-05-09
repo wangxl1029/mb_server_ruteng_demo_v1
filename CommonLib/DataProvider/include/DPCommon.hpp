@@ -2,6 +2,21 @@
 
 extern const char	*PRODUCT_NAME;
 
+const uint		NDS_LEVEL_MAX = 20;
+const uint		NDS_SUB_LEVEL_MAX = 3;
+const uint		NDS_DETAIL_LEVEL_MAX = 100;
+const uint		NDS_INVALID_TILE_ID = 0;
+const uint		NDS_INVALID_UPDATE_REGION_ID = 0;
+const ushort	NDS_INVALID_LINK_ID = ((ushort)-1);
+const ushort	NDS_INVALID_NODE_ID = ((ushort)-1);
+const uint		NDS_INVALID_GATEWAY_ID = ((uint)-1);
+
+#define	LINK_DIR_COUNT											(2)
+#define	LINK_DIR_NO(_POS_)										((_POS_)?1:0)
+
+#define		NEW_VERSION											(1)
+#define		OLD_VERSION											(0)
+
 const char* DP_GetRootDirName();
 
 enum BUILDING_BLOCK_ID
@@ -32,22 +47,36 @@ public:
 	CDPCommon() {};
 	virtual ~CDPCommon() {};
 	// 根据Level番号和NDS经纬度计算TileNum
-	static bool CoordToTileNo(int iLevelNo, int iLong, int iLat, uint32_t & uiTileNo);
-
-	// 取得指定Level单个Tile的经纬度跨度
-	static bool GetTileWidth(int iLevelNo, uint32_t& uiTileWidth);
+	static RESULT CoordToTileNo(int iLevelNo, int iLong, int iLat, uint& uiTileNo);
 
 	// 取得PackedTileId
-	static bool TileNoToPackedTileID(int iLevelNo, uint32_t uiTileNo, uint32_t& uiPackedTileId);
+	static RESULT TileNoToPackedTileID(int iLevelNo, uint uiTileNo, uint& uiPackedTileId);
+
+	// 根据PackedTileId取得Leve番号和TileNum
+	static RESULT PackedTileIDToTileNo(uint uiPackedTileId, int& iLevelNo, uint& uiTileNo);
+
+	// 根据Level番号和NDS经纬度计算取得PackedTileId
+	static RESULT CoordToPackedTileID(int iLevelNo, int iNdsLong, int iNdsLat, uint& uiPackedTileId);
+
+	static RESULT GetUpperTileID(uint uiPackedTileID, int iUpperLevel, uint &uiUpperTileID);
+
+	// 取得指定Level单个Tile的经纬度跨度
+	static RESULT GetTileWidth(int iLevelNo, uint& uiTileWidth);
 
 	// 取得指定TileNum的左下角经纬度
-	static bool GetLBPointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat);
+	static RESULT GetLBPointCoordOfTile(int iLevelNo, uint uiTileNo, int& iLong, int& iLat);
 
 	// 取得指定TileNum的右上角经纬度
-	static bool GetRTPointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat);
+	static RESULT GetRTPointCoordOfTile(int iLevelNo, uint uiTileNo, int& iLong, int& iLat);
 
 	// 取得指定TileNum的基准点经纬度
-	static bool GetBasePointCoordOfTile(int iLevelNo, uint32_t uiTileNo, int& iLong, int& iLat);
+	static RESULT GetBasePointCoordOfTile(int iLevelNo, uint uiTileNo, int& iLong, int& iLat);
+
+	// 根据经纬度取得莫顿码
+	static RESULT CoordToMortonCode(int iLong, int iLat, uint64& uiMortonCode);
+
+	// 根据莫顿码取得经纬度
+	static RESULT MortonCodeToCoord(uint64 uiMortonCode, int& iLong, int& iLat);
 
 	// 根据Tile的基准点坐标和正规化坐标计算经纬度
 	static RESULT NormCoordToCoord(int		iBasePointLong,

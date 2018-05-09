@@ -21,6 +21,9 @@
     <ClCompile Include="CFBaseObj.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CFRefCntBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\include\CFBaseObj.hpp">
@@ -33,6 +36,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\include\CFRefCntBase.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InnerCommon.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\include\CFDummyFunc.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,4 @@
 #pragma once
-#include "DPCommon.hpp"
 
 class CDPTile2RegionRect
 {
