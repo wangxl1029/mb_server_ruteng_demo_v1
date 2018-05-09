@@ -53,6 +53,63 @@ enum BUILDING_BLOCK_ID
 	BUILDING_BLOCK_ID_EXTENSION = 0xFF
 };
 
+static const BUILDING_BLOCK_ID		DP_BUILDING_BLOCK_NO_TO_ID[] = {
+	BUILDING_BLOCK_ID_SHARED_DATA,
+	BUILDING_BLOCK_ID_BASIC_MAP_DISPLAY,
+	BUILDING_BLOCK_ID_ROUTING,
+	BUILDING_BLOCK_ID_NAME,
+	BUILDING_BLOCK_ID_POI,
+	BUILDING_BLOCK_ID_OBJECTS_3D,
+	BUILDING_BLOCK_ID_ORTHO_IMAGE,
+	BUILDING_BLOCK_ID_DTM,
+	BUILDING_BLOCK_ID_SPEECH,
+	BUILDING_BLOCK_ID_JUNCTION_VIEW,
+	BUILDING_BLOCK_ID_TRAFFIC_INFORMATION,
+	BUILDING_BLOCK_ID_FTS,
+	BUILDING_BLOCK_ID_ICON,
+	BUILDING_BLOCK_ID_SLI,
+	BUILDING_BLOCK_ID_NVC,
+	BUILDING_BLOCK_ID_MAX,
+	BUILDING_BLOCK_ID_EXTENSION
+};
+
+typedef size_t(*MP_BUILDING_BLOCK_ID_TO_NO_FUNCTION)(BUILDING_BLOCK_ID enBuildingBlockID);
+
+template< MP_BUILDING_BLOCK_ID_TO_NO_FUNCTION pf >
+class BuildingBlockIDToNo
+{
+public:
+	BuildingBlockIDToNo(const BUILDING_BLOCK_ID *penBuildingBlockNoToID, size_t uiBuildingBlockCount)
+		: m_penBuildingBlockNoToID(penBuildingBlockNoToID), m_uiBuildingBlockCount(uiBuildingBlockCount)
+	{
+	}
+	size_t operator()(BUILDING_BLOCK_ID enBuildingBlockID)
+	{
+		static bool						s_bBuildingBlockIDToNoInit = false;
+		static size_t					s_auiBuildingBlockIDToNoList[BUILDING_BLOCK_ID_MAX];
+
+		if (!s_bBuildingBlockIDToNoInit) {
+			for (size_t i = 0; i < BUILDING_BLOCK_ID_MAX; ++i) {
+				for (size_t j = 0; j < m_uiBuildingBlockCount; ++j) {
+					if (m_penBuildingBlockNoToID[j] == i) {
+						s_auiBuildingBlockIDToNoList[i] = j;
+						break;
+					}
+				}
+			}
+			s_bBuildingBlockIDToNoInit = true;
+		}
+
+		return s_auiBuildingBlockIDToNoList[enBuildingBlockID];
+	}
+
+	const BUILDING_BLOCK_ID				*m_penBuildingBlockNoToID;
+	size_t								m_uiBuildingBlockCount;
+};
+
+const size_t						DP_BUILDING_BLOCK_COUNT = sizeof(DP_BUILDING_BLOCK_NO_TO_ID) / sizeof(DP_BUILDING_BLOCK_NO_TO_ID[0]);
+size_t								DP_BUILDING_BLOCK_ID_TO_NO(BUILDING_BLOCK_ID enBuildingBlockID);
+
 class CDPCommon :
 	public CBaseObj
 {

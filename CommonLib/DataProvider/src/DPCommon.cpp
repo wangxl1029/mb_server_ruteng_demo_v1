@@ -522,6 +522,11 @@ RESULT CDPCommon::CnvNdsCoord2NormCoord(uint uiPackedTileId, int iNdsLong, int i
 	return SUCCESS;
 }
 
+size_t DP_BUILDING_BLOCK_ID_TO_NO(BUILDING_BLOCK_ID enBuildingBlockID)
+{
+	static BuildingBlockIDToNo< DP_BUILDING_BLOCK_ID_TO_NO >	s_clBuildingBlockIDToNo(DP_BUILDING_BLOCK_NO_TO_ID, DP_BUILDING_BLOCK_COUNT);
+	return s_clBuildingBlockIDToNo(enBuildingBlockID);
+}
 
 string CDPCommon::UpdateRegionId2Name(int iUpdateRegionId)
 {

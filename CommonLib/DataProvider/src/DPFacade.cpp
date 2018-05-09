@@ -1,42 +1,49 @@
-#include "InnerCommon.hpp"
-#include "DPCommon.hpp"
-#include "DPDBConnectionPool.hpp"
-#include "DPData.hpp"
-#include "DPDataProduct.hpp"
-#include "DPProvProduct.hpp"
-#include "DPProvFolderProduct.hpp"
-#include "DPProvFolderRoot.hpp"
-#include "DPFacade.hpp"
+#include	"InnerCommon.hpp"
+#include	"DPCommon.hpp"
+#include	"DPDBConnectionPool.hpp"
+#include	"DPData.hpp"
+//#include	"DPDataRoot.hpp"
+#include	"DPDataShared.hpp"
+#include	"DPDataProduct.hpp"
+// ignored headers
+#include	"DPProv.hpp"
+#include	"DPProvRoot.hpp"
+#include	"DPProvShared.hpp"
+#include	"DPProvProduct.hpp"
+// ignored headers
+#include	"DPProvFolderUpdateRegion.hpp"
+#include	"DPProvFolderProduct.hpp"
+//#include	"DPProvDrawParameter.h"
+#include	"DPProvFolderRoot.hpp"
+#include	"DPFacade.hpp"
+
 class CDPFacadeImpl : public CDPFacade
 {
 public:
 	CDPFacadeImpl();
 	virtual ~CDPFacadeImpl();
 
-	virtual bool Initialize();
-	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList);
+	virtual RESULT Initialize();
+	virtual RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList);
 
 public:
-	string													m_strProductName;
-	shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
-	shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRoot;
-	shared_ptr< CDPProvFolderRoot >						m_spclDPProvFolderRootOld;
+public:
+	string														m_strProductName;
+	SmartPointer< CDPDBConnectionPool >							m_spclDBConnectionPool;
+	SmartPointer< CDPProvFolderRoot >							m_spclDPProvFolderRoot;
+	SmartPointer< CDPProvFolderRoot >							m_spclDPProvFolderRootOld;
 	volatile bool												m_bDbSwitching;
 };
 
-shared_ptr< CDPFacade > CDPFacade::Create()
+SmartPointer< CDPFacade > CDPFacade::Create()
 {
-	static shared_ptr< CDPFacadeImpl >	spclFacadeImpl = make_shared< CDPFacadeImpl >();
-#if 0
-	if (!spclFacadeImpl->Create()) {
-		//ERR("");
+	SmartPointer< CDPFacadeImpl >	spclFacadeImpl;
+	if( !spclFacadeImpl.Create() ) {
+		ERR( "" );
 		return SmartPointer< CDPFacade >();
 	}
-	return SmartPointer< CDPFacade >(spclFacadeImpl);
-#endif
-	return spclFacadeImpl;
+	return SmartPointer< CDPFacade >( spclFacadeImpl );
 }
-
 
 CDPFacadeImpl::CDPFacadeImpl() : m_bDbSwitching(false)
 {
@@ -46,54 +53,58 @@ CDPFacadeImpl::~CDPFacadeImpl()
 {
 }
 
-bool CDPFacadeImpl::Initialize()
+RESULT CDPFacadeImpl::Initialize()
 {
 	m_strProductName = PRODUCT_NAME;
 
-	if (nullptr == m_spclDBConnectionPool) {
-		m_spclDBConnectionPool = make_shared<CDPDBConnectionPool>();
-		if (true != m_spclDBConnectionPool->Initialize(DP_GetRootDirName())) {
-			//ERR("");
-			return false;
+	if (m_spclDBConnectionPool == NULL) {
+		if (!m_spclDBConnectionPool.Create()) {
+			ERR("");
+			return FAILURE;
+		}
+		if (SUCCESS != m_spclDBConnectionPool->Initialize(DP_GetRootDirName())) {
+			ERR("");
+			return FAILURE;
 		}
 	}
 
-	if (!m_spclDPProvFolderRoot)
-	{
-		m_spclDPProvFolderRoot = make_shared<CDPProvFolderRoot>();
-		if (!m_spclDPProvFolderRoot->Initialize(m_spclDBConnectionPool))
-		{
-			return false;
+	if (m_spclDPProvFolderRoot == NULL) {
+		if (!m_spclDPProvFolderRoot.Create()) {
+			ERR("");
+			return FAILURE;
+		}
+		if (SUCCESS != m_spclDPProvFolderRoot->Initialize(m_spclDBConnectionPool)) {
+			ERR("");
+			return FAILURE;
 		}
 	}
 
-	return true;
+	return SUCCESS;
 }
 
-bool CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList)
+RESULT CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList)
 {
 	if (m_bDbSwitching) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
 
-	auto spclProvFolderProduct = m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName);
-	if (!spclProvFolderProduct)
-	{
-		return false;
+	SmartPointer< CDPProvFolderProduct >	spclProvFolderProduct;
+	if (SUCCESS != m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName, spclProvFolderProduct)) {
+		ERR("");
+		return FAILURE;
 	}
 
-	auto spclDPProvProduct = spclProvFolderProduct->GetProvProduct();
-	if (!spclDPProvProduct)
-	{
-		return false;
+	SmartPointer< CDPProvProduct >			spclDPProvProduct;
+	if (SUCCESS != spclProvFolderProduct->GetProvProduct(spclDPProvProduct)) {
+		ERR("");
+		return FAILURE;
 	}
 
-	if (!spclDPProvProduct->GetUpdateRegionByTile(enBuildingBlockID, uiPackedTileID, vstrUpdateRegionList))
-	{
-		return false;
+	if (SUCCESS != spclDPProvProduct->GetUpdateRegionByTile(enBuildingBlockID, uiPackedTileID, vstrUpdateRegionList)) {
+		ERR("");
+		return FAILURE;
 	}
 
-	return true;
+	return SUCCESS;
 }
-

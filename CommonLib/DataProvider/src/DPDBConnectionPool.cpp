@@ -33,18 +33,16 @@ CDPConnRec::~CDPConnRec()
 	//m_spclConnctionPool->ReleaseConnection(m_spclDatabase);
 }
 
-bool CDPConnRec::Connect(std::shared_ptr< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType)
+RESULT CDPConnRec::Connect(SmartPointer< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType)
 {
 	m_spclConnctionPool = spclConnctionPool;
-#if WXL_CLIENT_SPECIFIED
-	return m_spclConnctionPool->GetConnection(pcProductName, pcUpdateRegion, enDBType, m_spclDatabase);
-#elif defined(WXL_SERVER_SPECIFIED)
-	return (SUCCESS ==  m_spclConnctionPool->GetConnection(pcProductName, pcUpdateRegion, enDBType, m_spclDatabase))
-		? true 
-		: false;
-#else
-	return false;
-#endif
+	return m_spclConnctionPool->GetConnection( pcProductName, pcUpdateRegion, enDBType, m_spclDatabase );
+}
+
+RESULT CDPConnRec::Connect(SmartPointer< CDPDBConnectionPool > spclConnctionPool, const char *strFileName)
+{
+	m_spclConnctionPool = spclConnctionPool;
+	return m_spclConnctionPool->GetConnection( strFileName, m_spclDatabase );
 }
 
 CRCPtr< CSL_Database >& CDPConnRec::Get()

@@ -19,11 +19,18 @@ public:
 	CDPConnRec();
 	virtual ~CDPConnRec();
 
-	bool Connect(shared_ptr< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType);
+	RESULT Connect(SmartPointer< CDPDBConnectionPool > spclConnctionPool, const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType);
+	RESULT Connect(SmartPointer< CDPDBConnectionPool > spclConnctionPool, const char *strFileName);
+
 	CRCPtr< CSL_Database >& Get();
+	CRCPtr< CSL_Database >& operator->();
+private:
+	CDPConnRec(const CDPConnRec &);
+	CDPConnRec& operator=(const CDPConnRec &);
+
 public:
 	CRCPtr< CSL_Database >										m_spclDatabase;
-	shared_ptr< CDPDBConnectionPool >							m_spclConnctionPool;
+	SmartPointer< CDPDBConnectionPool >							m_spclConnctionPool;
 };
 
 class CDPDBConnectionPool :

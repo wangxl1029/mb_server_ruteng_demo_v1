@@ -5,7 +5,7 @@
 
 //	最近最少使用算法的Cache的模板实现
 
-template < typename KEY, typename DATA, typename _Pr = less<KEY> >
+template < typename KEY, typename DATA, typename _Pr = less<KEY>, typename ThreadModel = CCFObjectLevelLockable< int > >
 class CCFSimpleCache
 {
 public:
@@ -16,15 +16,17 @@ public:
 	{
 	public:
 		CDataRec() : pclPrev(NULL), pclNext(NULL) {}
-		CDataRec(KEY k1, shared_ptr<DATA> spData1) : pclPrev(NULL), pclNext(NULL), k(k1), spData(spData1) {}
+		CDataRec(KEY k1, SmartPointer<DATA> spData1) : pclPrev(NULL), pclNext(NULL), k(k1), spData(spData1) {}
 		CDataRec			*pclPrev;
 		CDataRec			*pclNext;
 		KEY					k;
-		shared_ptr<DATA>	spData;
+		SmartPointer<DATA>	spData;
 	};
 
-	shared_ptr<DATA> GetData(const KEY &k)
+	SmartPointer<DATA> GetData(const KEY &k)
 	{
+		typename ThreadModel::Lock	clLock(m_clThreadModel);
+
 		if (NULL != m_pclHead) {
 			if (!(_Pr()(m_pclHead->k, k) || _Pr()(k, m_pclHead->k))) {
 				return m_pclHead->spData;
@@ -59,7 +61,7 @@ public:
 
 		typename map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
 		if (it == m_mapData.end() || _Pr()(k, it->first)) {
-			return shared_ptr<DATA>();
+			return SmartPointer<DATA>();
 		}
 		if (&(it->second) != m_pclHead) {
 			CDataRec		&clDataRec = it->second;
@@ -81,14 +83,16 @@ public:
 		return it->second.spData;
 	}
 
-	bool PutData(const KEY &k, shared_ptr<DATA> &spData)
+	int PutData(const KEY &k, SmartPointer<DATA> &spData)
 	{
+		typename ThreadModel::Lock	clLock(m_clThreadModel);
+
 		typename map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
 		if (it == m_mapData.end() || k < it->first) {
 			//	新Data
 			it = m_mapData.insert(it, pair<KEY, CDataRec>(k, CDataRec(k, spData)));
 			if (it == m_mapData.end()) {
-				return false;
+				return FAILURE;
 			}
 			CDataRec		&clDataRec = it->second;
 			clDataRec.k = k;
@@ -140,11 +144,13 @@ public:
 			}
 		}
 
-		return true;
+		return SUCCESS;
 	}
 
 	void RemoveData(const KEY &k)
 	{
+		typename ThreadModel::Lock	clLock(m_clThreadModel);
+
 		typename map< KEY, CDataRec, _Pr >::iterator	it = m_mapData.lower_bound(k);
 		if (it == m_mapData.end() || _Pr()(k, it->first)) {
 			return;
@@ -165,6 +171,8 @@ public:
 
 	void SetCapacity(size_t uiCapacity)
 	{
+		typename ThreadModel::Lock	clLock(m_clThreadModel);
+
 		m_uiCapacity = uiCapacity;
 	}
 
@@ -196,10 +204,11 @@ public:
 
 protected:
 	map< KEY, CDataRec, _Pr >		m_mapData;
-	CDataRec							*m_pclHead;
-	size_t								m_uiCapacity;
-	size_t								m_uiLinearSearchCount;
-	size_t								m_uiLinearSearchCondition;
+	CDataRec						*m_pclHead;
+	size_t							m_uiCapacity;
+	size_t							m_uiLinearSearchCount;
+	size_t							m_uiLinearSearchCondition;
+	ThreadModel						m_clThreadModel;
 };
 
 class CCFSimpleFileCacheContext
@@ -213,20 +222,20 @@ public:
 	CCFSimpleFileCache() {}
 	virtual ~CCFSimpleFileCache() {}
 
-	shared_ptr<DATA> GetData(const KEY &k)
+	SmartPointer<DATA> GetData(const KEY &k)
 	{
 		typename ThreadModel::Lock	clLock(m_clThreadModel);
 
-		shared_ptr<DATA>	spclData = m_clSimpleCache.GetData(k);
+		SmartPointer<DATA>	spclData = m_clSimpleCache.GetData(k);
 		if (spclData == NULL) {
 			if (!spclData.Create()) {
-				return shared_ptr<DATA>();
+				return SmartPointer<DATA>();
 			}
 			if (SUCCESS != ReadData(k, *spclData)) {
-				return shared_ptr<DATA>();
+				return SmartPointer<DATA>();
 			}
 			if (SUCCESS != m_clSimpleCache.PutData(k, spclData)) {
-				return shared_ptr<DATA>();
+				return SmartPointer<DATA>();
 			}
 		}
 		return spclData;
@@ -259,7 +268,7 @@ protected:
 
 protected:
 	CONTEXT											m_clContext;
-	CCFSimpleCache< KEY, DATA, _Pr >	m_clSimpleCache;
+	CCFSimpleCache< KEY, DATA, _Pr, ThreadModel >	m_clSimpleCache;
 	ThreadModel										m_clThreadModel;
 };
 
@@ -272,7 +281,7 @@ public:
 	{
 	}
 
-	CCFRefCountHolder(ELEMENT *p, shared_ptr<CONTAINER> spContainer)
+	CCFRefCountHolder(ELEMENT *p, SmartPointer<CONTAINER> spContainer)
 		: m_pclElem(p), m_spclContainer(spContainer)
 	{
 	}
@@ -293,5 +302,5 @@ public:
 	}
 
 	ELEMENT							*m_pclElem;
-	shared_ptr<CONTAINER>			m_spclContainer;
+	SmartPointer<CONTAINER>			m_spclContainer;
 };

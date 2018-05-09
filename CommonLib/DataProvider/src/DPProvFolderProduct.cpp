@@ -1,38 +1,51 @@
-#include "InnerCommon.hpp"
-#include "DPCommon.hpp"
-#include "DPDBConnectionPool.hpp"
-#include "DPData.hpp"
-#include "DPDataProduct.hpp"
-#include "DPProvProduct.hpp"
-#include "DPProvFolderProduct.hpp"
+#include	"InnerCommon.hpp"
+#include	"DPCommon.hpp"
+#include	"DPDBConnectionPool.hpp"
+#include	"DPData.hpp"
+#include	"DPDataShared.hpp"
+#include	"DPDataProduct.hpp"
+// ignored headers
+#include	"DPProv.hpp"
+#include	"DPProvProduct.hpp"
+#include	"DPProvShared.hpp"
+// ignored headers
+#include	"DPProvFolderUpdateRegion.hpp"
+#include	"DPProvFolderProduct.hpp"
 
-
-bool CDPProvFolderProduct::Initialize(string strProductName, shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
+RESULT CDPProvFolderProduct::Initialize(string strProductName, SmartPointer< CDPDBConnectionPool > spclDBConnectionPool)
 {
+	CCFLocker<CCFMutex>		clLock(m_clMutex);
+
 	m_spclDBConnectionPool = spclDBConnectionPool;
 	m_strProductName = strProductName;
 
 	m_clDPProvFolderUpdateRegionCache.SetCapacity(10);
 
-	return true;
+	return SUCCESS;
 }
 
-
-shared_ptr< CDPProvProduct > CDPProvFolderProduct::GetProvProduct()
+RESULT CDPProvFolderProduct::GetProvProduct(SmartPointer< CDPProvProduct > &spclDPProvProduct)
 {
 	if (m_bDbSwitching) {
 		ERR("");
-		return nullptr;
+		return FAILURE;
 	}
 
-	if (nullptr == m_spclDPProvProduct) {
-		auto spclDPProvProductTemp = make_shared<CDPProvProduct>();
-		if ( ! spclDPProvProductTemp->Initialize(m_strProductName, m_spclDBConnectionPool)) {
+	CCFLocker<CCFMutex>		clLock(m_clMutex);
+
+	if (m_spclDPProvProduct == NULL) {
+		SmartPointer< CDPProvProduct >	spclDPProvProductTemp;
+		if (!spclDPProvProductTemp.Create()) {
 			ERR("");
-			return nullptr;
+			return FAILURE;
+		}
+
+		if (SUCCESS != spclDPProvProductTemp->Initialize(m_strProductName, m_spclDBConnectionPool)) {
+			ERR("");
+			return FAILURE;
 		}
 		m_spclDPProvProduct = spclDPProvProductTemp;
 	}
-
-	return m_spclDPProvProduct;
+	spclDPProvProduct = m_spclDPProvProduct;
+	return SUCCESS;
 }

@@ -1,29 +1,32 @@
-#include "InnerCommon.hpp"
-#include "DPCommon.hpp"
-#include "DPDBConnectionPool.hpp"
-#include "DPData.hpp"
-#include "DPDataProduct.hpp"
-#include "DPProvProduct.hpp"
+#include	"InnerCommon.hpp"
+#include	"DPCommon.hpp"
+#include	"DPDBConnectionPool.hpp"
+#include	"DPData.hpp"
+#include	"DPDataProduct.hpp"
+#include	"DPProv.hpp"
+#include	"DPProvProduct.hpp"
 
-bool CDPProvProduct::Initialize(string strProductName, shared_ptr< CDPDBConnectionPool > spclDBConnectionPool)
+RESULT CDPProvProduct::Initialize(string strProductName, SmartPointer< CDPDBConnectionPool > spclDBConnectionPool)
 {
+	CCFMutexLocker	clLock(m_clMutex);
+
 	m_spclDBConnectionPool = spclDBConnectionPool;
 	m_strProductName = strProductName;
 
-	if (m_spclDBConnectionPool == nullptr) {
+	if (m_spclDBConnectionPool == NULL) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
 
-	if ( ! m_clDatabase.Connect(m_spclDBConnectionPool, strProductName.c_str(), NULL, DPDB_PRODUCT)) {
+	if (SUCCESS != m_clDatabase.Connect(m_spclDBConnectionPool, strProductName.c_str(), NULL, DPDB_PRODUCT)) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
 
 	CRCPtr< CSL_TileContentIndexTableTblIt >					spclTileTableIt;
 	if (SUCCESS != SL_CreateTblIt(m_clDatabase.Get(), &spclTileTableIt)) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
 
 	using namespace slm::tileContentIndexTable;
@@ -31,14 +34,13 @@ bool CDPProvProduct::Initialize(string strProductName, shared_ptr< CDPDBConnecti
 	//	按buildingBlockId 和 levelNumber排序
 	if (SUCCESS != spclTileTableIt->Select(CSL_Query().OrderBy(buildingBlockId & levelNumber))) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
-
 	for (spclTileTableIt->Begin(); !spclTileTableIt->IsEnd(); spclTileTableIt->Next()) {
 		CSL_RecTileContentIndexTable		clRecTileTable;
 		if (SUCCESS != spclTileTableIt->CurRec(clRecTileTable)) {
 			ERR("");
-			return false;
+			return FAILURE;
 		}
 
 		uint	uiTileWidth = 0;
@@ -71,20 +73,19 @@ bool CDPProvProduct::Initialize(string strProductName, shared_ptr< CDPDBConnecti
 	CRCPtr< CSL_UpdateRegionTableTblIt >					spclUpdateRegionTableIt;
 	if (SUCCESS != SL_CreateTblIt(m_clDatabase.Get(), &spclUpdateRegionTableIt)) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
 
 	using namespace slm::updateRegionTable;
 	if (SUCCESS != spclUpdateRegionTableIt->Select()) {
 		ERR("");
-		return false;
+		return FAILURE;
 	}
 	for (spclUpdateRegionTableIt->Begin(); !spclUpdateRegionTableIt->IsEnd(); spclUpdateRegionTableIt->Next()) {
 		CDPUpdateRegionInfo		clRecUpdateRegionTable;
-
 		if (SUCCESS != spclUpdateRegionTableIt->CurRec(clRecUpdateRegionTable.m_clUpdateRegionRec)) {
 			ERR("");
-			return false;
+			return FAILURE;
 		}
 
 		clRecUpdateRegionTable.m_strUpdateRegionName = CDPCommon::UpdateRegionId2Name(clRecUpdateRegionTable.m_clUpdateRegionRec.m_iUpdateRegionId);
@@ -92,10 +93,159 @@ bool CDPProvProduct::Initialize(string strProductName, shared_ptr< CDPDBConnecti
 		m_vclUpdateRegionList.push_back(clRecUpdateRegionTable);
 	}
 
-	return true;
+	return SUCCESS;
 }
 
-bool CDPProvProduct::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList)
+RESULT CDPProvProduct::SwitchDbStart()
 {
-	return false;
+	return SUCCESS;
+}
+
+RESULT CDPProvProduct::WaitForCanSwitchDb()
+{
+	m_bDbSwitching = true;
+	return SUCCESS;
+}
+
+RESULT CDPProvProduct::SwitchDbEnd()
+{
+	m_bDbSwitching = false;
+	return SUCCESS;
+}
+
+RESULT CDPProvProduct::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList)
+{
+	if (m_bDbSwitching) {
+		ERR("");
+		return FAILURE;
+	}
+
+	CCFMutexLocker	clLock(m_clMutex);
+
+	int		iNeedLevelNo = 0;
+	uint	uiNeedTileNo = 0;
+	CDPCommon::PackedTileIDToTileNo(uiPackedTileID, iNeedLevelNo, uiNeedTileNo);
+
+	int		iBaseX = 0;
+	int		iBaseY = 0;
+	CDPCommon::GetBasePointCoordOfTile(iNeedLevelNo, uiNeedTileNo, iBaseX, iBaseY);
+
+	uint	uiTileWidth = 0;
+	CDPCommon::GetTileWidth(iNeedLevelNo, uiTileWidth);
+
+	//	every building block
+	for (size_t i = 0; i < m_vclTile2RegionTable.size(); ++i) {
+		CDPTile2RegionBuildingBlockRect	&clBuildingBlockRect = m_vclTile2RegionTable[i];
+		if (enBuildingBlockID == clBuildingBlockRect.m_sBuildingBlockId) {
+			//	every level
+			for (size_t j = 0; j < clBuildingBlockRect.m_vclTile2RegionLevelRectList.size(); ++j) {
+				CDPTile2RegionLevelRect	&clLevelRect = clBuildingBlockRect.m_vclTile2RegionLevelRectList[j];
+				if (iNeedLevelNo == clLevelRect.m_ucLevelNumber) {
+					//	every rect
+					for (size_t k = 0; k < clLevelRect.m_vclTile2RegionRectList.size(); ++k) {
+						CDPTile2RegionRect	&clRect = clLevelRect.m_vclTile2RegionRectList[k];
+						if (clRect.m_iLeft <= iBaseX && iBaseX <= clRect.m_iRight
+							&& clRect.m_iBottom <= iBaseY && iBaseY <= clRect.m_iTop)
+						{
+							int		iUpdateRegion = CDPCommon::UpdateRegionName2Id(clRect.m_strUpdateRegionId.c_str());
+
+							//	先从Cache中取得
+							CTileContentKey	clKey(iUpdateRegion, enBuildingBlockID, iNeedLevelNo);
+							SmartPointer< CSL_RecTileContentIndexTable >	spclRecTileContentIndexTable = mclTileContentIndexCache.GetData(clKey);
+							if (spclRecTileContentIndexTable.Get() == NULL) {
+								//	从Cache中取不到，从DB中读取
+								CRCPtr< CSL_TileContentIndexTableTblIt >					spclTileContentIndexTableIt;
+								if (SUCCESS != SL_CreateTblIt(m_clDatabase.Get(), &spclTileContentIndexTableIt)) {
+									ERR("");
+									return FAILURE;
+								}
+								using namespace slm::tileContentIndexTable;
+								if (SUCCESS != spclTileContentIndexTableIt->Select(updateRegionId == iUpdateRegion && buildingBlockId == (int)enBuildingBlockID && levelNumber == iNeedLevelNo)) {
+									ERR("");
+									return FAILURE;
+								}
+								spclTileContentIndexTableIt->Begin();
+								if (spclTileContentIndexTableIt->IsEnd()) {
+									continue;
+								}
+								if (!spclRecTileContentIndexTable.Create()) {
+									ERR("");
+									return FAILURE;
+								}
+
+								if (SUCCESS != spclTileContentIndexTableIt->CurRec(*spclRecTileContentIndexTable.Get())) {
+									ERR("");
+									return FAILURE;
+								}
+								mclTileContentIndexCache.PutData(clKey, spclRecTileContentIndexTable);
+							}
+
+							//	左下角的Tile的左下经纬度
+							int		iLBLevelNo = 0;
+							uint	uiLBTileNo = 0;
+							CDPCommon::PackedTileIDToTileNo(spclRecTileContentIndexTable->m_iSouthWestTileId, iLBLevelNo, uiLBTileNo);
+
+							int		iLBLon = 0;
+							int		iLBLat = 0;
+							CDPCommon::GetLBPointCoordOfTile(iLBLevelNo, uiLBTileNo, iLBLon, iLBLat);
+
+							int		iXNo = (iBaseX - iLBLon) / uiTileWidth;	//	Tile所在的列号
+							int		iYNo = (iBaseY - iLBLat) / uiTileWidth;	//	Tile所在的行号
+
+							uint	uiBitNo = iYNo * spclRecTileContentIndexTable->m_iNumTilesPerRow + iXNo;
+							uint	uiByteNo = uiBitNo / 8;
+							uint	uiBitRemain = uiBitNo % 8;
+							uchar	*pucBuf = (uchar*)spclRecTileContentIndexTable->m_clTileContentIndex.Get();
+							uchar	ucByte = pucBuf[uiByteNo];
+							uchar	uiBitVal = ((ucByte >> (7 - uiBitRemain)) & 0x1);
+							if (uiBitVal) {
+								vstrUpdateRegionList.push_back(clRect.m_strUpdateRegionId);
+							}
+						}
+					}
+					break;	//	Level Loop
+				}
+			}
+			break;	//	BuildingBlock Loop
+		}
+	}
+
+	return SUCCESS;
+}
+
+RESULT CDPProvProduct::GetGatewayByID(uint uiGatewayID, vector< CDPGatewayInfo > &vclGatewayList)
+{
+	if (m_bDbSwitching) {
+		ERR("");
+		return FAILURE;
+	}
+
+	CCFMutexLocker	clLock(m_clMutex);
+	CRCPtr< CSL_GlobalGatewayTableTblIt >					spclGlobalGatewayTableIt;
+	if (SUCCESS != SL_CreateTblIt(m_clDatabase.Get(), &spclGlobalGatewayTableIt)) {
+		ERR("");
+		return FAILURE;
+	}
+	using namespace slm::globalGatewayTable;
+	if (SUCCESS != spclGlobalGatewayTableIt->Select(gatewayId == uiGatewayID)) {
+		ERR("");
+		return FAILURE;
+	}
+	vclGatewayList.reserve(3);
+	for (spclGlobalGatewayTableIt->Begin(); !spclGlobalGatewayTableIt->IsEnd(); spclGlobalGatewayTableIt->Next()) {
+		CDPGatewayInfo	clGatewayInfo;
+		if (SUCCESS != spclGlobalGatewayTableIt->CurRec(clGatewayInfo.m_clGatewayInfo)) {
+			ERR("");
+			return FAILURE;
+		}
+		vclGatewayList.push_back(clGatewayInfo);
+	}
+
+	return SUCCESS;
+}
+
+RESULT CDPProvProduct::GetUpdateRegionList(vector< CDPUpdateRegionInfo > &vclUpdateRegionList)
+{
+	vclUpdateRegionList = m_vclUpdateRegionList;
+	return SUCCESS;
 }

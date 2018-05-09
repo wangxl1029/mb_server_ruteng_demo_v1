@@ -6,10 +6,11 @@ public:
 	CDPFacade() {};
 	virtual ~CDPFacade() {};
 
-	static std::shared_ptr<CDPFacade> Create();
+	static SmartPointer< CDPFacade > Create();
 
-	virtual bool Initialize() = 0;
-	virtual bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList) = 0;
+	virtual RESULT Initialize() = 0;
+
+	virtual RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList) = 0;
 
 };
 

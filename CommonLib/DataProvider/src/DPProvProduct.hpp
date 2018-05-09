@@ -31,24 +31,64 @@ public:
 	vector< CDPTile2RegionLevelRect >							m_vclTile2RegionLevelRectList;
 };
 
-class CDPProvProduct :
-	public CBaseObj
+class CTileContentKey
+{
+public:
+	CTileContentKey(short sUpdateRegionId = 0, short sBuildingBlockId = 0, uchar ucLevelNumber = 0)
+		: m_sUpdateRegionId(sUpdateRegionId), m_sBuildingBlockId(sBuildingBlockId), m_ucLevelNumber(ucLevelNumber) {}
+
+	short													m_sUpdateRegionId;
+	short													m_sBuildingBlockId;
+	uchar													m_ucLevelNumber;
+};
+
+inline bool operator<(const CTileContentKey &l, const CTileContentKey &r)
+{
+	if (l.m_sUpdateRegionId < r.m_sUpdateRegionId) {
+		return true;
+	}
+	else if (l.m_sUpdateRegionId > r.m_sUpdateRegionId) {
+		return false;
+	}
+	else if (l.m_sBuildingBlockId < r.m_sBuildingBlockId) {
+		return true;
+	}
+	else if (l.m_sBuildingBlockId > r.m_sBuildingBlockId) {
+		return false;
+	}
+	else if (l.m_ucLevelNumber < r.m_ucLevelNumber) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+class CDPProvProduct : public CDPProv
 {
 public:
 	CDPProvProduct() : m_bDbSwitching(false) {}
 	virtual ~CDPProvProduct() {}
 
-	bool Initialize(string strProductName, shared_ptr< CDPDBConnectionPool > spclDBConnectionPool);
-	bool GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint32_t uiPackedTileID, vector< string > &vstrUpdateRegionList);
+	RESULT Initialize(string strProductName, SmartPointer< CDPDBConnectionPool > spclDBConnectionPool);
+
+	RESULT SwitchDbStart();
+	RESULT WaitForCanSwitchDb();
+	RESULT SwitchDbEnd();
+
+	RESULT GetUpdateRegionList(vector< CDPUpdateRegionInfo > &vclUpdateRegionList);
+	RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList);
+	RESULT GetGatewayByID(uint uiGatewayID, vector< CDPGatewayInfo > &vclGatewayList);
 
 public:
-	shared_ptr< CDPDBConnectionPool >							m_spclDBConnectionPool;
+	SmartPointer< CDPDBConnectionPool >							m_spclDBConnectionPool;
 	string														m_strProductName;
+	CCFMutex													m_clMutex;
 	CDPConnRec													m_clDatabase;
-	volatile bool													m_bDbSwitching;
+	volatile bool												m_bDbSwitching;
 
 	vector< CDPTile2RegionBuildingBlockRect >					m_vclTile2RegionTable;
 	vector< CDPUpdateRegionInfo >								m_vclUpdateRegionList;
 
+	CCFSimpleCache< CTileContentKey, CSL_RecTileContentIndexTable >	mclTileContentIndexCache;
 };
-

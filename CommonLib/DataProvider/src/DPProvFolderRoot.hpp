@@ -1,18 +1,27 @@
 #pragma once
 
-class CDPProvFolderRoot : // class name same as znavi
-	public CBaseObj
+class CDPProvFolderRoot : public CDPProv
 {
 public:
 	CDPProvFolderRoot() : m_bDbSwitching(false) {}
 	virtual ~CDPProvFolderRoot() {}
 
-	bool Initialize(std::shared_ptr< CDPDBConnectionPool > spclDBConnectionPool);
-	std::shared_ptr<CDPProvFolderProduct> GetFolderProduct(string strProductName);
+	RESULT Initialize(SmartPointer< CDPDBConnectionPool > spclDBConnectionPool);
+
+	RESULT SwitchDbStart();
+	RESULT WaitForCanSwitchDb();
+	RESULT SwitchDbEnd();
+
+	RESULT GetProvRoot(SmartPointer< CDPProvRoot > &spclDPProvRoot);
+	RESULT GetFolderProduct(string strProductName, SmartPointer< CDPProvFolderProduct > &spclFolderProduct);
+//	RESULT GetProvDrawParameter(SmartPointer< CDPProvDrawParameter > &spclProvDrawParameter);
+
 public:
-public:
-	std::shared_ptr< CDPDBConnectionPool >						m_spclDBConnectionPool;
-	CCFSimpleCache<string, CDPProvFolderProduct >			m_clDPProvFolderProductCache;
+	SmartPointer< CDPDBConnectionPool >							m_spclDBConnectionPool;
+	CCFMutex													m_clMutex;
+	SmartPointer< CDPProvRoot >									m_spclDPProvRoot;
+	CCFSimpleCache< string, CDPProvFolderProduct >				m_clDPProvFolderProductCache;
+//	SmartPointer< CDPProvDrawParameter >						m_spclProvDrawParameter;
 	volatile bool												m_bDbSwitching;
 };
 
