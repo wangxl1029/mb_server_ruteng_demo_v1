@@ -40,7 +40,7 @@ public:
 	CDPDBConnectionPool() : m_bUpdating(false) {}
 	virtual ~CDPDBConnectionPool() {}
 
-	bool Initialize(const char *pcRootPath);
+	RESULT Initialize(const char *pcRootPath);
 
 	RESULT GetConnection(const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType, CRCPtr< CSL_Database > &spDatabase);
 	RESULT GetConnection(const char *strFileName, CRCPtr< CSL_Database > &spDatabase);

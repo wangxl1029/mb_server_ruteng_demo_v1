@@ -35,8 +35,21 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 	m_clStartWayPoint = clRequest.m_spclWayPoints->At(0);
 	m_clEndWayPoint = clRequest.m_spclWayPoints->At(1);
 
-	auto spclTermSearch = std::make_shared<CRPRCTermSearch>(m_clStartWayPoint, 13, m_spclDataProvider);
-	spclTermSearch->Do(m_spclDataProvider);
+	if (!m_spclStartTermSearch.Create(m_clStartWayPoint, 13, m_spclDataProvider))
+	{
+		ERR("");
+		return FAILURE;
+	}
 
-	return true;
+	m_spclStartTermSearch->Do(m_spclDataProvider); 
+
+	if (!m_spclEndTermSearch.Create(m_clEndWayPoint, 13, m_spclDataProvider))
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	m_spclEndTermSearch->Do(m_spclDataProvider);
+
+	return SUCCESS;
 }

@@ -50,10 +50,14 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 	clRequest.m_spclWayPoints->PushBack(clVehicleWayPoint);
 	clRequest.m_spclWayPoints->PushBack(clDestination);
 
-	auto spclDPFacade = CDPFacade::Create();
+	SmartPointer< CDPFacade > spclDPFacade = CDPFacade::Create();
 	spclDPFacade->Initialize();
 
 	SmartPointer< CRPRCSectionDirector >	spclSectionDirector; // refer to CRPRCRouteDirector::Initialize()
+	if (!spclSectionDirector.Create()) {
+		ERR("");
+		return false;
+	}
 	spclSectionDirector->Initialize(spclDPFacade);
 	spclSectionDirector->StartCalculateSection(clRequest);
 

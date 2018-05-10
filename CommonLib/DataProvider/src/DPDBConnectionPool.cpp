@@ -51,10 +51,10 @@ CRCPtr< CSL_Database >& CDPConnRec::Get()
 }
 
 //	CDPDBConnectionPool
-bool CDPDBConnectionPool::Initialize(const char *pcRootPath)
+RESULT CDPDBConnectionPool::Initialize(const char *pcRootPath)
 {
 	m_strRootPath = pcRootPath;
-	return true;
+	return SUCCESS;
 }
 
 RESULT CDPDBConnectionPool::GetConnection(const char *pcProductName, const char *pcUpdateRegion, DPDB_TYPE enDBType, CRCPtr< CSL_Database > &spDatabase)
