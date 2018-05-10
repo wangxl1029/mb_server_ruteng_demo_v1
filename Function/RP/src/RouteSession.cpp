@@ -1,10 +1,11 @@
-#include "InnerCommon.hpp"
-#include "RPCommon.hpp"
-#include "RPRouteCalcRequest.hpp"
-#include "RPRCTermSearch.hpp"
-#include "RPRCSectionDirector.hpp"
-#include "RouteSession.hpp"
-#include "DPFacade.hpp"
+#include	"InnerCommon.hpp"
+#include	"RPCommon.hpp"
+#include	"RPRouteCalcRequest.hpp"
+#include	"RPRCRouteCalcCommon.hpp"
+#include	"RPRCTermSearch.hpp"
+#include	"RPRCSectionDirector.hpp"
+#include	"RouteSession.hpp"
+#include	"DPFacade.hpp"
 //	CRPWayPoint
 CRPWayPoint::CRPWayPoint()
 : m_enWayPointType(RPWayPointType_Invalid)

@@ -17,8 +17,8 @@
 #include	"CFSingleton.h"
 #endif
 #include	"CFSimpleCache.hpp"
+#include	"CFUtil.hpp"
 #ifdef WXL_CLIENT_SPECIFIED
-#include	"CFUtil.h"
 #include	"CFNotify.h"
 #include	"CFLocalBuffer.h"
 #endif

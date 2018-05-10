@@ -78,6 +78,7 @@
     <ClInclude Include="include\DPCommon.hpp" />
     <ClInclude Include="include\DPData.hpp" />
     <ClInclude Include="include\DPDataProduct.hpp" />
+    <ClInclude Include="include\DPDataRouting.hpp" />
     <ClInclude Include="include\DPDataShared.hpp" />
     <ClInclude Include="include\DPFacade.hpp" />
     <ClInclude Include="include\DPHeaderAll.hpp" />

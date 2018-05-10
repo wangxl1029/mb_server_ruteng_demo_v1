@@ -1,9 +1,10 @@
-#include "InnerCommon.hpp"
-#include "RPCommon.hpp"
+#include	"InnerCommon.hpp"
+#include	"RPCommon.hpp"
 
-#include "RPRouteCalcRequest.hpp"
-#include "RPRCTermSearch.hpp"
-#include "RPRCSectionDirector.hpp"
+#include	"RPRouteCalcRequest.hpp"
+#include	"RPRCRouteCalcCommon.hpp"
+#include	"RPRCTermSearch.hpp"
+#include	"RPRCSectionDirector.hpp"
 
 CRPRCSectionDirector::CRPRCSectionDirector()
 {

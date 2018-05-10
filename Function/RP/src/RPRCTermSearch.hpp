@@ -1,5 +1,19 @@
 #pragma once
 
+//	class CRPRCCmdTermSearchResult
+class CRPRCTermSearchResult : public CBaseObj
+{
+public:
+	CRPRCTermSearchResult();
+	virtual ~CRPRCTermSearchResult();
+
+public:
+//	SmartPointer< vector< CRPRSLink > >							m_spvclResultLinkList;
+	SmartPointer< RPRC_OpenTable >								m_spmapOpenTable;
+//	SmartPointer< RPRC_MidLinkTable >							m_spclMidLinkTable;
+//	SmartPointer< vector< CRPRCConnectSearchResultLink > >		m_spvclConnectedLinkList;
+};
+
 class CRPRCTermSearch :
 	public CBaseObj
 {
@@ -11,7 +25,9 @@ public:
 	virtual ~CRPRCTermSearch();
 
 public:
-	RESULT TermSearch(int iLevel, SmartPointer< CDPFacade > spclDataProvider);
+	RESULT TermSearch(	int iLevel, 
+						SmartPointer< CDPFacade > spclDataProvider, 
+						SmartPointer< CRPRCTermSearchResult > &spclResult);
 
 public:
 	//	input
@@ -19,5 +35,8 @@ public:
 	int															m_iLevel;
 
 	SmartPointer< CDPFacade >									m_spclDataProvider;
+
+	//	output
+	SmartPointer< CRPRCTermSearchResult >						m_spclResult;
 };
 

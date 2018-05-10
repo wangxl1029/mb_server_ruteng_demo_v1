@@ -32,6 +32,84 @@ const uint		NDS_INVALID_GATEWAY_ID = ((uint)-1);
 
 const char* DP_GetRootDirName();
 
+//	世界座标 float
+class CPointWorld2D
+{
+public:
+	CPointWorld2D(float px = 0.0f, float py = 0.0f) : x(px), y(py) {}
+
+	float														x;
+	float														y;
+};
+
+inline bool operator==(const CPointWorld2D &clLeft, const CPointWorld2D &clRight)
+{
+	return CCFUtil::FloatEqual(clLeft.x, clRight.x) && CCFUtil::FloatEqual(clLeft.y, clRight.y);
+}
+
+class CLineWorld2D
+{
+public:
+	CLineWorld2D() {}
+	CLineWorld2D(const CPointWorld2D &pp1, const CPointWorld2D &pp2) : p1(pp1), p2(pp2) {}
+
+	CPointWorld2D												p1;
+	CPointWorld2D												p2;
+};
+
+class CRectWorld2D
+{
+public:
+	CRectWorld2D() {}
+	CRectWorld2D(const CPointWorld2D &plb, const CPointWorld2D &prt) : lb(plb), rt(prt) {}
+
+	CPointWorld2D												lb;
+	CPointWorld2D												rt;
+};
+
+class CQuadWorld2D
+{
+public:
+	CQuadWorld2D() {}
+	CQuadWorld2D(const CPointWorld2D pp[4]) { for (size_t i = 0; i < 4; ++i) p[i] = pp[i]; }
+
+	CPointWorld2D												p[4];
+};
+
+//	经纬度座标 int
+class CPointCoord2D
+{
+public:
+	CPointCoord2D(int px = 0, int py = 0) : x(px), y(py) {}
+
+	int															x;
+	int															y;
+};
+
+inline bool operator==(const CPointCoord2D &clLeft, const CPointCoord2D &clRight)
+{
+	return clLeft.x == clRight.x && clLeft.y == clRight.y;
+}
+
+class CRectCoord2D
+{
+public:
+	CRectCoord2D() {}
+	CRectCoord2D(const CPointCoord2D &plb, const CPointCoord2D &prt) : lb(plb), rt(prt) {}
+
+	CPointCoord2D												lb;
+	CPointCoord2D												rt;
+};
+
+class CQuadCoord2D
+{
+public:
+	CQuadCoord2D() {}
+	CQuadCoord2D(const CPointCoord2D pp[4]) { for (size_t i = 0; i < 4; ++i) p[i] = pp[i]; }
+
+	CPointCoord2D												p[4];
+};
+
 enum BUILDING_BLOCK_ID
 {
 	BUILDING_BLOCK_ID_SHARED_DATA = 0x0,

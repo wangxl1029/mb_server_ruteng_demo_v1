@@ -63,6 +63,9 @@
     <ClInclude Include="include\DPDataShared.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\DPDataRouting.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DPCommon.cpp">

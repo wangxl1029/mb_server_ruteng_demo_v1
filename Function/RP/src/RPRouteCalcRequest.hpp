@@ -1,14 +1,5 @@
 #pragma once
 
-class CPointCoord2D
-{
-public:
-	CPointCoord2D(int px = 0, int py = 0) : x(px), y(py) {}
-
-	int															x;
-	int															y;
-};
-
 enum RPWayPointType
 {
 	RPWayPointType_Coord,

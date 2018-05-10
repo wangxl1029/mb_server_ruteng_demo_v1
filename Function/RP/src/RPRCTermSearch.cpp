@@ -1,8 +1,19 @@
-#include "InnerCommon.hpp"
-#include "RPCommon.hpp"
-#include "RPRouteCalcRequest.hpp"
-#include "RPRCTermSearch.hpp"
+#include	"InnerCommon.hpp"
+#include	"RPCommon.hpp"
+#include	"RPRouteCalcRequest.hpp"
+#include	"RPRCRouteCalcCommon.hpp"
+#include	"RPRCTermSearch.hpp"
 
+//	class CRPRCCmdTermSearchResult
+CRPRCTermSearchResult::CRPRCTermSearchResult()
+{
+}
+
+CRPRCTermSearchResult::~CRPRCTermSearchResult()
+{
+}
+
+//	class CRPRCCmdTermSearch
 CRPRCTermSearch::CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider)
 : m_clWayPoint(clWayPoint), m_iLevel(iLevel), m_spclDataProvider(spclDataProvider)
 {
@@ -16,7 +27,7 @@ CRPRCTermSearch::~CRPRCTermSearch()
 RESULT CRPRCTermSearch::Execute()
 {
 #if 1
-	return TermSearch(m_iLevel,m_spclDataProvider);
+	return TermSearch(m_iLevel, m_spclDataProvider, m_spclResult);
 #else
 	return TermSearch(m_enTerm, m_clWayPoint, m_iLevel,
 		m_spclMidLinkUsingContainer,
@@ -26,15 +37,16 @@ RESULT CRPRCTermSearch::Execute()
 #endif
 }
 // equivalent to CRPRCCmdTermSearch::TermSearch() from znavi
-RESULT CRPRCTermSearch::TermSearch(int iLevel, SmartPointer< CDPFacade > spclDataProvider)
+RESULT CRPRCTermSearch::TermSearch(	int iLevel, 
+									SmartPointer< CDPFacade > spclDataProvider,
+									SmartPointer< CRPRCTermSearchResult > &spclResult)
 {
-#if 0
 	//	Result Ref
 	if (!spclResult.Create()) {
 		ERR("");
 		return FAILURE;
 	}
-
+#if 0
 	if (!spclResult->m_spvclResultLinkList.Create()) {
 		ERR("");
 		return FAILURE;
@@ -53,7 +65,7 @@ RESULT CRPRCTermSearch::TermSearch(int iLevel, SmartPointer< CDPFacade > spclDat
 	}
 	vector< CRPRSLink >						&vclResultLinkList = *(spclResult->m_spvclResultLinkList);
 #endif
-	//RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
+	RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
 #if 0
 	RPRC_MidLinkTable						&clMidLinkTable = *(spclResult->m_spclMidLinkTable);
 	vector< CRPRCConnectSearchResultLink >	&vclConnectedLinkList = *(spclResult->m_spvclConnectedLinkList);
@@ -170,11 +182,11 @@ RESULT CRPRCTermSearch::TermSearch(int iLevel, SmartPointer< CDPFacade > spclDat
 		}
 #endif
 	}
-#if 0
+
 	if (clOpenTable.size() == 0) {
 		ERR("");
 		return FAILURE;
 	}
-#endif
+
 	return SUCCESS;
 }
