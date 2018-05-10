@@ -95,4 +95,22 @@ public:
 void RPRCMidLink_ConnectLink(CRPRCMidLink *pclInLink, CRPRCMidLink *pclOutLink);
 void RPRCMidLink_DisconectLink(CRPRCMidLink *pclOutLink);
 
+//	class CRPRCRoutingTileProxy
+class CRPRCRoutingTileProxy
+{
+public:
+	CRPRCRoutingTileProxy(SmartPointer< CDPFacade > spclDataProvider);
+	~CRPRCRoutingTileProxy();
+
+	RESULT GetData(const CRPTileID &clTileID);
+	CDPDataRoutingTile* operator->();
+	bool IsEmpty();
+
+public:
+	CRPTileID													m_clLastTileID;
+	SmartPointer< CDPDataRoutingTile >							m_spclLastRoutingTile;
+	SmartPointer< CDPFacade >									m_spclDataProvider;
+};
+
+
 

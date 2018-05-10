@@ -11,6 +11,8 @@
 #include	"DPProvShared.hpp"
 #include	"DPProvProduct.hpp"
 // ignored headers
+#include	"DPProvRouting.hpp"
+// ignored headers
 #include	"DPProvFolderUpdateRegion.hpp"
 #include	"DPProvFolderProduct.hpp"
 //#include	"DPProvDrawParameter.h"
@@ -31,6 +33,10 @@ public:
 	virtual RESULT GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiCoordShift);
 	//virtual RESULT GetLevelByScale(uint uiScale, BUILDING_BLOCK_ID enBuildingBlockID, int &iMinLevel, uint &uiSubLevel, uint &uiDetailLevel);
 	//virtual RESULT GetLevelList(BUILDING_BLOCK_ID enBuildingBlockID, vector<int> &viLevelList);
+	//virtual RESULT GetSubLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiSubLevelCount);
+	//virtual RESULT GetDetailLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint uiSubLevel, uint &uiDetailLevelCount);
+	//virtual RESULT GetBmdData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataBmd > &spclDataBmd);
+	virtual RESULT GetRoutingTileData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingTile > &spclDataRoutingTile);
 
 	virtual RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList);
 
@@ -123,6 +129,58 @@ RESULT CDPFacadeImpl::GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBloc
 	}
 
 	if (SUCCESS != spclProvShared->GetCoordShift(iLevel, enBuildingBlockID, uiCoordShift)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+
+RESULT CDPFacadeImpl::GetRoutingTileData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingTile > &spclDataRoutingTile)
+{
+	if (m_bDbSwitching) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderProduct >	spclProvFolderProduct;
+	if (SUCCESS != m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName, spclProvFolderProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderUpdateRegion >	spclProvFolderUpdateRegion;
+	if (SUCCESS != spclProvFolderProduct->GetProvFolderUpdateRegion(strUpdateRegion, spclProvFolderUpdateRegion)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvShared >	spclProvShared;
+	if (SUCCESS != spclProvFolderUpdateRegion->GetProvShared(spclProvShared)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	uint		uiCoordShift = 0;
+	if (SUCCESS != spclProvShared->GetCoordShift(iLevel, BUILDING_BLOCK_ID_BASIC_MAP_DISPLAY, uiCoordShift)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvRouting >	spclProvRouting;
+	if (SUCCESS != spclProvFolderUpdateRegion->GetProvRouting(spclProvRouting)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	uint	uiPackedTileID = 0;
+	if (SUCCESS != CDPCommon::TileNoToPackedTileID(iLevel, uiTileNo, uiPackedTileID)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != spclProvRouting->GetRoutingTile(uiPackedTileID, sVersion, spclDataRoutingTile, 31 - iLevel - uiCoordShift)) {
 		ERR("");
 		return FAILURE;
 	}

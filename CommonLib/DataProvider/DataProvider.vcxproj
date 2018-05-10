@@ -82,6 +82,7 @@
     <ClInclude Include="include\DPDataShared.hpp" />
     <ClInclude Include="include\DPFacade.hpp" />
     <ClInclude Include="include\DPHeaderAll.hpp" />
+    <ClInclude Include="include\DPNDSTypeDef.h" />
     <ClInclude Include="include\DPProv.hpp" />
     <ClInclude Include="include\DPProvRoot.hpp" />
     <ClInclude Include="src\DPDBConnectionPool.hpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="src\DPProvFolderRoot.hpp" />
     <ClInclude Include="src\DPProvFolderUpdateRegion.hpp" />
     <ClInclude Include="src\DPProvProduct.hpp" />
+    <ClInclude Include="src\DPProvRouting.hpp" />
     <ClInclude Include="src\DPProvShared.hpp" />
     <ClInclude Include="src\InnerCommon.hpp" />
   </ItemGroup>
@@ -102,6 +104,7 @@
     <ClCompile Include="src\DPProvFolderUpdateRegion.cpp" />
     <ClCompile Include="src\DPProvProduct.cpp" />
     <ClCompile Include="src\DPProvRoot.cpp" />
+    <ClCompile Include="src\DPProvRouting.cpp" />
     <ClCompile Include="src\DPProvShared.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

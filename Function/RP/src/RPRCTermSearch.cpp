@@ -97,7 +97,6 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 	uint	uiCoordShift = 0;
 	spclDataProvider->GetCoordShift(iLevel, BUILDING_BLOCK_ID_ROUTING, uiCoordShift);
 	for (size_t ur = 0; ur < vstrUpdateRegion.size(); ++ur) {
-#if 0
 		clTileID.m_sUpdateRegionID = CDPCommon::UpdateRegionName2Id(vstrUpdateRegion[ur].c_str());
 
 		CRPRCRoutingTileProxy			clRoutingTile(spclDataProvider);
@@ -113,10 +112,11 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 		double	dMinDist = -1;
 		size_t	iMinInt = 0;
 		for (size_t i = 0; i < clRoutingTile->m_clRoutingTile.m_clSimpleIntersection.m_vclSimpleIntersection.size(); ++i) {
+#if 0 // del by wxl --> No cancel available
 			if (GetCancelFlag()) {
 				return SUCCESS;
 			}
-
+#endif
 			CSimpleIntersection	&clInt = clRoutingTile->m_clRoutingTile.m_clSimpleIntersection.m_vclSimpleIntersection[i];
 			int		x = iAnchorX + (clInt.m_clPosition.m_iDx << uiCoordShift);
 			int		y = iAnchorY + (clInt.m_clPosition.m_iDy << uiCoordShift);
@@ -129,6 +129,7 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 			}
 		}
 
+#if 0
 		CSimpleIntersection		&clMinInt = clRoutingTile->m_clRoutingTile.m_clSimpleIntersection.m_vclSimpleIntersection[iMinInt];
 		for (size_t j = 0; j < clMinInt.m_vclConnectedLinks.size(); ++j) {
 			if (GetCancelFlag()) {

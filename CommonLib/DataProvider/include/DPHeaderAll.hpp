@@ -2,7 +2,7 @@
 #define	DPHEADERALL_H
 
 #include	"DPCommon.hpp"
-//#include	"DPNDSTypeDef.h"
+#include	"DPNDSTypeDef.h"
 #include	"DPData.hpp"
 //#include	"DPDataBmd.h"
 #include	"DPDataRouting.hpp"

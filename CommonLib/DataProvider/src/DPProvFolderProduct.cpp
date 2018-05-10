@@ -2,13 +2,19 @@
 #include	"DPCommon.hpp"
 #include	"DPDBConnectionPool.hpp"
 #include	"DPData.hpp"
-#include	"DPDataShared.hpp"
 #include	"DPDataProduct.hpp"
-// ignored headers
+#include	"DPDataShared.hpp"
+//#include	"DPDataBmd.h"
+#include	"DPDataRouting.hpp"
+//#include	"DPDataNamedObject.h"
+//#include	"DPData3DObj.h"
 #include	"DPProv.hpp"
 #include	"DPProvProduct.hpp"
 #include	"DPProvShared.hpp"
-// ignored headers
+//#include	"DPProvBmd.h"
+#include	"DPProvRouting.hpp"
+//#include	"DPProvNamedObject.h"
+//#include	"DPProv3DObj.h"
 #include	"DPProvFolderUpdateRegion.hpp"
 #include	"DPProvFolderProduct.hpp"
 

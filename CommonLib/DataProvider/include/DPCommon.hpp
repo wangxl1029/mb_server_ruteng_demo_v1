@@ -188,8 +188,43 @@ public:
 const size_t						DP_BUILDING_BLOCK_COUNT = sizeof(DP_BUILDING_BLOCK_NO_TO_ID) / sizeof(DP_BUILDING_BLOCK_NO_TO_ID[0]);
 size_t								DP_BUILDING_BLOCK_ID_TO_NO(BUILDING_BLOCK_ID enBuildingBlockID);
 
-class CDPCommon :
-	public CBaseObj
+class CTileID
+{
+public:
+	CTileID(uint uiPackedTileID = NDS_INVALID_TILE_ID, short sVersion = NEW_VERSION)
+		: m_uiPackedTileID(uiPackedTileID), m_sVersion(sVersion) {}
+
+	uint														m_uiPackedTileID;
+	short														m_sVersion;
+};
+
+inline bool operator<(const CTileID &clLeft, const CTileID &clRight)
+{
+	if (clLeft.m_uiPackedTileID < clRight.m_uiPackedTileID) {
+		return true;
+	}
+	else if (clLeft.m_uiPackedTileID > clRight.m_uiPackedTileID) {
+		return false;
+	}
+	else if (clLeft.m_sVersion < clRight.m_sVersion) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+inline bool operator>(const CTileID &clLeft, const CTileID &clRight)
+{
+	return clRight < clLeft;
+}
+
+inline bool operator==(const CTileID &clLeft, const CTileID &clRight)
+{
+	return clLeft.m_uiPackedTileID == clRight.m_uiPackedTileID && clLeft.m_sVersion == clRight.m_sVersion;
+}
+
+class CDPCommon : public CBaseObj
 {
 public:
 	CDPCommon() {};

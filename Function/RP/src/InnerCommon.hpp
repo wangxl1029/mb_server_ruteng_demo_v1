@@ -26,9 +26,6 @@
 #include	<queue>
 #include	<string>
 #include	<algorithm>
-#ifdef WXL_SERVER_SPECIFIED
-#include	<stdint.h>
-#endif
 using namespace std;
 #if 0 // del by wxl
 #include	<boost/bind.hpp>
@@ -42,9 +39,8 @@ using namespace std;
 #include	"nds_sqlite3.h"
 
 #include	"IOLibCommon_HeaderAll.h"
-#if 0 // del by wxl
+
 #include	"IOLibNDS_HeaderAll.h"
-#endif
 
 #include	"CFHeaderAll.hpp"
 

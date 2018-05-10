@@ -22,16 +22,11 @@
 #include	<queue>
 #include	<string>
 #include	<algorithm>
-#ifdef WXL_SERVER_SPECIFIED
-#include	<memory>
-#endif
 using namespace std;
 
 #include	"nds_sqlite3.h"
 #include	"IOLibCommon_HeaderAll.h"
 #include	"IOLibNDS_HeaderAll.h"
-#ifdef WXL_CLIENT_SPECIFIED
-#endif
 
 #include	"CFHeaderAll.hpp"
 
