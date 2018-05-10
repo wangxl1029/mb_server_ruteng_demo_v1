@@ -24,6 +24,14 @@ public:
 	virtual ~CDPFacadeImpl();
 
 	virtual RESULT Initialize();
+
+	//virtual RESULT GetDBRootPath(string &str);
+	//virtual RESULT GetUpperLevel(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, int &iUpperLevel);
+	//virtual RESULT GetDownLevel(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, int &iDownLevel);
+	virtual RESULT GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiCoordShift);
+	//virtual RESULT GetLevelByScale(uint uiScale, BUILDING_BLOCK_ID enBuildingBlockID, int &iMinLevel, uint &uiSubLevel, uint &uiDetailLevel);
+	//virtual RESULT GetLevelList(BUILDING_BLOCK_ID enBuildingBlockID, vector<int> &viLevelList);
+
 	virtual RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList);
 
 public:
@@ -81,6 +89,47 @@ RESULT CDPFacadeImpl::Initialize()
 
 	return SUCCESS;
 }
+
+RESULT CDPFacadeImpl::GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiCoordShift)
+{
+	SmartPointer< CDPProvFolderProduct >	spclProvFolderProduct;
+	if (SUCCESS != m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName, spclProvFolderProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvProduct >			spclDPProvProduct;
+	if (SUCCESS != spclProvFolderProduct->GetProvProduct(spclDPProvProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	vector< CDPUpdateRegionInfo >	vclUpdateRegionList;
+	if (SUCCESS != spclDPProvProduct->GetUpdateRegionList(vclUpdateRegionList)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderUpdateRegion >	spclProvFolderUpdateRegion;
+	if (SUCCESS != spclProvFolderProduct->GetProvFolderUpdateRegion(vclUpdateRegionList[0].m_strUpdateRegionName, spclProvFolderUpdateRegion)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvShared >	spclProvShared;
+	if (SUCCESS != spclProvFolderUpdateRegion->GetProvShared(spclProvShared)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != spclProvShared->GetCoordShift(iLevel, enBuildingBlockID, uiCoordShift)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
 
 RESULT CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList)
 {

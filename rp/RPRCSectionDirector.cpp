@@ -41,7 +41,7 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 		return FAILURE;
 	}
 
-	m_spclStartTermSearch->Do(m_spclDataProvider); 
+	m_spclStartTermSearch->Execute(); 
 
 	if (!m_spclEndTermSearch.Create(m_clEndWayPoint, 13, m_spclDataProvider))
 	{
@@ -49,7 +49,7 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 		return FAILURE;
 	}
 
-	m_spclEndTermSearch->Do(m_spclDataProvider);
+	m_spclEndTermSearch->Execute();
 
 	return SUCCESS;
 }

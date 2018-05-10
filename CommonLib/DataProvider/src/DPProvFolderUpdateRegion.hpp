@@ -7,6 +7,7 @@ public:
 	virtual ~CDPProvFolderUpdateRegion() {}
 
 	RESULT Initialize(string strProductName, string strUpdateRegion, SmartPointer< CDPDBConnectionPool > spclDBConnectionPool);
+	RESULT GetProvShared(SmartPointer< CDPProvShared > &spclProvShared);
 public:
 	SmartPointer< CDPDBConnectionPool >							m_spclDBConnectionPool;
 	string														m_strProductName;

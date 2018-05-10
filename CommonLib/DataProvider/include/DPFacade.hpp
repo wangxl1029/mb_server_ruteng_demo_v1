@@ -10,6 +10,7 @@ public:
 
 	virtual RESULT Initialize() = 0;
 
+	virtual RESULT GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiCoordShift) = 0;
 	virtual RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList) = 0;
 
 };

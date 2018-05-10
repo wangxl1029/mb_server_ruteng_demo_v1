@@ -6,8 +6,13 @@ class CRPRCTermSearch :
 public:
 	CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider);
 	CRPRCTermSearch() = default;
-	bool Do(SmartPointer< CDPFacade > spclDataProvide);
+
+	virtual RESULT Execute();
 	virtual ~CRPRCTermSearch();
+
+public:
+	RESULT TermSearch(int iLevel, SmartPointer< CDPFacade > spclDataProvider);
+
 public:
 	//	input
 	CRPWayPoint													m_clWayPoint;

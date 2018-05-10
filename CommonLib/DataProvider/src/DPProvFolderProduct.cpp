@@ -49,3 +49,25 @@ RESULT CDPProvFolderProduct::GetProvProduct(SmartPointer< CDPProvProduct > &spcl
 	spclDPProvProduct = m_spclDPProvProduct;
 	return SUCCESS;
 }
+
+RESULT CDPProvFolderProduct::GetProvFolderUpdateRegion(string strUpdateRegionName, SmartPointer< CDPProvFolderUpdateRegion > &spclDPProvFolderUpdateRegion)
+{
+	CCFLocker<CCFMutex>		clLock(m_clMutex);
+
+	SmartPointer< CDPProvFolderUpdateRegion >	spclDPProvFolderUpdateRegionTemp = m_clDPProvFolderUpdateRegionCache.GetData(strUpdateRegionName);
+	if (spclDPProvFolderUpdateRegionTemp == NULL) {
+		if (!spclDPProvFolderUpdateRegionTemp.Create()) {
+			ERR("");
+			return FAILURE;
+		}
+
+		if (SUCCESS != spclDPProvFolderUpdateRegionTemp->Initialize(m_strProductName, strUpdateRegionName, m_spclDBConnectionPool)) {
+			ERR("");
+			return FAILURE;
+		}
+		m_clDPProvFolderUpdateRegionCache.PutData(strUpdateRegionName, spclDPProvFolderUpdateRegionTemp);
+	}
+	spclDPProvFolderUpdateRegion = spclDPProvFolderUpdateRegionTemp;
+
+	return SUCCESS;
+}

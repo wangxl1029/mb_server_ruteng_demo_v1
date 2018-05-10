@@ -31,3 +31,10 @@ RESULT CDPProvFolderUpdateRegion::Initialize(string strProductName, string strUp
 
 	return SUCCESS;
 }
+
+RESULT CDPProvFolderUpdateRegion::GetProvShared(SmartPointer< CDPProvShared > &spclProvShared)
+{
+	//	Need NOT lock
+	spclProvShared = m_spclDPProvShared;
+	return SUCCESS;
+}
