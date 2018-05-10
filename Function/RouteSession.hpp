@@ -5,7 +5,7 @@ public:
 	CRouteSession();
 	~CRouteSession();
 
-	void calcRoute();
+	bool calcRoute(int iFromX, int iFromY, int iToX, int iToY);
 
 private:
 

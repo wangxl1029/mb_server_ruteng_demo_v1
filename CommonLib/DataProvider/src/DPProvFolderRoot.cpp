@@ -36,34 +36,6 @@ RESULT CDPProvFolderRoot::Initialize(SmartPointer< CDPDBConnectionPool > spclDBC
 	return SUCCESS;
 }
 
-
-
-RESULT CDPProvFolderProduct::GetProvProduct(SmartPointer< CDPProvProduct > &spclDPProvProduct)
-{
-	if (m_bDbSwitching) {
-		ERR("");
-		return FAILURE;
-	}
-
-	CCFLocker<CCFMutex>		clLock(m_clMutex);
-
-	if (m_spclDPProvProduct == NULL) {
-		SmartPointer< CDPProvProduct >	spclDPProvProductTemp;
-		if (!spclDPProvProductTemp.Create()) {
-			ERR("");
-			return FAILURE;
-		}
-
-		if (SUCCESS != spclDPProvProductTemp->Initialize(m_strProductName, m_spclDBConnectionPool)) {
-			ERR("");
-			return FAILURE;
-		}
-		m_spclDPProvProduct = spclDPProvProductTemp;
-	}
-	spclDPProvProduct = m_spclDPProvProduct;
-	return SUCCESS;
-}
-
 RESULT CDPProvFolderRoot::GetProvRoot(SmartPointer< CDPProvRoot > &spclDPProvRoot)
 {
 	CCFLocker<CCFMutex>		clLock(m_clMutex);
@@ -111,4 +83,3 @@ RESULT CDPProvFolderRoot::GetFolderProduct(string strProductName, SmartPointer< 
 	}
 	return SUCCESS;
 }
-

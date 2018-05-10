@@ -57,7 +57,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zlib.lib;CommFunc.lib;DataProvider.lib;ErrLog.lib;IOLibCommon.lib;IOLibNDS.lib;nds_sqlite3.lib;OSWrapper.lib;rp.lib;SL_DAL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>rp.lib;zlib.lib;nds_sqlite3.lib;CommFunc.lib;DataProvider.lib;IOLibCommon.lib;IOLibNDS.lib;OSWrapper.lib;ErrLog.lib;SL_DAL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Debug\;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

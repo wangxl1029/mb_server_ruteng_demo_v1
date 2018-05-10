@@ -14,17 +14,22 @@ CRPRCSectionDirector::~CRPRCSectionDirector()
 {
 }
 
-bool CRPRCSectionDirector::Initialize(std::shared_ptr< CDPFacade > spclDataProvider)
+RESULT CRPRCSectionDirector::Initialize(SmartPointer< CDPFacade > spclDataProvider)
 {
+	if (spclDataProvider == NULL) {
+		ERR("");
+		return FAILURE;
+	}
 	m_spclDataProvider = spclDataProvider;
-	return true;
+	return SUCCESS;
 }
 
-bool CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clRequest)
+RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clRequest)
 {
 	if (clRequest.m_spclWayPoints->Size() < 2)
 	{
-		return false;
+		ERR("");
+		return FAILURE;
 	}
 
 	m_clStartWayPoint = clRequest.m_spclWayPoints->At(0);

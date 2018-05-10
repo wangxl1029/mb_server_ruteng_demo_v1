@@ -1,9 +1,9 @@
 #include "InnerCommon.hpp"
 #include "RPCommon.hpp"
 #include "RPRouteCalcRequest.hpp"
+#include "RPRCTermSearch.hpp"
 #include "RPRCSectionDirector.hpp"
 #include "RouteSession.hpp"
-
 #include "DPFacade.hpp"
 //	CRPWayPoint
 CRPWayPoint::CRPWayPoint()
@@ -29,22 +29,33 @@ CRouteSession::~CRouteSession()
 {
 }
 
-void CRouteSession::calcRoute()
+// reference pattern : CMNRP::SetDestinationByTwoCoord()
+bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 {
-	auto spclWayPoints = std::make_shared<CRPWayPoints>();
-	spclWayPoints->m_vclWayPointList.emplace_back(CPointCoord2D(1389087203, 476456031));
-	spclWayPoints->m_vclWayPointList.emplace_back(CPointCoord2D(1389087203, 476456031));
+	CRPWayPoint		clVehicleWayPoint;
+	clVehicleWayPoint.m_enWayPointType = RPWayPointType_Coord;
+	clVehicleWayPoint.m_clCoord.x = iFromX;
+	clVehicleWayPoint.m_clCoord.y = iFromY;
 
-	CRPRouteCalcRequest		req(spclWayPoints);
-	
-	CRPRouteCalcRequest		clSectionRequest(req);
-	clSectionRequest.m_spclWayPoints->PushBack(spclWayPoints->At(0));
-	clSectionRequest.m_spclWayPoints->PushBack(spclWayPoints->At(1));
+	CRPWayPoint		clDestination;
+	clDestination.m_enWayPointType = RPWayPointType_Coord;
+	clDestination.m_clCoord.x = iToX;
+	clDestination.m_clCoord.y = iToY;
+
+	CRPRouteCalcRequest	clRequest;
+	if (!clRequest.m_spclWayPoints.Create()) {
+		ERR("");
+		return false;
+	}
+	clRequest.m_spclWayPoints->PushBack(clVehicleWayPoint);
+	clRequest.m_spclWayPoints->PushBack(clDestination);
 
 	auto spclDPFacade = CDPFacade::Create();
 	spclDPFacade->Initialize();
 
-	auto spclSessionDirector = std::make_shared<CRPRCSectionDirector>();
-	spclSessionDirector->Initialize(spclDPFacade);
-	spclSessionDirector->StartCalculateSection(clSectionRequest);
+	SmartPointer< CRPRCSectionDirector >	spclSectionDirector; // refer to CRPRCRouteDirector::Initialize()
+	spclSectionDirector->Initialize(spclDPFacade);
+	spclSectionDirector->StartCalculateSection(clRequest);
+
+	return false;
 }

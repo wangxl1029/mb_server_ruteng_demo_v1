@@ -4,15 +4,15 @@ class CRPRCTermSearch :
 	public CBaseObj
 {
 public:
-	CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, std::shared_ptr< CDPFacade > spclDataProvider);
-	CRPRCTermSearch() = delete;
-	bool Do(std::shared_ptr< CDPFacade > spclDataProvider);
+	CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider);
+	CRPRCTermSearch() = default;
+	bool Do(SmartPointer< CDPFacade > spclDataProvide);
 	virtual ~CRPRCTermSearch();
 public:
 	//	input
 	CRPWayPoint													m_clWayPoint;
 	int															m_iLevel;
 
-	std::shared_ptr< CDPFacade >								m_spclDataProvider;
+	SmartPointer< CDPFacade >									m_spclDataProvider;
 };
 

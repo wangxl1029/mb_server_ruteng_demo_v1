@@ -7,16 +7,22 @@ class CRPRCSectionDirector :
 public:
 	CRPRCSectionDirector();
 	virtual ~CRPRCSectionDirector();
-	bool Initialize(std::shared_ptr< CDPFacade > spclDataProvider);
-	bool StartCalculateSection(CRPRouteCalcRequest &clRequest);
-	std::shared_ptr< CDPFacade >									m_spclDataProvider;
+	RESULT Initialize(SmartPointer< CDPFacade > spclDataProvider);
+	RESULT StartCalculateSection(CRPRouteCalcRequest &clRequest);
+	SmartPointer< CDPFacade >									m_spclDataProvider;
 private:
 	//std::shared_ptr<CRPRCTermSearch> m_termSearch;
-	std::shared_ptr<CBaseObj> m_upSearch;
-	std::shared_ptr<CBaseObj> m_connectSearch;
-	std::shared_ptr<CBaseObj> m_routeEdit;
+	SmartPointer<CBaseObj> m_upSearch;
+	SmartPointer<CBaseObj> m_connectSearch;
+	SmartPointer<CBaseObj> m_routeEdit;
 
+	//	Request
+	CRPRouteCalcRequest											m_clRequest;
+	//CRPRCCalcParam												m_clParam;
 	CRPWayPoint													m_clStartWayPoint;
 	CRPWayPoint													m_clEndWayPoint;
+
+	SmartPointer< CRPRCTermSearch >								m_spclStartTermSearch;
+	SmartPointer< CRPRCTermSearch >								m_spclEndTermSearch;
 };
 
