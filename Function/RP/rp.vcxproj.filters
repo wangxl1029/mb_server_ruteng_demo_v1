@@ -18,54 +18,57 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RPRCSectionDirector.hpp">
+    <ClInclude Include="src\InnerCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRouteCalcRequest.hpp">
+    <ClInclude Include="src\RPRCConnectSearch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRCTermSearch.hpp">
+    <ClInclude Include="src\RPRCRouteEdit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPCommon.hpp">
+    <ClInclude Include="src\RPRCSectionDirector.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRCUpSearch.h">
+    <ClInclude Include="src\RPRCTermSearch.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRCRouteEdit.hpp">
+    <ClInclude Include="src\RPRCUpSearch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RPRCConnectSearch.hpp">
+    <ClInclude Include="src\RPRouteCalcRequest.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\Function\RouteSession.hpp">
+    <ClInclude Include="src\RouteCalculator\RPRCRouteCalcCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InnerCommon.hpp">
+    <ClInclude Include="include\RPCommon.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RPRCSectionDirector.cpp">
+    <ClCompile Include="src\RouteSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPRouteCalcRequest.cpp">
+    <ClCompile Include="src\RPRCConnectSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPRCTermSearch.cpp">
+    <ClCompile Include="src\RPRCRouteEdit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPRCUpSearch.cpp">
+    <ClCompile Include="src\RPRCSectionDirector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPRCConnectSearch.cpp">
+    <ClCompile Include="src\RPRCTermSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RPRCRouteEdit.cpp">
+    <ClCompile Include="src\RPRCUpSearch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="RouteSession.cpp">
+    <ClCompile Include="src\RPRouteCalcRequest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RouteCalculator\RPRCRouteCalcCommon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

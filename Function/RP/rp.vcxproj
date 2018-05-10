@@ -14,6 +14,7 @@
     <ProjectGuid>{68183719-9F2E-4358-A413-8ED62028899E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rp</RootNamespace>
+    <ProjectName>RP</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -47,7 +48,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WXL_COMMENT_OUT;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Function\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Function\OSWrapper\include\;$(SolutionDir)ExternalLibrary\nds_sqlite3\include\;$(SolutionDir)Generated\SL_DAL\include\;$(SolutionDir)Generated\IOLibs\include\IOLibCommon\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)CommonLib\DataProvider\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Function\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Function\OSWrapper\include\;$(SolutionDir)ExternalLibrary\nds_sqlite3\include\;$(SolutionDir)Generated\SL_DAL\include\;$(SolutionDir)Generated\IOLibs\include\IOLibCommon\;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)CommonLib\DataProvider\include\;include;src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -75,24 +76,25 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Function\RouteSession.hpp" />
-    <ClInclude Include="InnerCommon.hpp" />
-    <ClInclude Include="RPCommon.hpp" />
-    <ClInclude Include="RPRCConnectSearch.hpp" />
-    <ClInclude Include="RPRCRouteEdit.hpp" />
-    <ClInclude Include="RPRCSectionDirector.hpp" />
-    <ClInclude Include="RPRCTermSearch.hpp" />
-    <ClInclude Include="RPRCUpSearch.h" />
-    <ClInclude Include="RPRouteCalcRequest.hpp" />
+    <ClInclude Include="include\RPCommon.hpp" />
+    <ClInclude Include="src\InnerCommon.hpp" />
+    <ClInclude Include="src\RouteCalculator\RPRCRouteCalcCommon.hpp" />
+    <ClInclude Include="src\RPRCConnectSearch.hpp" />
+    <ClInclude Include="src\RPRCRouteEdit.hpp" />
+    <ClInclude Include="src\RPRCSectionDirector.hpp" />
+    <ClInclude Include="src\RPRCTermSearch.hpp" />
+    <ClInclude Include="src\RPRCUpSearch.h" />
+    <ClInclude Include="src\RPRouteCalcRequest.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="RouteSession.cpp" />
-    <ClCompile Include="RPRCConnectSearch.cpp" />
-    <ClCompile Include="RPRCRouteEdit.cpp" />
-    <ClCompile Include="RPRCSectionDirector.cpp" />
-    <ClCompile Include="RPRCTermSearch.cpp" />
-    <ClCompile Include="RPRCUpSearch.cpp" />
-    <ClCompile Include="RPRouteCalcRequest.cpp" />
+    <ClCompile Include="src\RouteCalculator\RPRCRouteCalcCommon.cpp" />
+    <ClCompile Include="src\RouteSession.cpp" />
+    <ClCompile Include="src\RPRCConnectSearch.cpp" />
+    <ClCompile Include="src\RPRCRouteEdit.cpp" />
+    <ClCompile Include="src\RPRCSectionDirector.cpp" />
+    <ClCompile Include="src\RPRCTermSearch.cpp" />
+    <ClCompile Include="src\RPRCUpSearch.cpp" />
+    <ClCompile Include="src\RPRouteCalcRequest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

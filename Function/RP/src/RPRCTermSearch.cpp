@@ -51,9 +51,10 @@ RESULT CRPRCTermSearch::TermSearch(int iLevel, SmartPointer< CDPFacade > spclDat
 		ERR("");
 		return FAILURE;
 	}
-
 	vector< CRPRSLink >						&vclResultLinkList = *(spclResult->m_spvclResultLinkList);
-	RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
+#endif
+	//RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
+#if 0
 	RPRC_MidLinkTable						&clMidLinkTable = *(spclResult->m_spclMidLinkTable);
 	vector< CRPRCConnectSearchResultLink >	&vclConnectedLinkList = *(spclResult->m_spvclConnectedLinkList);
 
@@ -83,8 +84,8 @@ RESULT CRPRCTermSearch::TermSearch(int iLevel, SmartPointer< CDPFacade > spclDat
 
 	uint	uiCoordShift = 0;
 	spclDataProvider->GetCoordShift(iLevel, BUILDING_BLOCK_ID_ROUTING, uiCoordShift);
-#if 0
 	for (size_t ur = 0; ur < vstrUpdateRegion.size(); ++ur) {
+#if 0
 		clTileID.m_sUpdateRegionID = CDPCommon::UpdateRegionName2Id(vstrUpdateRegion[ur].c_str());
 
 		CRPRCRoutingTileProxy			clRoutingTile(spclDataProvider);
@@ -167,13 +168,13 @@ RESULT CRPRCTermSearch::TermSearch(int iLevel, SmartPointer< CDPFacade > spclDat
 				vclConnectedLinkList.push_back(CRPRCConnectSearchResultLink(enTerm, &clMidLink));
 			}
 		}
+#endif
 	}
-
+#if 0
 	if (clOpenTable.size() == 0) {
 		ERR("");
 		return FAILURE;
 	}
 #endif
-
 	return SUCCESS;
 }
