@@ -36,7 +36,8 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 	m_clStartWayPoint = clRequest.m_spclWayPoints->At(0);
 	m_clEndWayPoint = clRequest.m_spclWayPoints->At(1);
 
-	if (!m_spclStartTermSearch.Create(m_clStartWayPoint, 13, m_spclDataProvider))
+	// refer to CRPRCSectionDirector::StepTermSearch()
+	if (!m_spclStartTermSearch.Create(RP_TERM_START, m_clStartWayPoint, 13, m_spclDataProvider))
 	{
 		ERR("");
 		return FAILURE;
@@ -44,7 +45,8 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 
 	m_spclStartTermSearch->Execute(); 
 
-	if (!m_spclEndTermSearch.Create(m_clEndWayPoint, 13, m_spclDataProvider))
+	// refer to CRPRCSectionDirector::StepTermSearch()
+	if (!m_spclEndTermSearch.Create(RP_TERM_END, m_clEndWayPoint, 13, m_spclDataProvider))
 	{
 		ERR("");
 		return FAILURE;

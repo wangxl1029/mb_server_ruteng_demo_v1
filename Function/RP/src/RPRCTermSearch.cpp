@@ -14,7 +14,7 @@ CRPRCTermSearchResult::~CRPRCTermSearchResult()
 }
 
 //	class CRPRCCmdTermSearch
-CRPRCTermSearch::CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider)
+CRPRCTermSearch::CRPRCTermSearch(RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider)
 : m_clWayPoint(clWayPoint), m_iLevel(iLevel), m_spclDataProvider(spclDataProvider)
 {
 }
@@ -27,7 +27,7 @@ CRPRCTermSearch::~CRPRCTermSearch()
 RESULT CRPRCTermSearch::Execute()
 {
 #if 1
-	return TermSearch(m_iLevel, m_spclDataProvider, m_spclResult);
+	return TermSearch(m_enTerm, m_iLevel, m_spclLinkCostContainer, m_spclDataProvider, m_spclResult);
 #else
 	return TermSearch(m_enTerm, m_clWayPoint, m_iLevel,
 		m_spclMidLinkUsingContainer,
@@ -37,7 +37,8 @@ RESULT CRPRCTermSearch::Execute()
 #endif
 }
 // equivalent to CRPRCCmdTermSearch::TermSearch() from znavi
-RESULT CRPRCTermSearch::TermSearch(	int iLevel, 
+RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
+									SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 									SmartPointer< CDPFacade > spclDataProvider,
 									SmartPointer< CRPRCTermSearchResult > &spclResult)
 {
@@ -69,9 +70,10 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 #if 0
 	RPRC_MidLinkTable						&clMidLinkTable = *(spclResult->m_spclMidLinkTable);
 	vector< CRPRCConnectSearchResultLink >	&vclConnectedLinkList = *(spclResult->m_spvclConnectedLinkList);
-
+#endif
 	//	Mid Data Proxy
 	CRPRCLinkCostTableProxy					clLinkCostTableProxy(spclLinkCostContainer);
+#if 0
 	CRPRCMidLinkUsingTableProxy				clMidLinkUsingTableProxy(spclMidLinkUsingContainer);
 #endif
 	//
@@ -129,13 +131,13 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 			}
 		}
 
-#if 0
 		CSimpleIntersection		&clMinInt = clRoutingTile->m_clRoutingTile.m_clSimpleIntersection.m_vclSimpleIntersection[iMinInt];
 		for (size_t j = 0; j < clMinInt.m_vclConnectedLinks.size(); ++j) {
+#if 0
 			if (GetCancelFlag()) {
 				return SUCCESS;
 			}
-
+#endif
 			CIntOrExtDirectedLinkReference	&clLinkRef = clMinInt.m_vclConnectedLinks[j];
 			CRPTileID			clCurLinkTile = clTileID;
 			ushort				usCurLinkNo = 0;
@@ -155,6 +157,7 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 			}
 			bool	bLinkRunPos = enTerm == RP_TERM_START ? bCurLinkPos : !bCurLinkPos;
 			ushort	&usLinkCostRef = clLinkCostTableProxy.GetLinkCostRef(clCurLinkTile, usCurLinkNo, bLinkRunPos);
+#if 0
 			if (usLinkCostRef == 0) {
 				usLinkCostRef = spclCost->LinkCost(CRPRCLinkID(clCurLinkTile, usCurLinkNo, bLinkRunPos), clRoutingTile);
 			}
@@ -180,8 +183,8 @@ RESULT CRPRCTermSearch::TermSearch(	int iLevel,
 			if (pclMidLinkUsing->m_apclMidLink[RP_AnotherTerm(enTerm)][LINK_DIR_NO(!bCurLinkPos)] != NULL) {
 				vclConnectedLinkList.push_back(CRPRCConnectSearchResultLink(enTerm, &clMidLink));
 			}
-		}
 #endif
+		}
 	}
 
 	if (clOpenTable.size() == 0) {

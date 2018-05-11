@@ -18,22 +18,25 @@ class CRPRCTermSearch :
 	public CBaseObj
 {
 public:
-	CRPRCTermSearch(CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider);
+	CRPRCTermSearch(RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider);
 	CRPRCTermSearch() = default;
 
 	virtual RESULT Execute();
 	virtual ~CRPRCTermSearch();
 
 public:
-	RESULT TermSearch(	int iLevel, 
+	RESULT TermSearch(	RP_TERM enTerm, int iLevel,
+						SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 						SmartPointer< CDPFacade > spclDataProvider, 
 						SmartPointer< CRPRCTermSearchResult > &spclResult);
 
 public:
 	//	input
+	RP_TERM														m_enTerm;
 	CRPWayPoint													m_clWayPoint;
 	int															m_iLevel;
 
+	SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > >		m_spclLinkCostContainer;
 	SmartPointer< CDPFacade >									m_spclDataProvider;
 
 	//	output

@@ -9,7 +9,11 @@ public:
 	virtual ~CRPRCSectionDirector();
 	RESULT Initialize(SmartPointer< CDPFacade > spclDataProvider);
 	RESULT StartCalculateSection(CRPRouteCalcRequest &clRequest);
+
+public:
 	SmartPointer< CDPFacade >									m_spclDataProvider;
+	SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > >		m_spclLinkCostContainer;
+
 private:
 	//std::shared_ptr<CRPRCTermSearch> m_termSearch;
 	SmartPointer<CBaseObj> m_upSearch;

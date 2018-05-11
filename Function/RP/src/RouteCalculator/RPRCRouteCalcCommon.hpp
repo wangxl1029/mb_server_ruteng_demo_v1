@@ -5,6 +5,84 @@
 
 #define	RPRC_QUEUE_UNIT_COUNT										(10000)
 
+//	class RPRCTileContainer
+template < class TileData > class RPRCTileContainer : public CCFSimpleFileCache< CRPTileID, TileData >
+{
+public:
+	RPRCTileContainer(SmartPointer< CDPFacade > spclDataProvider) : m_spclDataProvider(spclDataProvider) {}
+	virtual ~RPRCTileContainer() {}
+
+	virtual int ReadData(const CRPTileID &clTileID, TileData &d)
+	{
+		SmartPointer< CDPDataRoutingTile >	spclDPDataRoutingTile;
+		if (!spclDPDataRoutingTile.Create()) {
+			ERR("");
+			return FAILURE;
+		}
+		int		iLevel = 0;
+		uint	uiTileNo = 0;
+		if (SUCCESS != CDPCommon::PackedTileIDToTileNo(clTileID.m_uiPackedTileID, iLevel, uiTileNo)) {
+			ERR("");
+			return FAILURE;
+		}
+		string	strUpdateRegion = CDPCommon::UpdateRegionId2Name(clTileID.m_sUpdateRegionID);
+		if (SUCCESS != m_spclDataProvider->GetRoutingTileData(strUpdateRegion, iLevel, uiTileNo, NEW_VERSION, spclDPDataRoutingTile)) {
+			ERR("");
+			return FAILURE;
+		}
+		if (SUCCESS != d.Initialize(spclDPDataRoutingTile)) {
+			ERR("");
+			return FAILURE;
+		}
+		return SUCCESS;
+	}
+
+public:
+	SmartPointer< CDPFacade >									m_spclDataProvider;
+
+	CCFMutex													m_clMutex;
+};
+	
+//	class RPRCTileContainerProxy
+template < class TileData, class Container = RPRCTileContainer< TileData > > class RPRCTileContainerProxy : public CBaseObj
+{
+public:
+	RPRCTileContainerProxy(SmartPointer< Container > spclTileContainer)
+		: m_spclTileContainer(spclTileContainer) {}
+	virtual ~RPRCTileContainerProxy() {}
+
+	TileData* GetData(const CRPTileID &clTileID)
+	{
+		if (clTileID == m_clCurTileID) {
+			return m_spclCurTileData.Get();
+		}
+		m_clCurTileID = clTileID;
+		m_spclCurTileData = m_clTileDataCache.GetData(clTileID);
+		if (m_spclCurTileData == NULL) {
+			m_spclCurTileData = m_spclTileContainer->GetData(clTileID);
+			if (m_spclCurTileData == NULL) {
+				ERR("");
+				return NULL;
+			}
+			m_clTileDataCache.PutData(clTileID, m_spclCurTileData);
+		}
+		return m_spclCurTileData.Get();
+	}
+
+	void SetCapacity(uint uiCapacity)
+	{
+		m_clTileDataCache.SetCapacity(uiCapacity);
+	}
+
+public:
+	typedef CCFSimpleCache< CRPTileID, TileData, less< CRPTileID >, CCFSingleThreaded< int > >	SingleThreadedTileDataCacheType;
+
+	SmartPointer< Container >									m_spclTileContainer;
+	SingleThreadedTileDataCacheType								m_clTileDataCache;
+	CRPTileID													m_clCurTileID;
+	SmartPointer< TileData >									m_spclCurTileData;
+};
+
 //	class CRPRCLinkID
 class CRPRCLinkID
 {
@@ -94,6 +172,94 @@ public:
 
 void RPRCMidLink_ConnectLink(CRPRCMidLink *pclInLink, CRPRCMidLink *pclOutLink);
 void RPRCMidLink_DisconectLink(CRPRCMidLink *pclOutLink);
+
+//	class CRPRCMidLinkUsing
+class CRPRCMidLinkUsing
+{
+public:
+	CRPRCMidLinkUsing();
+	~CRPRCMidLinkUsing();
+
+public:
+	CRPRCMidLink									* volatile	m_apclMidLink[RP_TERM_COUNT][LINK_DIR_COUNT];
+};
+
+//	class CRPRCMidLinkUsingTile
+class CRPRCMidLinkUsingTile : public CBaseObj
+{
+public:
+	CRPRCMidLinkUsingTile();
+	virtual ~CRPRCMidLinkUsingTile();
+
+	RESULT Initialize(SmartPointer< CDPDataRoutingTile > spclDPDataRoutingTile);
+
+public:
+	vector< CRPRCMidLinkUsing >									m_vclLinkUsingList;
+
+	SmartPointer< CDPDataRoutingTile >							m_spclDPDataRoutingTile;
+};
+
+//	class CRPRCMidLinkUsingTableProxy
+class CRPRCMidLinkUsingTableProxy : public RPRCTileContainerProxy< CRPRCMidLinkUsingTile >
+{
+public:
+	CRPRCMidLinkUsingTableProxy(SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclRPMidLinkUsingTileContainer);
+	~CRPRCMidLinkUsingTableProxy();
+
+	CRPRCMidLinkUsing* GetMidLinkUsing(const CRPRCLinkID &clMidLinkID);
+	CRPRCMidLinkUsing* GetMidLinkUsing(const CRPTileID &TileID, ushort usLinkNo);
+
+public:
+	SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > >		m_spclRPMidLinkUsingTileContainer;
+};
+
+//	class CRPRCLinkCostTile
+class CRPRCLinkCostTile : public CBaseObj
+{
+public:
+	CRPRCLinkCostTile();
+	virtual ~CRPRCLinkCostTile();
+
+	RESULT Initialize(SmartPointer< CDPDataRoutingTile > spclDPDataRoutingTile);
+
+public:
+	vector< vector< vector< ushort > > >						m_vvvusNodeCost;
+	vector< ushort >											m_avusLinkCost[LINK_DIR_COUNT];
+
+	SmartPointer< CDPDataRoutingTile >							m_spclDPDataRoutingTile;
+};
+
+//	class CRPRCLinkCostTableProxy
+class CRPRCLinkCostTableProxy : public RPRCTileContainerProxy< CRPRCLinkCostTile >
+{
+public:
+	CRPRCLinkCostTableProxy(SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclRPLinkCostTileContainer);
+	~CRPRCLinkCostTableProxy();
+
+	ushort& GetNodeCostRef(const CRPTileID &TileID, ushort usNodeNo, ushort usInLinkNo, ushort usOutLinkNo);
+	ushort& GetLinkCostRef(const CRPTileID &TileID, ushort uiLinkNo, bool bPos);
+
+public:
+};
+
+//	class CRPRCLinkCostContainerSet
+class CRPRCLinkCostContainerSet : public CBaseObj
+{
+public:
+	CRPRCLinkCostContainerSet();
+	virtual ~CRPRCLinkCostContainerSet();
+
+	RESULT Initialize(SmartPointer< CDPFacade > spclDataProvider);
+
+	RESULT SwitchDbStart();
+	RESULT WaitForCanSwitchDb();
+	RESULT SwitchDbEnd();
+
+public:
+	SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > >		m_aspclLinkCostContainer[RP_ROUTE_SEARCH_TYPE_COUNT];
+
+	volatile bool												m_bDbSwitching;
+};
 
 //	class CRPRCRoutingTileProxy
 class CRPRCRoutingTileProxy

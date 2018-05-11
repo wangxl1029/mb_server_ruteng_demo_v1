@@ -35,6 +35,60 @@ public:
 	CCFCSLocker(CCFMutex&){}
 };
 
+//	template class for thread model
+//	class CCFSingleThreaded
+template <class Host> class CCFSingleThreaded
+{
+public:
+	struct Lock
+	{
+		Lock() {}
+		explicit Lock(const CCFSingleThreaded&) {}
+	};
+
+	typedef Host VolatileType;
+
+	static long AtomicAdd(volatile long& lval, long val)
+	{
+		return lval += val;
+	}
+
+	static long AtomicSubtract(volatile long& lval, long val)
+	{
+		return lval -= val;
+	}
+
+	static long AtomicMultiply(volatile long& lval, long val)
+	{
+		return lval *= val;
+	}
+
+	static long AtomicDivide(volatile long& lval, long val)
+	{
+		return lval /= val;
+	}
+
+	static long AtomicIncrement(volatile long& lval)
+	{
+		return ++lval;
+	}
+
+	static long AtomicDecrement(volatile long& lval)
+	{
+		return --lval;
+	}
+
+	static void AtomicAssign(volatile long & lval, long val)
+	{
+		lval = val;
+	}
+
+	static void AtomicAssign(long & lval, volatile long & val)
+	{
+		lval = val;
+	}
+};
+
 //	class CCFObjectLevelLockable
 template <class Host> class CCFObjectLevelLockable
 {
