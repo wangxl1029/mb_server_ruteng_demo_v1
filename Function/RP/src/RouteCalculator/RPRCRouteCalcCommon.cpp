@@ -255,3 +255,23 @@ ushort& CRPRCLinkCostTableProxy::GetLinkCostRef(const CRPTileID &clTileID, ushor
 	}
 	return pclLinkCostTile->m_avusLinkCost[LINK_DIR_NO(bPos)][usLinkNo];
 }
+
+//	class CRPRCUpSearchResultLink
+CRPRCUpSearchResultLink::CRPRCUpSearchResultLink(CRPRCMidLink *pclMidLink)
+: m_pclMidLink(pclMidLink)
+{
+}
+
+CRPRCUpSearchResultLink::~CRPRCUpSearchResultLink()
+{
+}
+
+//	class CRPRCConnectSearchResultLink
+CRPRCConnectSearchResultLink::CRPRCConnectSearchResultLink(const RP_TERM enTerm, CRPRCMidLink *pclMidLink)
+: m_enTerm(enTerm), m_pclMidLink(pclMidLink)
+{
+}
+
+CRPRCConnectSearchResultLink::~CRPRCConnectSearchResultLink()
+{
+}

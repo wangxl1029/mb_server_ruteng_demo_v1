@@ -69,18 +69,14 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 		ERR("");
 		return FAILURE;
 	}
-#if 0
 	if (!spclResult->m_spvclConnectedLinkList.Create()) {
 		ERR("");
 		return FAILURE;
 	}
-#endif
 	vector< CRPRSLink >						&vclResultLinkList = *(spclResult->m_spvclResultLinkList);
 	RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
 	RPRC_MidLinkTable						&clMidLinkTable = *(spclResult->m_spclMidLinkTable);
-#if 0
 	vector< CRPRCConnectSearchResultLink >	&vclConnectedLinkList = *(spclResult->m_spvclConnectedLinkList);
-#endif
 	//	Mid Data Proxy
 	CRPRCLinkCostTableProxy					clLinkCostTableProxy(spclLinkCostContainer);
 	CRPRCMidLinkUsingTableProxy				clMidLinkUsingTableProxy(spclMidLinkUsingContainer);
@@ -187,11 +183,9 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 
 			CRPRCMidLinkUsing	*pclMidLinkUsing = clMidLinkUsingTableProxy.GetMidLinkUsing(clCurLinkTile, usCurLinkNo);
 			pclMidLinkUsing->m_apclMidLink[enTerm][LINK_DIR_NO(bCurLinkPos)] = &clMidLink;
-#if 0
 			if (pclMidLinkUsing->m_apclMidLink[RP_AnotherTerm(enTerm)][LINK_DIR_NO(!bCurLinkPos)] != NULL) {
 				vclConnectedLinkList.push_back(CRPRCConnectSearchResultLink(enTerm, &clMidLink));
 			}
-#endif
 		}
 	}
 

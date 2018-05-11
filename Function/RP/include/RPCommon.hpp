@@ -18,6 +18,11 @@ enum RP_TERM
 	RP_TERM_COUNT,
 };
 
+inline RP_TERM RP_AnotherTerm(RP_TERM enTerm)
+{
+	return (enTerm == RP_TERM_START) ? RP_TERM_END : RP_TERM_START;
+}
+
 class CRPTileID
 {
 public:

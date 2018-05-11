@@ -315,5 +315,27 @@ public:
 	SmartPointer< CDPFacade >									m_spclDataProvider;
 };
 
+//	class CRPRCUpSearchResultLink
+class CRPRCUpSearchResultLink
+{
+public:
+	explicit CRPRCUpSearchResultLink(CRPRCMidLink *pclMidLink = NULL);
+	~CRPRCUpSearchResultLink();
+
+public:
+	CRPRCMidLink													*m_pclMidLink;
+};
+
+//	class CRPRCConnectSearchResultLink
+class CRPRCConnectSearchResultLink
+{
+public:
+	explicit CRPRCConnectSearchResultLink(const RP_TERM enTerm = RP_TERM_COUNT, CRPRCMidLink *pclMidLink = NULL);
+	~CRPRCConnectSearchResultLink();
+
+public:
+	RP_TERM														m_enTerm;
+	CRPRCMidLink													*m_pclMidLink;
+};
 
 
