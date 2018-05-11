@@ -37,8 +37,16 @@ public:
 	//virtual RESULT GetDetailLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint uiSubLevel, uint &uiDetailLevelCount);
 	//virtual RESULT GetBmdData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataBmd > &spclDataBmd);
 	virtual RESULT GetRoutingTileData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingTile > &spclDataRoutingTile);
-
+	//virtual RESULT GetRoutingAuxData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingAuxTile > &spclDataRoutingAuxTile);
+	//virtual RESULT GetNamedObjectData(string strUpdateRegion, int iNamedObjectId, short sVersion, SmartPointer< CDPDataNamedObject > &spclDataNamedObject);
+	//virtual RESULT GetNamedObjectDataList(string strUpdateRegion, vector< int > &viNamedObjectIdList, short sVersion, vector< SmartPointer< CDPDataNamedObject > > &vspclDataNamedObjectList);
+	//virtual RESULT Get3DObjSpatialSubTree(string strUpdateRegion, int iSubTreeId, short sVersion, SmartPointer< CDP3DObjSpatialSubTree > &spclSubTree);
+	//virtual RESULT Get3DObjBodyGeometry(string strUpdateRegion, int iBodyGeometryId, short sVersion, SmartPointer< CDP3DObjBodyGeometry > &spclBodyGeometry);
+	//virtual RESULT Get3DObjBodyGeometryList(string strUpdateRegion, vector< int> &viBodyGeometryIdList, short sVersion, vector< SmartPointer< CDP3DObjBodyGeometry > > &vspclBodyGeometryList);
+	//virtual RESULT Get3DObjTextureMap(string strUpdateRegion, int iTextureMapId, short sVersion, SmartPointer< CDP3DObjTextureMap > &spclTextureMap);
+	//virtual RESULT Get3DObjTextureMapList(string strUpdateRegion, vector< int > &viTextureMapIdList, short sVersion, vector< SmartPointer< CDP3DObjTextureMap > > &vspclTextureMapList);
 	virtual RESULT GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList);
+	virtual RESULT GetGatewayByID(uint uiGatewayID, vector< CDPGatewayInfo > &vclGatewayList);
 
 public:
 public:
@@ -209,6 +217,33 @@ RESULT CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID,
 	}
 
 	if (SUCCESS != spclDPProvProduct->GetUpdateRegionByTile(enBuildingBlockID, uiPackedTileID, vstrUpdateRegionList)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
+
+RESULT CDPFacadeImpl::GetGatewayByID(uint uiGatewayID, vector< CDPGatewayInfo > &vclGatewayList)
+{
+	if (m_bDbSwitching) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderProduct >	spclProvFolderProduct;
+	if (SUCCESS != m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName, spclProvFolderProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvProduct >			spclDPProvProduct;
+	if (SUCCESS != spclProvFolderProduct->GetProvProduct(spclDPProvProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != spclDPProvProduct->GetGatewayByID(uiGatewayID, vclGatewayList)) {
 		ERR("");
 		return FAILURE;
 	}
