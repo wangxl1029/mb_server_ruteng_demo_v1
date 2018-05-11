@@ -26,6 +26,7 @@ CRPRCSectionDirector::~CRPRCSectionDirector()
 {
 }
 
+// plz refer to  CRPRCMultiRouteDirector::Initialize()
 RESULT CRPRCSectionDirector::Initialize(SmartPointer< CDPFacade > spclDataProvider)
 {
 	if (spclDataProvider == NULL) {
