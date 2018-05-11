@@ -1,6 +1,6 @@
 #include	"InnerCommon.hpp"
 #include	"RPCommon.hpp"
-//#include	"RPRSLink.h"
+#include	"RPRSLink.hpp"
 //#include	"RPWayPoints.h"
 //#include	"RPSection.h"
 #include	"RPRouteCalcRequest.hpp"

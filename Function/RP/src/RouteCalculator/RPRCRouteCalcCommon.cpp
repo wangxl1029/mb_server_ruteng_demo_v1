@@ -127,6 +127,65 @@ bool CRPRCRoutingTileProxy::IsEmpty()
 	return m_spclLastRoutingTile.Get() == NULL;
 }
 
+//	class CRPRCMidLinkUsing
+CRPRCMidLinkUsing::CRPRCMidLinkUsing()
+{
+	for (size_t i = 0; i < sizeof(m_apclMidLink) / sizeof(m_apclMidLink[0]); ++i) {
+		for (size_t j = 0; j < sizeof(m_apclMidLink[0]) / sizeof(m_apclMidLink[0][0]); ++j) {
+			m_apclMidLink[i][j] = NULL;
+		}
+	}
+}
+
+CRPRCMidLinkUsing::~CRPRCMidLinkUsing()
+{
+}
+
+//	class CRPRCMidLinkUsingTile
+CRPRCMidLinkUsingTile::CRPRCMidLinkUsingTile()
+{
+}
+
+CRPRCMidLinkUsingTile::~CRPRCMidLinkUsingTile()
+{
+}
+
+RESULT CRPRCMidLinkUsingTile::Initialize(SmartPointer< CDPDataRoutingTile > spclDPDataRoutingTile)
+{
+	m_spclDPDataRoutingTile = spclDPDataRoutingTile;
+	m_vclLinkUsingList.resize(spclDPDataRoutingTile->m_clRoutingTile.m_clLinks.m_vclLink.size());
+	return SUCCESS;
+}
+
+//	class CRPRCMidLinkUsingTableProxy
+CRPRCMidLinkUsingTableProxy::CRPRCMidLinkUsingTableProxy(SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclRPMidLinkUsingTileContainer)
+: RPRCTileContainerProxy< CRPRCMidLinkUsingTile >(spclRPMidLinkUsingTileContainer)
+{
+}
+
+CRPRCMidLinkUsingTableProxy::~CRPRCMidLinkUsingTableProxy()
+{
+}
+
+CRPRCMidLinkUsing* CRPRCMidLinkUsingTableProxy::GetMidLinkUsing(const CRPRCLinkID &clMidLinkID)
+{
+	return GetMidLinkUsing(clMidLinkID.m_clTileID, clMidLinkID.m_usLinkNo);
+}
+
+CRPRCMidLinkUsing* CRPRCMidLinkUsingTableProxy::GetMidLinkUsing(const CRPTileID &clTileID, ushort usLinkNo)
+{
+	CRPRCMidLinkUsingTile	*pclMidLinkUsingTile = GetData(clTileID);
+	if (NULL == pclMidLinkUsingTile) {
+		ERR("");
+		return NULL;
+	}
+	if (usLinkNo >= pclMidLinkUsingTile->m_vclLinkUsingList.size()) {
+		ERR("");
+		return NULL;
+	}
+	return &(pclMidLinkUsingTile->m_vclLinkUsingList[usLinkNo]);
+}
+
 //	class CRPRCLinkCostTile
 CRPRCLinkCostTile::CRPRCLinkCostTile()
 {

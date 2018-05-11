@@ -38,18 +38,15 @@ CRPRCTermSearch::~CRPRCTermSearch()
 // equivalent to CRPRCCmdTermSearch::Execute() from znavi
 RESULT CRPRCTermSearch::Execute()
 {
-#if 1
-	return TermSearch(m_enTerm, m_iLevel, m_spclCost, m_spclLinkCostContainer, m_spclDataProvider, m_spclResult);
-#else
-	return TermSearch(m_enTerm, m_clWayPoint, m_iLevel,
+	return TermSearch(m_enTerm, /*m_clWayPoint, */m_iLevel,
 		m_spclMidLinkUsingContainer,
 		m_spclCost, m_spclLinkCostContainer,
 		m_spclDataProvider,
 		m_spclResult);
-#endif
 }
 // equivalent to CRPRCCmdTermSearch::TermSearch() from znavi
 RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
+									SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer,
 									SmartPointer< CRPRCCost > spclCost,
 									SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 									SmartPointer< CDPFacade > spclDataProvider,
@@ -60,27 +57,25 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 		ERR("");
 		return FAILURE;
 	}
-#if 0
 	if (!spclResult->m_spvclResultLinkList.Create()) {
 		ERR("");
 		return FAILURE;
 	}
-#endif
 	if (!spclResult->m_spmapOpenTable.Create()) {
 		ERR("");
 		return FAILURE;
 	}
-#if 0
 	if (!spclResult->m_spclMidLinkTable.Create()) {
 		ERR("");
 		return FAILURE;
 	}
+#if 0
 	if (!spclResult->m_spvclConnectedLinkList.Create()) {
 		ERR("");
 		return FAILURE;
 	}
-	vector< CRPRSLink >						&vclResultLinkList = *(spclResult->m_spvclResultLinkList);
 #endif
+	vector< CRPRSLink >						&vclResultLinkList = *(spclResult->m_spvclResultLinkList);
 	RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
 	RPRC_MidLinkTable						&clMidLinkTable = *(spclResult->m_spclMidLinkTable);
 #if 0
@@ -88,9 +83,7 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 #endif
 	//	Mid Data Proxy
 	CRPRCLinkCostTableProxy					clLinkCostTableProxy(spclLinkCostContainer);
-#if 0
 	CRPRCMidLinkUsingTableProxy				clMidLinkUsingTableProxy(spclMidLinkUsingContainer);
-#endif
 	//
 	uint	uiTileNo = 0;
 	CDPCommon::CoordToTileNo(m_iLevel, m_clWayPoint.m_clCoord.x, m_clWayPoint.m_clCoord.y, uiTileNo);
@@ -190,11 +183,11 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 			//					 clMidLink.m_clLinkID.m_usLinkNo, clMidLink.m_clLinkID.m_bPos?"pos":"neg", clMidLink.m_uiArriveCost );
 
 			CRPRSLink	clRSLink(clCurLinkTile, usCurLinkNo, bCurLinkPos);
-#if 0
 			vclResultLinkList.push_back(clRSLink);
 
 			CRPRCMidLinkUsing	*pclMidLinkUsing = clMidLinkUsingTableProxy.GetMidLinkUsing(clCurLinkTile, usCurLinkNo);
 			pclMidLinkUsing->m_apclMidLink[enTerm][LINK_DIR_NO(bCurLinkPos)] = &clMidLink;
+#if 0
 			if (pclMidLinkUsing->m_apclMidLink[RP_AnotherTerm(enTerm)][LINK_DIR_NO(!bCurLinkPos)] != NULL) {
 				vclConnectedLinkList.push_back(CRPRCConnectSearchResultLink(enTerm, &clMidLink));
 			}

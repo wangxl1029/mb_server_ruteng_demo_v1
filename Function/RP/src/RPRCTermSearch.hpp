@@ -8,7 +8,7 @@ public:
 	virtual ~CRPRCTermSearchResult();
 
 public:
-//	SmartPointer< vector< CRPRSLink > >							m_spvclResultLinkList;
+	SmartPointer< vector< CRPRSLink > >							m_spvclResultLinkList;
 	SmartPointer< RPRC_OpenTable >								m_spmapOpenTable;
 	SmartPointer< RPRC_MidLinkTable >							m_spclMidLinkTable;
 //	SmartPointer< vector< CRPRCConnectSearchResultLink > >		m_spvclConnectedLinkList;
@@ -29,6 +29,7 @@ public:
 
 public:
 	RESULT TermSearch(	RP_TERM enTerm, int iLevel,
+						SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer, 
 						SmartPointer< CRPRCCost > spclCost,
 						SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 						SmartPointer< CDPFacade > spclDataProvider, 
@@ -40,6 +41,7 @@ public:
 	CRPWayPoint													m_clWayPoint;
 	int															m_iLevel;
 
+	SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > >	m_spclMidLinkUsingContainer;
 	SmartPointer< CRPRCCost >									m_spclCost;
 	SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > >		m_spclLinkCostContainer;
 	SmartPointer< CDPFacade >									m_spclDataProvider;

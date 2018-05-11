@@ -1,6 +1,7 @@
 // refer to RPRCRouteDirector.cpp
 #include	"InnerCommon.hpp"
 #include	"RPCommon.hpp"
+#include	"RPRSLink.hpp"	// --> add by wxl
 //#include	"RPWayPoints.h"
 //#include	"RPSection.h"
 //#include	"RPRoute.h"
