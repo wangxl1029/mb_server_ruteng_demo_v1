@@ -12,6 +12,7 @@ public:
 
 public:
 	SmartPointer< CDPFacade >									m_spclDataProvider;
+	SmartPointer< CRPRCCost >									m_spclCost;
 	SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > >		m_spclLinkCostContainer;
 
 private:

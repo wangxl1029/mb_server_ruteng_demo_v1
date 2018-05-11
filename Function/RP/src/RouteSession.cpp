@@ -1,11 +1,26 @@
+// refer to RPRCRouteDirector.cpp
 #include	"InnerCommon.hpp"
 #include	"RPCommon.hpp"
+//#include	"RPWayPoints.h"
+//#include	"RPSection.h"
+//#include	"RPRoute.h"
 #include	"RPRouteCalcRequest.hpp"
+//#include	"RPRCCmdBase.h"
+//#include	"RPRCThreadPool.h"
 #include	"RPRCRouteCalcCommon.hpp"
+#include	"RPRCCost.hpp"
+//#include	"RPRCExtIF.h"
+//#include	"RPRCCmdCalcBase.h"
 #include	"RPRCTermSearch.hpp"
+//#include	"RPRCCmdUpSearch.h"
+//#include	"RPRCCmdLinkLevelUp.h"
+//#include	"RPRCCmdConnectSearch.h"
+//#include	"RPRCCmdRouteEdit.h"
 #include	"RPRCSectionDirector.hpp"
+
 #include	"RouteSession.hpp"
 #include	"DPFacade.hpp"
+
 //	CRPWayPoint
 CRPWayPoint::CRPWayPoint()
 : m_enWayPointType(RPWayPointType_Invalid)

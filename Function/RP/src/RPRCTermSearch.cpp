@@ -2,6 +2,9 @@
 #include	"RPCommon.hpp"
 #include	"RPRouteCalcRequest.hpp"
 #include	"RPRCRouteCalcCommon.hpp"
+#include	"RPRCCost.hpp"
+//#include	"RPRCExtIF.h"
+//#include	"RPRCCmdCalcBase.h"
 #include	"RPRCTermSearch.hpp"
 
 //	class CRPRCCmdTermSearchResult
@@ -14,8 +17,13 @@ CRPRCTermSearchResult::~CRPRCTermSearchResult()
 }
 
 //	class CRPRCCmdTermSearch
-CRPRCTermSearch::CRPRCTermSearch(RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, SmartPointer< CDPFacade > spclDataProvider)
-: m_clWayPoint(clWayPoint), m_iLevel(iLevel), m_spclDataProvider(spclDataProvider)
+CRPRCTermSearch::CRPRCTermSearch(	RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, 
+									SmartPointer< CRPRCCost > spclCost,
+									SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
+									SmartPointer< CDPFacade > spclDataProvider)
+	: m_clWayPoint(clWayPoint), m_iLevel(iLevel)
+	, m_spclCost(spclCost), m_spclLinkCostContainer(spclLinkCostContainer)
+	, m_spclDataProvider(spclDataProvider)
 {
 }
 
@@ -27,7 +35,7 @@ CRPRCTermSearch::~CRPRCTermSearch()
 RESULT CRPRCTermSearch::Execute()
 {
 #if 1
-	return TermSearch(m_enTerm, m_iLevel, m_spclLinkCostContainer, m_spclDataProvider, m_spclResult);
+	return TermSearch(m_enTerm, m_iLevel, m_spclCost, m_spclLinkCostContainer, m_spclDataProvider, m_spclResult);
 #else
 	return TermSearch(m_enTerm, m_clWayPoint, m_iLevel,
 		m_spclMidLinkUsingContainer,
@@ -38,6 +46,7 @@ RESULT CRPRCTermSearch::Execute()
 }
 // equivalent to CRPRCCmdTermSearch::TermSearch() from znavi
 RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
+									SmartPointer< CRPRCCost > spclCost,
 									SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 									SmartPointer< CDPFacade > spclDataProvider,
 									SmartPointer< CRPRCTermSearchResult > &spclResult)
@@ -157,10 +166,10 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 			}
 			bool	bLinkRunPos = enTerm == RP_TERM_START ? bCurLinkPos : !bCurLinkPos;
 			ushort	&usLinkCostRef = clLinkCostTableProxy.GetLinkCostRef(clCurLinkTile, usCurLinkNo, bLinkRunPos);
-#if 0
 			if (usLinkCostRef == 0) {
 				usLinkCostRef = spclCost->LinkCost(CRPRCLinkID(clCurLinkTile, usCurLinkNo, bLinkRunPos), clRoutingTile);
 			}
+#if 0
 			uint	uiLinkCost = spclCost->ExtractShortCost(usLinkCostRef);
 			CRPRCMidLink	&clMidLink = clMidLinkTable.New();
 			clMidLink.m_clLinkID.m_clTileID = clCurLinkTile;
