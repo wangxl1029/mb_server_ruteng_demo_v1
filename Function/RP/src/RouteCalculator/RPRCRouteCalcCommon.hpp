@@ -5,6 +5,40 @@
 
 #define	RPRC_QUEUE_UNIT_COUNT										(10000)
 
+//	class RPRC_Queue
+template < class T > class RPRC_Queue
+{
+public:
+	RPRC_Queue(size_t uiUnitCount = RPRC_QUEUE_UNIT_COUNT) : m_uiUnitCount(uiUnitCount) {}
+	~RPRC_Queue() {}
+
+	T& New()
+	{
+		++m_uiLastNo;
+		if (m_uiLastNo >= m_uiUnitCount || m_vvElem.size() == 0) {
+			m_uiLastNo = 0;
+			m_vvElem.push_back(vector< T >());
+			m_vvElem.back().resize(m_uiUnitCount);
+		}
+		return Back();
+	}
+
+	T& Back()
+	{
+		return m_vvElem.back()[m_uiLastNo];
+	}
+
+	size_t Size()
+	{
+		return m_vvElem.size() == 0 ? 0 : (m_vvElem.size() - 1) * m_uiUnitCount + m_uiLastNo;
+	}
+
+public:
+	size_t														m_uiUnitCount;
+	size_t														m_uiLastNo;
+	list< vector< T > >											m_vvElem;
+};
+
 //	class RPRCTileContainer
 template < class TileData > class RPRCTileContainer : public CCFSimpleFileCache< CRPTileID, TileData >
 {
@@ -172,6 +206,9 @@ public:
 
 void RPRCMidLink_ConnectLink(CRPRCMidLink *pclInLink, CRPRCMidLink *pclOutLink);
 void RPRCMidLink_DisconectLink(CRPRCMidLink *pclOutLink);
+
+//	CloseTable
+typedef RPRC_Queue< CRPRCMidLink >								RPRC_MidLinkTable;
 
 //	class CRPRCMidLinkUsing
 class CRPRCMidLinkUsing

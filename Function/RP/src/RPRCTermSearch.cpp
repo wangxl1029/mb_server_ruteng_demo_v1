@@ -1,5 +1,9 @@
 #include	"InnerCommon.hpp"
 #include	"RPCommon.hpp"
+#include	"RPRSLink.hpp"
+//#include	"RPWayPoints.h"
+//#include	"RPSection.h"
+//#include	"RPRoute.h"
 #include	"RPRouteCalcRequest.hpp"
 #include	"RPRCRouteCalcCommon.hpp"
 #include	"RPRCCost.hpp"
@@ -61,10 +65,12 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 		ERR("");
 		return FAILURE;
 	}
+#endif
 	if (!spclResult->m_spmapOpenTable.Create()) {
 		ERR("");
 		return FAILURE;
 	}
+#if 0
 	if (!spclResult->m_spclMidLinkTable.Create()) {
 		ERR("");
 		return FAILURE;
@@ -76,8 +82,8 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 	vector< CRPRSLink >						&vclResultLinkList = *(spclResult->m_spvclResultLinkList);
 #endif
 	RPRC_OpenTable							&clOpenTable = *(spclResult->m_spmapOpenTable);
-#if 0
 	RPRC_MidLinkTable						&clMidLinkTable = *(spclResult->m_spclMidLinkTable);
+#if 0
 	vector< CRPRCConnectSearchResultLink >	&vclConnectedLinkList = *(spclResult->m_spvclConnectedLinkList);
 #endif
 	//	Mid Data Proxy
@@ -169,7 +175,6 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 			if (usLinkCostRef == 0) {
 				usLinkCostRef = spclCost->LinkCost(CRPRCLinkID(clCurLinkTile, usCurLinkNo, bLinkRunPos), clRoutingTile);
 			}
-#if 0
 			uint	uiLinkCost = spclCost->ExtractShortCost(usLinkCostRef);
 			CRPRCMidLink	&clMidLink = clMidLinkTable.New();
 			clMidLink.m_clLinkID.m_clTileID = clCurLinkTile;
@@ -185,6 +190,7 @@ RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 			//					 clMidLink.m_clLinkID.m_usLinkNo, clMidLink.m_clLinkID.m_bPos?"pos":"neg", clMidLink.m_uiArriveCost );
 
 			CRPRSLink	clRSLink(clCurLinkTile, usCurLinkNo, bCurLinkPos);
+#if 0
 			vclResultLinkList.push_back(clRSLink);
 
 			CRPRCMidLinkUsing	*pclMidLinkUsing = clMidLinkUsingTableProxy.GetMidLinkUsing(clCurLinkTile, usCurLinkNo);

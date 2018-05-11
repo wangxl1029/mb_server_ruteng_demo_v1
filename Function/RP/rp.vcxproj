@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\RPCommon.hpp" />
+    <ClInclude Include="include\RPRSLink.hpp" />
     <ClInclude Include="src\InnerCommon.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCCost.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCRouteCalcCommon.hpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="src\RouteCalculator\RPRCCost.cpp" />
     <ClCompile Include="src\RouteCalculator\RPRCRouteCalcCommon.cpp" />
     <ClCompile Include="src\RouteSession.cpp" />
+    <ClCompile Include="src\route\RPRSLink.cpp" />
     <ClCompile Include="src\RPRCConnectSearch.cpp" />
     <ClCompile Include="src\RPRCRouteEdit.cpp" />
     <ClCompile Include="src\RPRCSectionDirector.cpp" />

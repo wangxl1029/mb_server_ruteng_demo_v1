@@ -28,4 +28,24 @@ public:
 	short														m_sUpdateRegionID;
 };
 
+inline bool operator<(const CRPTileID &l, const CRPTileID &r)
+{
+	if (l.m_uiPackedTileID < r.m_uiPackedTileID) {
+		return true;
+	}
+	else if (l.m_uiPackedTileID > r.m_uiPackedTileID) {
+		return false;
+	}
+	else if (l.m_sUpdateRegionID < r.m_sUpdateRegionID) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+inline bool operator==(const CRPTileID &l, const CRPTileID &r)
+{
+	return l.m_uiPackedTileID == r.m_uiPackedTileID && l.m_sUpdateRegionID == r.m_sUpdateRegionID;
+}
 

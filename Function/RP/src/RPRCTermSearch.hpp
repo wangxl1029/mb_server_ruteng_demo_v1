@@ -10,7 +10,7 @@ public:
 public:
 //	SmartPointer< vector< CRPRSLink > >							m_spvclResultLinkList;
 	SmartPointer< RPRC_OpenTable >								m_spmapOpenTable;
-//	SmartPointer< RPRC_MidLinkTable >							m_spclMidLinkTable;
+	SmartPointer< RPRC_MidLinkTable >							m_spclMidLinkTable;
 //	SmartPointer< vector< CRPRCConnectSearchResultLink > >		m_spvclConnectedLinkList;
 };
 

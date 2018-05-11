@@ -48,6 +48,9 @@
     <ClInclude Include="src\RouteCalculator\RPRCCost.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\RPRSLink.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RouteSession.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RouteCalculator\RPRCCost.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\route\RPRSLink.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

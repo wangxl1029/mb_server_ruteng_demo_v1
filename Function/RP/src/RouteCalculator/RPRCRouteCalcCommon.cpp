@@ -22,6 +22,70 @@ CRPRCNodeID::~CRPRCNodeID()
 {
 }
 
+//	class CRPRCMidLink
+CRPRCMidLink::CRPRCMidLink(uint uiLinkCost, uint uiArriveCost, CRPRCMidLink *pclPrevLink, CRPRCMidLink *pclNextLink,
+	CRPRCMidLink *pclPrevSibling, CRPRCMidLink *pclNextSibling, CRPRCMidLink *pclDownLink, CRPRCMidLink *pclUpLink,
+	RPRC_OpenTableIterator itOpenLink)
+	: m_uiLinkCost(uiLinkCost), m_uiArriveCost(uiArriveCost), m_usNextLinkCnt(0), m_pclPrevLink(pclPrevLink), m_pclNextLink(pclNextLink)
+	, m_pclPrevSibling(pclPrevSibling), m_pclNextSibling(pclNextSibling), m_pclDownLink(pclDownLink), m_pclUpLink(pclUpLink),
+	m_itOpenLink(itOpenLink)
+{
+}
+
+CRPRCMidLink::~CRPRCMidLink()
+{
+}
+
+void RPRCMidLink_ConnectLink(CRPRCMidLink *pclInLink, CRPRCMidLink *pclOutLink)
+{
+	if (pclInLink->m_pclNextLink == NULL) {
+		pclInLink->m_pclNextLink = pclOutLink;
+		pclOutLink->m_pclNextSibling = pclOutLink;
+		pclOutLink->m_pclPrevSibling = pclOutLink;
+	}
+	else {
+		CRPRCMidLink	*pclHead = pclInLink->m_pclNextLink;
+		CRPRCMidLink	*pclTail = pclHead->m_pclPrevSibling;
+		pclTail->m_pclNextSibling = pclOutLink;
+		pclOutLink->m_pclNextSibling = pclHead;
+		pclHead->m_pclPrevSibling = pclOutLink;
+		pclOutLink->m_pclPrevSibling = pclTail;
+	}
+	++pclInLink->m_usNextLinkCnt;
+	pclOutLink->m_pclPrevLink = pclInLink;
+}
+
+void RPRCMidLink_DisconectLink(CRPRCMidLink *pclOutLink)
+{
+	if (pclOutLink->m_pclPrevLink == NULL) {
+		if (pclOutLink->m_pclDownLink == NULL) {
+			ERR("");
+			return;
+		}
+		pclOutLink->m_pclDownLink = NULL;
+	}
+	else {
+		//	remove
+		CRPRCMidLink	*pclInLink = pclOutLink->m_pclPrevLink;
+		if (pclOutLink->m_pclNextSibling == pclOutLink) {
+			pclInLink->m_pclNextLink = NULL;
+			pclOutLink->m_pclPrevSibling = NULL;
+			pclOutLink->m_pclNextSibling = NULL;
+		}
+		else {
+			if (pclInLink->m_pclNextLink == pclOutLink) {
+				pclInLink->m_pclNextLink = pclInLink->m_pclNextLink->m_pclNextSibling;
+			}
+			pclOutLink->m_pclPrevSibling->m_pclNextSibling = pclOutLink->m_pclNextSibling;
+			pclOutLink->m_pclNextSibling->m_pclPrevSibling = pclOutLink->m_pclPrevSibling;
+			pclOutLink->m_pclPrevSibling = pclOutLink;
+			pclOutLink->m_pclNextSibling = pclOutLink;
+		}
+
+		--pclInLink->m_usNextLinkCnt;
+		pclOutLink->m_pclPrevLink = NULL;
+	}
+}
 
 //	class CRPRCRoutingTileProxy
 CRPRCRoutingTileProxy::CRPRCRoutingTileProxy(SmartPointer< CDPFacade > spclDataProvider)
