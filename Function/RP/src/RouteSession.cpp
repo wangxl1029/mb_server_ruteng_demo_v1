@@ -2,7 +2,7 @@
 #include	"InnerCommon.hpp"
 #include	"RPCommon.hpp"
 #include	"RPRSLink.hpp"	// --> add by wxl
-//#include	"RPWayPoints.h"
+#include	"RPWayPoints.hpp"
 //#include	"RPSection.h"
 //#include	"RPRoute.h"
 #include	"RPRouteCalcRequest.hpp"
@@ -21,22 +21,6 @@
 
 #include	"RouteSession.hpp"
 #include	"DPFacade.hpp"
-
-//	CRPWayPoint
-CRPWayPoint::CRPWayPoint()
-: m_enWayPointType(RPWayPointType_Invalid)
-{
-}
-
-CRPWayPoint::CRPWayPoint(const CPointCoord2D &clCoord)
-: m_enWayPointType(RPWayPointType_Coord), m_clCoord(clCoord)
-{
-}
-
-CRPWayPoint::~CRPWayPoint()
-{
-}
-
 
 CRouteSession::CRouteSession()
 {

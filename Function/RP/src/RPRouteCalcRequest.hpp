@@ -1,37 +1,5 @@
 #pragma once
 
-enum RPWayPointType
-{
-	RPWayPointType_Coord,
-	RPWayPointType_RSLink,
-	RPWayPointType_Invalid
-};
-
-
-class CRPWayPoint : public CBaseObj
-{
-public:
-	CRPWayPoint();
-	CRPWayPoint(const CPointCoord2D &clCoord);
-	virtual ~CRPWayPoint();
-	bool operator==(const CRPWayPoint &clRight) = delete;
-public:
-	RPWayPointType												m_enWayPointType;
-	CPointCoord2D												m_clCoord;
-};
-
-class CRPWayPoints : public CBaseObj
-{
-public:
-	CRPWayPoints();
-	virtual ~CRPWayPoints();
-public:
-	size_t Size();
-	CRPWayPoint& At(size_t uiNo);
-	void PushBack(const CRPWayPoint &clWayPoint);
-public:
-	vector< CRPWayPoint >										m_vclWayPointList;
-};
 
 class CRPRouteCalcRequest
 {

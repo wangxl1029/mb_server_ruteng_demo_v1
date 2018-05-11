@@ -78,6 +78,8 @@
   <ItemGroup>
     <ClInclude Include="include\RPCommon.hpp" />
     <ClInclude Include="include\RPRSLink.hpp" />
+    <ClInclude Include="include\RPSection.hpp" />
+    <ClInclude Include="include\RPWayPoints.hpp" />
     <ClInclude Include="src\InnerCommon.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCCost.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCRouteCalcCommon.hpp" />
@@ -95,12 +97,14 @@
     <ClCompile Include="src\RouteCalculator\RPRCRouteSearchCommFunc.cpp" />
     <ClCompile Include="src\RouteSession.cpp" />
     <ClCompile Include="src\route\RPRSLink.cpp" />
+    <ClCompile Include="src\route\RPSection.cpp" />
     <ClCompile Include="src\RPRCConnectSearch.cpp" />
     <ClCompile Include="src\RPRCRouteEdit.cpp" />
     <ClCompile Include="src\RPRCSectionDirector.cpp" />
     <ClCompile Include="src\RPRCTermSearch.cpp" />
     <ClCompile Include="src\RPRCUpSearch.cpp" />
     <ClCompile Include="src\RPRouteCalcRequest.cpp" />
+    <ClCompile Include="src\RPWayPoints.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
