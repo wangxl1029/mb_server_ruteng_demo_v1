@@ -73,13 +73,8 @@ RESULT CRPRCConnectSearch::ConnectSearch(RP_TERM enTerm, int iLevel, CRPWayPoint
 	SmartPointer< CDPFacade > spclDataProvider,
 	SmartPointer< CRPRCConnectSearchResult > &spclResult)
 {
-	//	Result Ref
-	if (!spclResult.Create()) {
-		ERR("");
-		return FAILURE;
-	}
-
-	if (!spclResult->m_spvclConnectedLinkList.Create()) {
+	if (spclResult == NULL || spclResult->m_spvclConnectedLinkList == NULL)
+	{
 		ERR("");
 		return FAILURE;
 	}
@@ -99,6 +94,8 @@ RESULT CRPRCConnectSearch::ConnectSearch(RP_TERM enTerm, int iLevel, CRPWayPoint
 	CRPRCRoutingTileProxy						clOutLinkRoutingTile(spclDataProvider);
 	//SmartPointer< CRPRCExtIF >				spclExtIF = GetExtIF();
 	size_t									uiExtendedLinkCount = 0;
+	const size_t									uiDirAlterThreshold = 3;
+	RESULT									retcode = SUCCESS;
 
 	CCheckEndParam	clCheckEndParam(	enTerm, iLevel,
 										mapOpenTable,
@@ -122,12 +119,18 @@ RESULT CRPRCConnectSearch::ConnectSearch(RP_TERM enTerm, int iLevel, CRPWayPoint
 		if (SUCCESS != Extend(clExtendParam))
 		{
 			ERR("");
-			return FAILURE;
+			retcode =  FAILURE;
+			break;
 		}
 		++uiExtendedLinkCount;
+		if (uiExtendedLinkCount >= uiDirAlterThreshold)
+		{
+			retcode = RP_RETURN_CONTINUE;
+			break;
+		}
 	}
 
-	return SUCCESS;
+	return retcode;
 }
 
 bool CRPRCConnectSearch::CheckEnd(CRPRCConnectSearch::CCheckEndParam &p)

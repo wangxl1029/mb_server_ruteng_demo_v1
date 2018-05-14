@@ -185,6 +185,18 @@ RESULT CRPRCSectionDirector::StepConnectSearch(int iLevel,
 	SmartPointer< RPRC_MidLinkTable > spclEndTermMidLinkTable)
 {
 	m_enStep = STEP_CONNECT_SEARCH;
+	SmartPointer< CRPRCConnectSearchResult > spclResult;
+	//	Result Ref
+	if (!spclResult.Create()) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (!spclResult->m_spvclConnectedLinkList.Create()) {
+		ERR("");
+		return FAILURE;
+	}
+
 
 	if (!m_spclStartConnectSearch.Create(/*this, RPRC_Cmd_PRI_High, */m_lRouteID, /*m_spclExtIF, */RP_TERM_START,
 		iLevel, m_clStartWayPoint, m_clEndWayPoint,
@@ -198,12 +210,7 @@ RESULT CRPRCSectionDirector::StepConnectSearch(int iLevel,
 		ERR("");
 		return FAILURE;
 	}
-
-	if (SUCCESS != m_spclStartConnectSearch->Execute())
-	{
-		ERR("");
-		return FAILURE;
-	}
+	m_spclStartConnectSearch->m_spclResult = spclResult;
 
 	if (!m_spclEndConnectSearch.Create(/*this, RPRC_Cmd_PRI_High, */m_lRouteID, /*m_spclExtIF,*/ RP_TERM_END,
 		iLevel, m_clStartWayPoint, m_clEndWayPoint,
@@ -216,11 +223,22 @@ RESULT CRPRCSectionDirector::StepConnectSearch(int iLevel,
 		ERR("");
 		return FAILURE;
 	}
+	m_spclEndConnectSearch->m_spclResult = spclResult;
 
-	if (SUCCESS != m_spclEndConnectSearch->Execute())
+	RESULT srchResult = RP_RETURN_CONTINUE;
+	bool isForward = true;
+	while (RP_RETURN_CONTINUE == srchResult)
 	{
-		ERR("");
-		return FAILURE;
+		srchResult = isForward ? m_spclStartConnectSearch->Execute() : m_spclEndConnectSearch->Execute();
+		if (RP_RETURN_CONTINUE == srchResult)
+		{
+			isForward = !isForward;
+		}
+		else if(SUCCESS != srchResult)
+		{
+			ERR("");
+			return FAILURE;
+		}
 	}
 
 	return SUCCESS;
@@ -307,6 +325,15 @@ RESULT CRPRCSectionDirector::NextStep()
 		if ((m_spclStartConnectSearchResult->m_spvclConnectedLinkList != NULL && m_spclStartConnectSearchResult->m_spvclConnectedLinkList->size() > 0)
 			|| (m_spclEndConnectSearchResult->m_spvclConnectedLinkList != NULL && m_spclEndConnectSearchResult->m_spvclConnectedLinkList->size() > 0))
 		{
+			//MESSAGE( "CRPRCSectionDirector:: STEP_CONNECT_SEARCH == m_enStep" );
+			#if 0
+			if (SUCCESS != StepRouteEdit(m_viLevelList[m_vspclStartLinkLevelUpList.size()],
+				m_spclStartConnectSearchResult->m_spvclConnectedLinkList,
+				m_spclEndConnectSearchResult->m_spvclConnectedLinkList)) {
+				ERR("");
+				return FAILURE;
+			}
+			#endif
 		}
 		else {
 			//ERR( "" );

@@ -73,6 +73,8 @@ public:
 	// so-called command
 	SmartPointer< CRPRCTermSearch >								m_spclStartTermSearch;
 	SmartPointer< CRPRCTermSearch >								m_spclEndTermSearch;
+	//vector< SmartPointer< CRPRCLinkLevelUp > >					m_vspclStartLinkLevelUpList;
+	//vector< SmartPointer< CRPRCLinkLevelUp > >					m_vspclEndLinkLevelUpList;
 	SmartPointer< CRPRCConnectSearch >							m_spclStartConnectSearch;
 	SmartPointer< CRPRCConnectSearch >							m_spclEndConnectSearch;
 
