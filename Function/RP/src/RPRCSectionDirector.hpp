@@ -11,6 +11,20 @@ public:
 	RESULT StartCalculateSection(CRPRouteCalcRequest &clRequest);
 
 public:
+	enum RouteCalcStep {
+		STEP_TERM_SEARCH,
+		STEP_UP_SEARCH,
+		STEP_LINK_LEVEL_UP,
+		STEP_CONNECT_SEARCH,
+		STEP_ROUTE_EDIT,
+		STEP_INVALID,
+	};
+	void StepStart();
+
+	RESULT StepTermSearch();
+	RESULT NextStep();
+
+public:
 	SmartPointer< CDPFacade >									m_spclDataProvider;
 	//SmartPointer< CRPRCThreadPool >								m_spclThreadPool;
 	//boost::signals2::connection									m_clThreadPoolConnection;
@@ -39,6 +53,11 @@ public:
 	// so-called command
 	SmartPointer< CRPRCTermSearch >								m_spclStartTermSearch;
 	SmartPointer< CRPRCTermSearch >								m_spclEndTermSearch;
+
+
+	//	Executing Command
+	RouteCalcStep												m_enStep;
+
 private:
 	//std::shared_ptr<CRPRCTermSearch> m_termSearch;
 	SmartPointer<CBaseObj> m_upSearch;

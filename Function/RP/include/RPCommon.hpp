@@ -1,6 +1,8 @@
 #pragma once
 //typedef		long					RESULT;
 
+#define	RP_RETURN_CANCEL										(100)
+#define	RP_RETURN_CONTINUE										(200)
 
 #define	RP_ROUTE_SEARCH_TYPE_COUNT								(5)
 #define	RP_ROUTE_SEARCH_TYPE_NONE								(0x0)

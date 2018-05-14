@@ -10,7 +10,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	if (sess.Initialize())
 	{
-		sess.calcRoute(1389087203, 476456031, 1389087203, 476456031);
+		sess.calcRoute(1389087203, 476456031, 1388266368, 475637856);
 	}
 
 	return 0;

@@ -17,10 +17,9 @@
 //#include	"RPRCCmdRouteEdit.h"
 #include	"RPRCSectionDirector.hpp"
 
-CRPRCSectionDirector::CRPRCSectionDirector()
+CRPRCSectionDirector::CRPRCSectionDirector() : m_bCancelFlag(false), m_enStep(STEP_INVALID)
 {
 }
-
 
 CRPRCSectionDirector::~CRPRCSectionDirector()
 {
@@ -94,8 +93,20 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 	}
 	m_spclMidLinkUsingContainer->SetCapacity(0xFFFFFFFF);	//	每次探路过程中不能释放，需要设为最大值，探路完成后会被释放
 
+
+	RESULT stepResult = RP_RETURN_CONTINUE;
+	while (RP_RETURN_CONTINUE == stepResult)
+	{
+
+	}
+
+	return SUCCESS;
+}
+
+RESULT CRPRCSectionDirector::StepTermSearch()
+{
 	// refer to CRPRCSectionDirector::StepTermSearch()
-	if (!m_spclStartTermSearch.Create(RP_TERM_START, m_clStartWayPoint, 13, 
+	if (!m_spclStartTermSearch.Create(RP_TERM_START, m_clStartWayPoint, 13,
 		m_spclMidLinkUsingContainer, m_spclCost, m_spclLinkCostContainer, m_spclDataProvider))
 	{
 		ERR("");
@@ -107,6 +118,13 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 		ERR("");
 		return FAILURE;
 	}
+
+	//	Set Request
+	if (SUCCESS != StepTermSearch()) {
+		ERR("");
+		return FAILURE;
+	}
+
 
 	// refer to CRPRCSectionDirector::StepTermSearch()
 	if (!m_spclEndTermSearch.Create(RP_TERM_END, m_clEndWayPoint, 13,
@@ -123,4 +141,17 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 	}
 
 	return SUCCESS;
+}
+
+RESULT CRPRCSectionDirector::NextStep()
+{
+	if (STEP_TERM_SEARCH == m_enStep) {
+
+	}
+	else {
+		ERR("");
+		return FAILURE;
+	}
+
+	return RP_RETURN_CONTINUE;
 }
