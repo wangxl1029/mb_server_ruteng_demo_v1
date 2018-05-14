@@ -83,6 +83,7 @@
     <ClInclude Include="include\RPWayPoints.hpp" />
     <ClInclude Include="src\InnerCommon.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCCost.hpp" />
+    <ClInclude Include="src\RouteCalculator\RPRCLinkLevelUp.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCRouteCalcCommon.hpp" />
     <ClInclude Include="src\RouteCalculator\RPRCRouteSearchCommFunc.hpp" />
     <ClInclude Include="src\RPRCConnectSearch.hpp" />
@@ -94,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RouteCalculator\RPRCCost.cpp" />
+    <ClCompile Include="src\RouteCalculator\RPRCLinkLevelUp.cpp" />
     <ClCompile Include="src\RouteCalculator\RPRCRouteCalcCommon.cpp" />
     <ClCompile Include="src\RouteCalculator\RPRCRouteSearchCommFunc.cpp" />
     <ClCompile Include="src\RouteSession.cpp" />

@@ -3,7 +3,7 @@
 #include	"RPCommon.hpp"
 #include	"RPRSLink.hpp"	// --> add by wxl
 #include	"RPWayPoints.hpp"
-//#include	"RPSection.h"
+#include	"RPSection.hpp"
 //#include	"RPRoute.h"
 #include	"RPRouteCalcRequest.hpp"
 //#include	"RPRCCmdBase.h"
@@ -14,9 +14,9 @@
 //#include	"RPRCCmdCalcBase.h"
 #include	"RPRCTermSearch.hpp"
 #include	"RPRCUpSearch.hpp"
-//#include	"RPRCCmdLinkLevelUp.h"
+#include	"RPRCLinkLevelUp.hpp"
 #include	"RPRCConnectSearch.hpp"
-//#include	"RPRCCmdRouteEdit.h"
+#include	"RPRCRouteEdit.hpp"
 #include	"RPRCSectionDirector.hpp"
 
 #include	"RouteSession.hpp"

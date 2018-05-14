@@ -2,7 +2,7 @@
 #include	"RPCommon.hpp"
 #include	"RPRSLink.hpp"
 #include	"RPWayPoints.hpp"
-//#include	"RPSection.h"
+#include	"RPSection.hpp"
 #include	"RPRouteCalcRequest.hpp"
 //#include	"RPRCCmdBase.h"
 //#include	"RPRCThreadPool.h"
@@ -12,9 +12,9 @@
 //#include	"RPRCCmdCalcBase.h"
 #include	"RPRCTermSearch.hpp"
 #include	"RPRCUpSearch.hpp"
-//#include	"RPRCLinkLevelUp.hpp"
+#include	"RPRCLinkLevelUp.hpp"
 #include	"RPRCConnectSearch.hpp"
-//#include	"RPRCCmdRouteEdit.h"
+#include	"RPRCRouteEdit.hpp"
 #include	"RPRCSectionDirector.hpp"
 
 struct RPDist2Level
