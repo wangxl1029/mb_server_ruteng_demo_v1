@@ -22,12 +22,52 @@
 #include	"RouteSession.hpp"
 #include	"DPFacade.hpp"
 
+class CRouteSession::CPrivate
+{
+public:
+	SmartPointer< CDPFacade >									m_spclDataProvider;
+	SmartPointer< CRPRCLinkCostContainerSet >					m_spclLinkCostContainerSet; // refer to CRPRCMultiRouteDirector()
+};
+
+
 CRouteSession::CRouteSession()
 {
 }
 
 CRouteSession::~CRouteSession()
 {
+}
+
+bool CRouteSession::Initialize()
+{
+	if (!mp)
+	{
+		mp = make_shared<CPrivate>();
+	}
+
+	mp->m_spclDataProvider = CDPFacade::Create();
+	if (mp->m_spclDataProvider == NULL)
+	{
+		ERR("");
+		return false;
+	}
+	//	spclDPFacade->Initialize();
+	if (SUCCESS != mp->m_spclDataProvider->Initialize())
+	{
+		ERR("");
+		return false;
+	}
+
+	if (!mp->m_spclLinkCostContainerSet.Create()) {	// refer to CRPRCMultiRouteDirector::Initialize()
+		ERR("");
+		return false;
+	}
+	if (SUCCESS != mp->m_spclLinkCostContainerSet->Initialize(mp->m_spclDataProvider)) {
+		ERR("");
+		return false;
+	}
+
+	return true;
 }
 
 // reference pattern : CMNRP::SetDestinationByTwoCoord()
@@ -51,7 +91,7 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 	clRequest.m_spclWayPoints->PushBack(clVehicleWayPoint);
 	clRequest.m_spclWayPoints->PushBack(clDestination);
 
-	SmartPointer< CDPFacade > spclDPFacade = CDPFacade::Create();
+	SmartPointer< CDPFacade > spclDPFacade = mp->m_spclDataProvider;
 	spclDPFacade->Initialize();
 
 	SmartPointer< CRPRCSectionDirector >	spclSectionDirector; // refer to CRPRCRouteDirector::Initialize()
@@ -59,7 +99,8 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 		ERR("");
 		return false;
 	}
-	spclSectionDirector->Initialize(spclDPFacade);
+	// refer to CRPRCMultiRouteDirector::Initialize()
+	spclSectionDirector->Initialize(spclDPFacade, mp->m_spclLinkCostContainerSet->m_aspclLinkCostContainer[0]);
 	spclSectionDirector->StartCalculateSection(clRequest);
 
 	return false;

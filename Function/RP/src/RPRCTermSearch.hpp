@@ -19,6 +19,7 @@ class CRPRCTermSearch :
 {
 public:
 	CRPRCTermSearch(	RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, 
+						SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer,
 						SmartPointer< CRPRCCost > spclCost,
 						SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 						SmartPointer< CDPFacade > spclDataProvider);

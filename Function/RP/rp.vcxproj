@@ -76,6 +76,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\RouteSession.hpp" />
     <ClInclude Include="include\RPCommon.hpp" />
     <ClInclude Include="include\RPRSLink.hpp" />
     <ClInclude Include="include\RPSection.hpp" />

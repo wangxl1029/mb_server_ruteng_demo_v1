@@ -8,7 +8,10 @@ int _tmain(int argc, _TCHAR* argv[])
 {
 	CRouteSession sess;
 
-	sess.calcRoute(1389087203, 476456031, 1389087203, 476456031);
+	if (sess.Initialize())
+	{
+		sess.calcRoute(1389087203, 476456031, 1389087203, 476456031);
+	}
 
 	return 0;
 }

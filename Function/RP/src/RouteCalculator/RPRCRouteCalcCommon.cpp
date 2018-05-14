@@ -256,6 +256,50 @@ ushort& CRPRCLinkCostTableProxy::GetLinkCostRef(const CRPTileID &clTileID, ushor
 	return pclLinkCostTile->m_avusLinkCost[LINK_DIR_NO(bPos)][usLinkNo];
 }
 
+//	class CRPRCLinkCostContainerSet
+CRPRCLinkCostContainerSet::CRPRCLinkCostContainerSet()
+{
+}
+
+CRPRCLinkCostContainerSet::~CRPRCLinkCostContainerSet()
+{
+}
+
+RESULT CRPRCLinkCostContainerSet::Initialize(SmartPointer< CDPFacade > spclDataProvider)
+{
+	for (size_t i = 0; i < sizeof(m_aspclLinkCostContainer) / sizeof(m_aspclLinkCostContainer[0]); ++i) {
+		if (!m_aspclLinkCostContainer[i].Create(spclDataProvider)) {
+			ERR("");
+			return FAILURE;
+		}
+		m_aspclLinkCostContainer[i]->SetCapacity(100);
+	}
+	return SUCCESS;
+}
+
+RESULT CRPRCLinkCostContainerSet::SwitchDbStart()
+{
+	m_bDbSwitching = true;
+
+	return SUCCESS;
+}
+
+RESULT CRPRCLinkCostContainerSet::WaitForCanSwitchDb()
+{
+	return SUCCESS;
+}
+
+RESULT CRPRCLinkCostContainerSet::SwitchDbEnd()
+{
+	for (size_t i = 0; i < sizeof(m_aspclLinkCostContainer) / sizeof(m_aspclLinkCostContainer[0]); ++i) {
+		m_aspclLinkCostContainer[i]->ClearData();
+	}
+
+	m_bDbSwitching = false;
+
+	return SUCCESS;
+}
+
 //	class CRPRCUpSearchResultLink
 CRPRCUpSearchResultLink::CRPRCUpSearchResultLink(CRPRCMidLink *pclMidLink)
 : m_pclMidLink(pclMidLink)

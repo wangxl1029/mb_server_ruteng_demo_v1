@@ -21,11 +21,15 @@ CRPRCTermSearchResult::~CRPRCTermSearchResult()
 }
 
 //	class CRPRCCmdTermSearch
-CRPRCTermSearch::CRPRCTermSearch(	RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, 
+CRPRCTermSearch::CRPRCTermSearch(	//RPRCCmdSigReciever hReciever, RPRC_Cmd_PRI enCmdPRI,
+									//long lRouteID, SmartPointer< CRPRCExtIF > spclExtIF,
+									RP_TERM enTerm, CRPWayPoint &clWayPoint, int iLevel, 
+									SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer,
 									SmartPointer< CRPRCCost > spclCost,
 									SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
 									SmartPointer< CDPFacade > spclDataProvider)
-	: m_clWayPoint(clWayPoint), m_iLevel(iLevel)
+	: m_enTerm(enTerm), m_clWayPoint(clWayPoint), m_iLevel(iLevel)
+	, m_spclMidLinkUsingContainer(spclMidLinkUsingContainer)
 	, m_spclCost(spclCost), m_spclLinkCostContainer(spclLinkCostContainer)
 	, m_spclDataProvider(spclDataProvider)
 {
