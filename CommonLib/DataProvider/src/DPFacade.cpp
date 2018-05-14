@@ -32,7 +32,7 @@ public:
 	//virtual RESULT GetDownLevel(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, int &iDownLevel);
 	virtual RESULT GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiCoordShift);
 	//virtual RESULT GetLevelByScale(uint uiScale, BUILDING_BLOCK_ID enBuildingBlockID, int &iMinLevel, uint &uiSubLevel, uint &uiDetailLevel);
-	//virtual RESULT GetLevelList(BUILDING_BLOCK_ID enBuildingBlockID, vector<int> &viLevelList);
+	virtual RESULT GetLevelList(BUILDING_BLOCK_ID enBuildingBlockID, vector<int> &viLevelList);
 	//virtual RESULT GetSubLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint &uiSubLevelCount);
 	//virtual RESULT GetDetailLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint uiSubLevel, uint &uiDetailLevelCount);
 	//virtual RESULT GetBmdData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataBmd > &spclDataBmd);
@@ -144,6 +144,45 @@ RESULT CDPFacadeImpl::GetCoordShift(int iLevel, BUILDING_BLOCK_ID enBuildingBloc
 	return SUCCESS;
 }
 
+RESULT CDPFacadeImpl::GetLevelList(BUILDING_BLOCK_ID enBuildingBlockID, vector<int> &viLevelList)
+{
+	SmartPointer< CDPProvFolderProduct >	spclProvFolderProduct;
+	if (SUCCESS != m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName, spclProvFolderProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvProduct >			spclDPProvProduct;
+	if (SUCCESS != spclProvFolderProduct->GetProvProduct(spclDPProvProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	vector< CDPUpdateRegionInfo >	vclUpdateRegionList;
+	if (SUCCESS != spclDPProvProduct->GetUpdateRegionList(vclUpdateRegionList)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderUpdateRegion >	spclProvFolderUpdateRegion;
+	if (SUCCESS != spclProvFolderProduct->GetProvFolderUpdateRegion(vclUpdateRegionList[0].m_strUpdateRegionName, spclProvFolderUpdateRegion)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvShared >	spclProvShared;
+	if (SUCCESS != spclProvFolderUpdateRegion->GetProvShared(spclProvShared)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != spclProvShared->GetLevelList(enBuildingBlockID, viLevelList)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
 
 RESULT CDPFacadeImpl::GetRoutingTileData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingTile > &spclDataRoutingTile)
 {

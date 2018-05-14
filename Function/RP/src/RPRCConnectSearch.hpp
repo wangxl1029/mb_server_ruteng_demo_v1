@@ -11,8 +11,6 @@ public:
 class CRPRCConnectSearch : public CBaseObj
 {
 public:
-	CRPRCConnectSearch();
-public:
 	CRPRCConnectSearch(//RPRCCmdSigReciever hReciever, RPRC_Cmd_PRI enCmdPRI,
 		long lRouteID,// SmartPointer< CRPRCExtIF > spclExtIF,
 		RP_TERM enTerm, int iLevel, CRPWayPoint &clStartWayPoint, CRPWayPoint &clEndWayPoint,

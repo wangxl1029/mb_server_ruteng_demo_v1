@@ -24,7 +24,8 @@ No        |Modified by    |Modify date   |Memo
 #ifndef	PFERRLOG_H
 #define	PFERRLOG_H
 
-#define		ERR( format, ... )			PrintfErr( __FILE__, __LINE__, format, ##__VA_ARGS__ );assert( 0 )
+//#define		ERR( format, ... )			PrintfErr( __FILE__, __LINE__, format, ##__VA_ARGS__ );assert( 0 )
+#define		ERR( format, ... )			PrintfErr( __FILE__, __LINE__, format, ##__VA_ARGS__ )
 #define		WARN5( format, ... )		PrintfErr( __FILE__, __LINE__, format, ##__VA_ARGS__ )
 #define		WARN4( format, ... )		PrintfErr( __FILE__, __LINE__, format, ##__VA_ARGS__ )
 #define		WARN3( format, ... )		PrintfErr( __FILE__, __LINE__, format, ##__VA_ARGS__ )

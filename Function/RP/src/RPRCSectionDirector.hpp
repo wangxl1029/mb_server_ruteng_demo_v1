@@ -8,7 +8,7 @@ public:
 	CRPRCSectionDirector();
 	virtual ~CRPRCSectionDirector();
 	RESULT Initialize(SmartPointer< CDPFacade > spclDataProvider, SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer);
-	RESULT StartCalculateSection(CRPRouteCalcRequest &clRequest);
+	RESULT StartCalculateSection(CRPRouteCalcRequest &clRequest, long lRouteID);
 
 public:
 	enum RouteCalcStep {
@@ -19,9 +19,29 @@ public:
 		STEP_ROUTE_EDIT,
 		STEP_INVALID,
 	};
-	void StepStart();
+	//void StepStart(); // del by wxl from znavi
 
 	RESULT StepTermSearch();
+	RESULT StepUpSearch(int iFromLevel, int iToLevel,
+		SmartPointer< RPRC_OpenTable > spmapStartTermOpenTable,
+		SmartPointer< RPRC_MidLinkTable > spclStartTermMidLinkTable,
+		SmartPointer< RPRC_OpenTable > spmapEndTermOpenTable,
+		SmartPointer< RPRC_MidLinkTable > spclEndTermMidLinkTable);
+	RESULT StepLinkLevelUp(int iFromLevel, int iToLevel,
+		SmartPointer< vector< CRPRCUpSearchResultLink > > spvclStartInputLinkList,
+		SmartPointer< vector< CRPRCUpSearchResultLink > > spvclEndInputLinkList);
+	RESULT StepConnectSearch(int iLevel,
+		SmartPointer< RPRC_OpenTable > spmapStartTermOpenTable,
+		SmartPointer< RPRC_MidLinkTable > spclStartTermMidLinkTable,
+		SmartPointer< RPRC_OpenTable > spmapEndTermOpenTable,
+		SmartPointer< RPRC_MidLinkTable > spclEndTermMidLinkTable);
+	RESULT StepRouteEdit(int iConnectLevel,
+		SmartPointer< vector< CRPRCConnectSearchResultLink > > spvclStartTermConnectResultLinkList,
+		SmartPointer< vector< CRPRCConnectSearchResultLink > > spvclEndTermConnectResultLinkList);
+
+	int DecideConnectLevel(CRPWayPoint &clStartWayPoint,
+		CRPWayPoint &clEndWayPoint);
+
 	RESULT NextStep();
 
 public:
@@ -43,7 +63,7 @@ public:
 	//	Request
 	CRPRouteCalcRequest											m_clRequest;
 	//CRPRCCalcParam												m_clParam;
-	//long														m_lRouteID;
+	long														m_lRouteID;
 	CRPWayPoint													m_clStartWayPoint;
 	CRPWayPoint													m_clEndWayPoint;
 
@@ -53,10 +73,18 @@ public:
 	// so-called command
 	SmartPointer< CRPRCTermSearch >								m_spclStartTermSearch;
 	SmartPointer< CRPRCTermSearch >								m_spclEndTermSearch;
+	SmartPointer< CRPRCConnectSearch >							m_spclStartConnectSearch;
+	SmartPointer< CRPRCConnectSearch >							m_spclEndConnectSearch;
 
 
 	//	Executing Command
 	RouteCalcStep												m_enStep;
+
+	//	Mid Result
+	SmartPointer< CRPRCTermSearchResult >						m_spclStartTermSearchResult;
+	SmartPointer< CRPRCTermSearchResult >						m_spclEndTermSearchResult;
+	SmartPointer< CRPRCConnectSearchResult >					m_spclStartConnectSearchResult;
+	SmartPointer< CRPRCConnectSearchResult >					m_spclEndConnectSearchResult;
 
 private:
 	//std::shared_ptr<CRPRCTermSearch> m_termSearch;

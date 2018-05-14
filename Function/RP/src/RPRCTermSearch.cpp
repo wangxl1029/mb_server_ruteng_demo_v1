@@ -48,6 +48,12 @@ RESULT CRPRCTermSearch::Execute()
 		m_spclDataProvider,
 		m_spclResult);
 }
+
+SmartPointer< CRPRCTermSearchResult > CRPRCTermSearch::GetResult()
+{
+	return m_spclResult;
+}
+
 // equivalent to CRPRCCmdTermSearch::TermSearch() from znavi
 RESULT CRPRCTermSearch::TermSearch(	RP_TERM enTerm, int iLevel,
 									SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer,

@@ -25,8 +25,11 @@ public:
 						SmartPointer< CDPFacade > spclDataProvider);
 	CRPRCTermSearch() = default;
 
-	virtual RESULT Execute();
 	virtual ~CRPRCTermSearch();
+
+	virtual RESULT Execute();
+
+	SmartPointer< CRPRCTermSearchResult > GetResult();
 
 public:
 	RESULT TermSearch(	RP_TERM enTerm, int iLevel,

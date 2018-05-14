@@ -13,9 +13,9 @@
 //#include	"RPRCExtIF.h"
 //#include	"RPRCCmdCalcBase.h"
 #include	"RPRCTermSearch.hpp"
-//#include	"RPRCCmdUpSearch.h"
+#include	"RPRCUpSearch.hpp"
 //#include	"RPRCCmdLinkLevelUp.h"
-//#include	"RPRCCmdConnectSearch.h"
+#include	"RPRCConnectSearch.hpp"
 //#include	"RPRCCmdRouteEdit.h"
 #include	"RPRCSectionDirector.hpp"
 
@@ -25,10 +25,15 @@
 class CRouteSession::CPrivate
 {
 public:
+	CPrivate() : m_lRouteID(0) {}
+	static long NextRouteID() { return m_iNextRouteID++; }
+	long														m_lRouteID;
 	SmartPointer< CDPFacade >									m_spclDataProvider;
 	SmartPointer< CRPRCLinkCostContainerSet >					m_spclLinkCostContainerSet; // refer to CRPRCMultiRouteDirector()
+	static volatile long										m_iNextRouteID;
 };
 
+volatile long		CRouteSession::CPrivate::m_iNextRouteID = 0;
 
 CRouteSession::CRouteSession()
 {
@@ -70,7 +75,9 @@ bool CRouteSession::Initialize()
 	return true;
 }
 
-// reference pattern : CMNRP::SetDestinationByTwoCoord()
+// reference pattern : 
+//		CMNRP::SetDestinationByTwoCoord() and 
+//		CRPRCRouteDirector::StartCalculateRoute()
 bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 {
 	CRPWayPoint		clVehicleWayPoint;
@@ -99,9 +106,14 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 		ERR("");
 		return false;
 	}
+
+	//m_spclRoute->m_uiSearchType = clRequest.m_uiSearchType;
+	mp->m_lRouteID = CPrivate::NextRouteID();
+	//m_spclRoute->m_iRouteID = m_lRouteID;
+
 	// refer to CRPRCMultiRouteDirector::Initialize()
 	spclSectionDirector->Initialize(spclDPFacade, mp->m_spclLinkCostContainerSet->m_aspclLinkCostContainer[0]);
-	spclSectionDirector->StartCalculateSection(clRequest);
+	spclSectionDirector->StartCalculateSection(clRequest, mp->m_lRouteID);
 
 	return false;
 }
