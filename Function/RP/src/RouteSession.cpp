@@ -112,8 +112,10 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 	//m_spclRoute->m_iRouteID = m_lRouteID;
 
 	// refer to CRPRCMultiRouteDirector::Initialize()
-	spclSectionDirector->Initialize(spclDPFacade, mp->m_spclLinkCostContainerSet->m_aspclLinkCostContainer[0]);
-	spclSectionDirector->StartCalculateSection(clRequest, mp->m_lRouteID);
+	if (SUCCESS == spclSectionDirector->Initialize(spclDPFacade, mp->m_spclLinkCostContainerSet->m_aspclLinkCostContainer[0]))
+	{
+		return SUCCESS == spclSectionDirector->StartCalculateSection(clRequest, mp->m_lRouteID);
+	}
 
 	return false;
 }

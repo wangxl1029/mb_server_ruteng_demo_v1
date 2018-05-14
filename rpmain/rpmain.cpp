@@ -3,6 +3,8 @@
 
 #include "stdafx.h"
 #include "RouteSession.hpp"
+#include <iostream>
+#include <cstdlib>
 
 int _tmain(int argc, _TCHAR* argv[])
 {
@@ -10,8 +12,16 @@ int _tmain(int argc, _TCHAR* argv[])
 
 	if (sess.Initialize())
 	{
-		sess.calcRoute(1389087203, 476456031, 1388266368, 475637856);
+		if (sess.calcRoute(1389087203, 476456031, 1388266368, 475637856)){
+			std::cout << "route OK." << std::endl;
+		}
+		else
+		{
+			std::cerr << "route FAILED!" << std::endl;
+		}
 	}
+
+	std::system("pause");
 
 	return 0;
 }
