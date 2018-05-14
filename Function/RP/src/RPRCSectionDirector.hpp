@@ -73,11 +73,15 @@ public:
 	// so-called command
 	SmartPointer< CRPRCTermSearch >								m_spclStartTermSearch;
 	SmartPointer< CRPRCTermSearch >								m_spclEndTermSearch;
-	//vector< SmartPointer< CRPRCLinkLevelUp > >					m_vspclStartLinkLevelUpList;
-	//vector< SmartPointer< CRPRCLinkLevelUp > >					m_vspclEndLinkLevelUpList;
+	vector< SmartPointer< CRPRCUpSearch > >						m_vspclStartUpSearchList;
+	vector< SmartPointer< CRPRCUpSearch > >						m_vspclEndUpSearchList;
+	vector< SmartPointer< CRPRCLinkLevelUp > >					m_vspclStartLinkLevelUpList;
+	vector< SmartPointer< CRPRCLinkLevelUp > >					m_vspclEndLinkLevelUpList;
+	vector< SmartPointer< CRPRCLinkLevelUpResult > >			m_vspclStartLinkLevelUpResult;
+	vector< SmartPointer< CRPRCLinkLevelUpResult > >			m_vspclEndLinkLevelUpResult;
 	SmartPointer< CRPRCConnectSearch >							m_spclStartConnectSearch;
 	SmartPointer< CRPRCConnectSearch >							m_spclEndConnectSearch;
-
+	SmartPointer< CRPRCRouteEdit >								m_spclRouteEdit;
 
 	//	Executing Command
 	RouteCalcStep												m_enStep;
@@ -85,13 +89,16 @@ public:
 	//	Mid Result
 	SmartPointer< CRPRCTermSearchResult >						m_spclStartTermSearchResult;
 	SmartPointer< CRPRCTermSearchResult >						m_spclEndTermSearchResult;
+	vector< SmartPointer< CRPRCUpSearchResult > >				m_vspclStartUpSearchResult;
+	vector< SmartPointer< CRPRCUpSearchResult > >				m_vspclEndUpSearchResult;
 	SmartPointer< CRPRCConnectSearchResult >					m_spclStartConnectSearchResult;
 	SmartPointer< CRPRCConnectSearchResult >					m_spclEndConnectSearchResult;
+	SmartPointer< CRPRCRouteEditResult >						m_spclRouteEditResult;
 
-private:
-	//std::shared_ptr<CRPRCTermSearch> m_termSearch;
-	SmartPointer<CBaseObj> m_upSearch;
-	SmartPointer<CBaseObj> m_connectSearch;
-	SmartPointer<CBaseObj> m_routeEdit;
+	//	Result
+	SmartPointer< CRPSection >									m_spclSection;
+
+public:
+	static volatile long										m_iNextSectionID;
 };
 

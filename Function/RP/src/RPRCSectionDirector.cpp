@@ -115,9 +115,7 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 	}
 
 	while (RP_RETURN_CONTINUE == NextStep())
-	{
-
-	}
+		;
 
 	return SUCCESS;
 }
@@ -250,8 +248,34 @@ RESULT CRPRCSectionDirector::StepRouteEdit(int iConnectLevel,
 {
 	m_enStep = STEP_ROUTE_EDIT;
 
-	//return SUCCESS;
-	return FAILURE;
+	vector< SmartPointer< RPRC_MidLinkTable > >	vspclStartTermMidLinkTable;
+	vspclStartTermMidLinkTable.push_back(m_spclStartTermSearchResult->m_spclMidLinkTable);
+	for (size_t i = 0; i < m_vspclStartLinkLevelUpResult.size(); ++i) {
+		vspclStartTermMidLinkTable.push_back(m_vspclStartLinkLevelUpResult[i]->m_spclMidLinkTable);
+	}
+
+	vector< SmartPointer< RPRC_MidLinkTable > >	vspclEndTermMidLinkTable;
+	vspclEndTermMidLinkTable.push_back(m_spclEndTermSearchResult->m_spclMidLinkTable);
+	for (size_t i = 0; i < m_vspclEndLinkLevelUpResult.size(); ++i) {
+		vspclEndTermMidLinkTable.push_back(m_vspclEndLinkLevelUpResult[i]->m_spclMidLinkTable);
+	}
+
+	if (!m_spclRouteEdit.Create(/*this, RPRC_Cmd_PRI_High, */m_lRouteID, /*m_spclExtIF,*/
+		m_clStartWayPoint, m_clEndWayPoint, iConnectLevel, m_viLevelList,
+		m_spclStartTermSearchResult->m_spvclResultLinkList,
+		m_spclEndTermSearchResult->m_spvclResultLinkList,
+		vspclStartTermMidLinkTable,
+		vspclEndTermMidLinkTable,
+		m_spclMidLinkUsingContainer,
+		spvclStartTermConnectResultLinkList,
+		spvclEndTermConnectResultLinkList,
+		m_spclDataProvider))
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	return m_spclRouteEdit->Execute();
 }
 
 int CRPRCSectionDirector::DecideConnectLevel(CRPWayPoint &clStartWayPoint,
@@ -316,31 +340,90 @@ RESULT CRPRCSectionDirector::NextStep()
 		}
 	}
 	else if (STEP_UP_SEARCH == m_enStep) {
-	}
-	else if (STEP_LINK_LEVEL_UP == m_enStep) {
-	}
-	else if (STEP_CONNECT_SEARCH == m_enStep) {
-		m_spclStartConnectSearchResult = m_spclStartConnectSearch->GetResult();
-		m_spclEndConnectSearchResult = m_spclEndConnectSearch->GetResult();
-		if ((m_spclStartConnectSearchResult->m_spvclConnectedLinkList != NULL && m_spclStartConnectSearchResult->m_spvclConnectedLinkList->size() > 0)
-			|| (m_spclEndConnectSearchResult->m_spvclConnectedLinkList != NULL && m_spclEndConnectSearchResult->m_spvclConnectedLinkList->size() > 0))
+		m_vspclStartUpSearchResult.push_back(m_vspclStartUpSearchList.back()->GetResult());
+		m_vspclEndUpSearchResult.push_back(m_vspclEndUpSearchList.back()->GetResult());
+		if ((m_vspclStartUpSearchResult.back()->m_spvclConnectedLinkList != NULL && m_vspclStartUpSearchResult.back()->m_spvclConnectedLinkList->size() > 0)
+			|| (m_vspclEndUpSearchResult.back()->m_spvclConnectedLinkList != NULL && m_vspclEndUpSearchResult.back()->m_spvclConnectedLinkList->size() > 0))
 		{
-			//MESSAGE( "CRPRCSectionDirector:: STEP_CONNECT_SEARCH == m_enStep" );
-			#if 0
 			if (SUCCESS != StepRouteEdit(m_viLevelList[m_vspclStartLinkLevelUpList.size()],
-				m_spclStartConnectSearchResult->m_spvclConnectedLinkList,
-				m_spclEndConnectSearchResult->m_spvclConnectedLinkList)) {
+				m_vspclStartUpSearchResult.back()->m_spvclConnectedLinkList,
+				m_vspclEndUpSearchResult.back()->m_spvclConnectedLinkList))
+			{
 				ERR("");
 				return FAILURE;
 			}
-			#endif
+		}
+		else if (m_viLevelList[m_vspclStartLinkLevelUpList.size()] <= DecideConnectLevel(m_clStartWayPoint,
+			m_clEndWayPoint))
+		{
+			if (SUCCESS != StepConnectSearch(m_viLevelList[m_vspclStartLinkLevelUpList.size()],
+				m_vspclStartLinkLevelUpResult.back()->m_spmapOpenTable,
+				m_vspclStartLinkLevelUpResult.back()->m_spclMidLinkTable,
+				m_vspclEndLinkLevelUpResult.back()->m_spmapOpenTable,
+				m_vspclEndLinkLevelUpResult.back()->m_spclMidLinkTable))
+			{
+				ERR("");
+				return FAILURE;
+			}
+		}
+		else if (m_vspclStartUpSearchResult.back()->m_spvclResultLinkList->size() > 0 && m_vspclEndUpSearchResult.back()->m_spvclResultLinkList->size() > 0) {
+			if (SUCCESS != StepLinkLevelUp(m_viLevelList[m_vspclStartLinkLevelUpList.size()],
+				m_viLevelList[m_vspclStartLinkLevelUpList.size() + 1],
+				m_vspclStartUpSearchResult.back()->m_spvclResultLinkList,
+				m_vspclEndUpSearchResult.back()->m_spvclResultLinkList))
+			{
+				ERR("");
+				return FAILURE;
+			}
 		}
 		else {
 			//ERR( "" );
 			return FAILURE;
 		}
 	}
+	else if (STEP_LINK_LEVEL_UP == m_enStep) {
+		m_vspclStartLinkLevelUpResult.push_back(m_vspclStartLinkLevelUpList.back()->GetResult());
+		m_vspclEndLinkLevelUpResult.push_back(m_vspclEndLinkLevelUpList.back()->GetResult());
+
+		if (m_vspclStartLinkLevelUpResult.back()->m_spmapOpenTable->size() > 0 && m_vspclEndLinkLevelUpResult.back()->m_spmapOpenTable->size() > 0) {
+			if (SUCCESS != StepUpSearch(m_viLevelList[m_vspclStartUpSearchList.size()],
+				m_viLevelList[m_vspclEndUpSearchList.size() + 1],
+				m_vspclStartLinkLevelUpResult.back()->m_spmapOpenTable,
+				m_vspclStartLinkLevelUpResult.back()->m_spclMidLinkTable,
+				m_vspclEndLinkLevelUpResult.back()->m_spmapOpenTable,
+				m_vspclEndLinkLevelUpResult.back()->m_spclMidLinkTable))
+			{
+				ERR("");
+				return FAILURE;
+			}
+		}
+		else {
+			//ERR( "" );
+			return FAILURE;
+		}
+	} else if (STEP_CONNECT_SEARCH == m_enStep) {
+		m_spclStartConnectSearchResult = m_spclStartConnectSearch->GetResult();
+		m_spclEndConnectSearchResult = m_spclEndConnectSearch->GetResult();
+		if ((m_spclStartConnectSearchResult->m_spvclConnectedLinkList != NULL && m_spclStartConnectSearchResult->m_spvclConnectedLinkList->size() > 0)
+			|| (m_spclEndConnectSearchResult->m_spvclConnectedLinkList != NULL && m_spclEndConnectSearchResult->m_spvclConnectedLinkList->size() > 0))
+		{
+			//MESSAGE( "CRPRCSectionDirector:: STEP_CONNECT_SEARCH == m_enStep" );
+			if (SUCCESS != StepRouteEdit(m_viLevelList[m_vspclStartLinkLevelUpList.size()],
+				m_spclStartConnectSearchResult->m_spvclConnectedLinkList,
+				m_spclEndConnectSearchResult->m_spvclConnectedLinkList)) {
+				ERR("");
+				return FAILURE;
+			}
+		}
+		else {
+			ERR( "" );
+			return FAILURE;
+		}
+	}
 	else if (STEP_ROUTE_EDIT == m_enStep) {
+		m_spclRouteEditResult = m_spclRouteEdit->GetResult();
+		m_spclSection = m_spclRouteEditResult->m_spclSection;
+		return SUCCESS;
 	}
 	else {
 		ERR("");
