@@ -24,10 +24,23 @@ CRPRCUpSearchResult::~CRPRCUpSearchResult()
 }
 
 
-CRPRCUpSearch::CRPRCUpSearch()
+//	class CRPRCCmdUpSearch
+CRPRCUpSearch::CRPRCUpSearch(//RPRCCmdSigReciever hReciever, RPRC_Cmd_PRI enCmdPRI,
+	long lRouteID, //SmartPointer< CRPRCExtIF > spclExtIF,
+	RP_TERM enTerm, int iFromLevel, int iToLevel,
+	SmartPointer< RPRC_OpenTable > spmapOpenTable,
+	SmartPointer< RPRC_MidLinkTable > spvclMidLinkTable,
+	SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer,
+	SmartPointer< CRPRCCost > spclCost,
+	SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
+	SmartPointer< CDPFacade > spclDataProvider)
+	: //CRPRCCmdCalcBase(RPRC_Cmd_Type_Route_UpSearch, hReciever, enCmdPRI, lRouteID, spclExtIF), 
+	m_enTerm(enTerm), m_iFromLevel(iFromLevel), m_iToLevel(iToLevel)
+	, m_spmapOpenTable(spmapOpenTable), m_spclMidLinkTable(spvclMidLinkTable), m_spclMidLinkUsingContainer(spclMidLinkUsingContainer)
+	, m_spclCost(spclCost), m_spclLinkCostContainer(spclLinkCostContainer)
+	, m_spclDataProvider(spclDataProvider)
 {
 }
-
 
 CRPRCUpSearch::~CRPRCUpSearch()
 {

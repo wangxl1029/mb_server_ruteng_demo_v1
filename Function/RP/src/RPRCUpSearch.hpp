@@ -16,7 +16,15 @@ public:
 class CRPRCUpSearch : public CBaseObj
 {
 public:
-	CRPRCUpSearch();
+	CRPRCUpSearch(//RPRCCmdSigReciever hReciever, RPRC_Cmd_PRI enCmdPRI,
+		long lRouteID, //SmartPointer< CRPRCExtIF > spclExtIF,
+		RP_TERM enTerm, int iFromLevel, int iToLevel,
+		SmartPointer< RPRC_OpenTable > spmapOpenTable,
+		SmartPointer< RPRC_MidLinkTable > spvclMidLinkTable,
+		SmartPointer< RPRCTileContainer< CRPRCMidLinkUsingTile > > spclMidLinkUsingContainer,
+		SmartPointer< CRPRCCost > spclCost,
+		SmartPointer< RPRCTileContainer< CRPRCLinkCostTile > > spclLinkCostContainer,
+		SmartPointer< CDPFacade > spclDataProvider);
 	virtual ~CRPRCUpSearch();
 	virtual RESULT Execute();
 

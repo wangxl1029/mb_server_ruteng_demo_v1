@@ -114,10 +114,11 @@ RESULT CRPRCSectionDirector::StartCalculateSection(CRPRouteCalcRequest &clReques
 		return FAILURE;
 	}
 
-	while (RP_RETURN_CONTINUE == NextStep())
-		;
+	RESULT stepCode = NextStep();
+	while (RP_RETURN_CONTINUE == stepCode)
+		stepCode = NextStep();
 
-	return SUCCESS;
+	return stepCode;
 }
 
 // refer to CRPRCSectionDirector::StepTermSearch() from znavi
@@ -162,8 +163,47 @@ RESULT CRPRCSectionDirector::StepUpSearch(int iFromLevel, int iToLevel,
 {
 	m_enStep = STEP_UP_SEARCH;
 
-	//return SUCCESS;
-	return FAILURE;
+	m_vspclStartUpSearchList.resize(m_vspclStartUpSearchList.size() + 1);
+	m_vspclEndUpSearchList.resize(m_vspclEndUpSearchList.size() + 1);
+
+	if (!m_vspclStartUpSearchList.back().Create(/*this, RPRC_Cmd_PRI_High,*/ m_lRouteID, /*m_spclExtIF, */RP_TERM_START,
+		iFromLevel, iToLevel,
+		spmapStartTermOpenTable,
+		spclStartTermMidLinkTable,
+		m_spclMidLinkUsingContainer,
+		m_spclCost,
+		m_spclLinkCostContainer,
+		m_spclDataProvider))
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != m_vspclStartUpSearchList.back()->Execute())
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	if (!m_vspclEndUpSearchList.back().Create(/*this, RPRC_Cmd_PRI_High, */m_lRouteID, /*m_spclExtIF, */RP_TERM_END,
+		iFromLevel, iToLevel,
+		spmapEndTermOpenTable,
+		spclEndTermMidLinkTable,
+		m_spclMidLinkUsingContainer,
+		m_spclCost,
+		m_spclLinkCostContainer,
+		m_spclDataProvider)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != m_vspclEndUpSearchList.back()->Execute())
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
 }
 
 RESULT CRPRCSectionDirector::StepLinkLevelUp(int iFromLevel, int iToLevel,
@@ -172,8 +212,45 @@ RESULT CRPRCSectionDirector::StepLinkLevelUp(int iFromLevel, int iToLevel,
 {
 	m_enStep = STEP_LINK_LEVEL_UP;
 
-	//return SUCCESS;
-	return FAILURE;
+	m_vspclStartLinkLevelUpList.resize(m_vspclStartLinkLevelUpList.size() + 1);
+	m_vspclEndLinkLevelUpList.resize(m_vspclEndLinkLevelUpList.size() + 1);
+
+	if (!m_vspclStartLinkLevelUpList.back().Create(/*this, RPRC_Cmd_PRI_High, */m_lRouteID, /*m_spclExtIF, */RP_TERM_START,
+		iFromLevel, iToLevel,
+		spvclStartInputLinkList,
+		m_spclMidLinkUsingContainer,
+		m_spclCost,
+		m_spclLinkCostContainer,
+		m_spclDataProvider))
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != m_vspclStartLinkLevelUpList.back()->Execute())
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	if (!m_vspclEndLinkLevelUpList.back().Create(/*this, RPRC_Cmd_PRI_High, */m_lRouteID, /*m_spclExtIF, */RP_TERM_END,
+		iFromLevel, iToLevel,
+		spvclEndInputLinkList,
+		m_spclMidLinkUsingContainer,
+		m_spclCost,
+		m_spclLinkCostContainer,
+		m_spclDataProvider)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != m_vspclEndLinkLevelUpList.back()->Execute())
+	{
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
 }
 
 RESULT CRPRCSectionDirector::StepConnectSearch(int iLevel,
@@ -330,12 +407,12 @@ RESULT CRPRCSectionDirector::NextStep()
 				m_spclEndTermSearchResult->m_spmapOpenTable,
 				m_spclEndTermSearchResult->m_spclMidLinkTable))
 			{
-				ERR("");
+				ERR("step up search failed!");
 				return FAILURE;
 			}
 		}
 		else {
-			//ERR( "" );
+			ERR( "" );
 			return FAILURE;
 		}
 	}
