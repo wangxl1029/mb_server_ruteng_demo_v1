@@ -3,4 +3,6 @@
 *.suo
 Debug/
 Generated/
+ExternalLibrary/
+build/
 ipch/
