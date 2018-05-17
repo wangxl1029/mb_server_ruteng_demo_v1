@@ -61,10 +61,9 @@ add_executable(	rpmain
 		)
 
 
-#IF (${MAPBAR_PLATFORM} STREQUAL "linux")
+IF (NOT MSVC)
 
-#ELSE()
-
+ELSE()
 	target_link_libraries(	rpmain
 				DataProvider.lib
 				nds_sqlite3.lib
@@ -78,4 +77,4 @@ add_executable(	rpmain
 				CommFunc.lib
 				RP.lib
 				)
-#ENDIF ()
+ENDIF ()
