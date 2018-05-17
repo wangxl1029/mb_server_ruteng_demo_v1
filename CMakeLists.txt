@@ -33,6 +33,10 @@ ENDIF ()
 
 MESSAGE (STATUS ${VERSION})
 
+# ---[ Build flags
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 11)
+
 # Add library directory to build
 ADD_SUBDIRECTORY(${FUNCTION_DIR}/RP)
 ADD_SUBDIRECTORY(${PLATFORM_DIR}/ErrLog)
@@ -49,7 +53,8 @@ include_directories(
 
 file(GLOB rpmainSRC "rpmain/*.cpp")
 
-link_directories(${DEBUGLIB_PATH})
+link_directories(${SOLUTION_DIR}/Debug)
+link_directories(${LIBRARY_OUTPUT_PATH}/Debug)
 
 add_executable(	rpmain 
 		${rpmainSRC}
