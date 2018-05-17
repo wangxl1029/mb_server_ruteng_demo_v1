@@ -33,12 +33,14 @@ ENDIF ()
 
 MESSAGE (STATUS ${VERSION})
 
+# Add library directory to build
 ADD_SUBDIRECTORY(${FUNCTION_DIR}/RP)
 ADD_SUBDIRECTORY(${PLATFORM_DIR}/ErrLog)
 ADD_SUBDIRECTORY(${PLATFORM_DIR}/OSWrapper)
 ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/CommonFunc)
 ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/DataProvider)
 
+# Including header directory
 include_directories(
 	${FUNCTION_DIR}
 	${COMMOMLIB_DIR}/CommonFunc/include
