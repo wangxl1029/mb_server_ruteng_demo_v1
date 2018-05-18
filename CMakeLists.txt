@@ -35,7 +35,15 @@ MESSAGE (STATUS ${VERSION})
 
 # ---[ Build flags
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 11)
+#set(CMAKE_CXX_STANDARD 11)
+
+IF (NOT MSVC)
+	SET (CMAKE_C_FLAGS_DEBUG "-Wall -g -fshort-wchar -fwide-exec-charset=UTF-16LE -m64 -Wno-deprecated")
+	SET (CMAKE_C_FLAGS_RELEASE "-Wall -O2 -fshort-wchar -fwide-exec-charset=UTF-16LE -m64 -Wno-deprecated")
+
+	SET (CMAKE_CXX_FLAGS_DEBUG "-Wall -g -std=c++11 -fshort-wchar -fwide-exec-charset=UTF-16LE -m64 -Wno-deprecated")
+	SET (CMAKE_CXX_FLAGS_RELEASE "-Wall -O2 -std=c++11 -fshort-wchar -fwide-exec-charset=UTF-16LE -m64 -Wno-deprecated")
+ENDIF()
 
 # Including header directory
 include_directories(
@@ -46,8 +54,13 @@ include_directories(
 
 file(GLOB rpmainSRC "rpmain/*.cpp")
 
+IF (MSVC)
 link_directories(${SOLUTION_DIR}/Debug)
 link_directories(${LIBRARY_OUTPUT_PATH}/Debug)
+ELSE()
+link_directories(${SOLUTION_DIR}/Debug)
+link_directories(${LIBRARY_OUTPUT_PATH})
+ENDIF()
 
 # Add library directory to build
 ADD_SUBDIRECTORY(${FUNCTION_DIR}/RP)
@@ -56,24 +69,33 @@ ADD_SUBDIRECTORY(${PLATFORM_DIR}/OSWrapper)
 ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/CommonFunc)
 ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/DataProvider)
 
-#add_executable(	rpmain ${rpmainSRC} )
+add_executable(	rpmain ${rpmainSRC} )
 
-IF (0)
 IF (NOT MSVC)
 	target_link_libraries(	rpmain
-				DataProvider.a
-				libnds_sqlite3.a
-				libsl_dal.a
-				IOLibCommon.a
-				libio_lib_nds.a
+				libRP.a
+				libCommFunc.a
+				libDataProvider.a
+				libErrLog.a
+				libOSWrapper.a
+				libio_lib_common.a
 				libio_lib_upd.a
-				zlib.a
-				ErrLog.a
-				OSWrapper.a
-				CommFunc.a
-				RP.a
+				libio_lib_nds.a
+				libsl_dal.a
+				libnds_sqlite3.a
+				libzlib_linux_x64.a
+				libzstd_linux_x64.a
 				)
 
+IF (0)
+	add_dependencies(	rpmain
+				RP
+				ErrLog
+				OSWrapper
+				CommFunc
+				DataProvider
+				)
+ENDIF ()
 ELSE()
 	target_link_libraries(	rpmain
 				DataProvider.lib
@@ -88,5 +110,4 @@ ELSE()
 				CommFunc.lib
 				RP.lib
 				)
-ENDIF ()
 ENDIF ()
