@@ -2,6 +2,7 @@
 #define INNERCOMMON_H
 
 #if defined( linux )
+#include	<typeinfo>
 #else
 #pragma warning( disable : 4786 )
 #endif

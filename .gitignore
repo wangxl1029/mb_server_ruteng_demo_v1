@@ -1,8 +1,11 @@
 *.opensdf
 *.sdf
 *.suo
+*.zip
 Debug/
 Generated/
 ExternalLibrary/
 build/
 ipch/
+
+/lib/

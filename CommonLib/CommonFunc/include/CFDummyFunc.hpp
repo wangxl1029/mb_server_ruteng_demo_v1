@@ -24,17 +24,6 @@ public:
 	void Unlock() {}
 };
 
-class CCFMutexLocker
-{
-public:
-	CCFMutexLocker(CCFMutex&){}
-};
-class CCFCSLocker
-{
-public:
-	CCFCSLocker(CCFMutex&){}
-};
-
 //	template class for thread model
 //	class CCFSingleThreaded
 template <class Host> class CCFSingleThreaded
@@ -88,6 +77,46 @@ public:
 		lval = val;
 	}
 };
+
+template< class T > class CCFLocker
+{
+public:
+	CCFLocker(T &c, uint uiTimeout = INFINITE) : m_c(c), m_bLocked(false)
+	{
+		Lock(uiTimeout);
+	}
+
+	~CCFLocker()
+	{
+		Unlock();
+	}
+
+	void Lock(uint uiTimeout = INFINITE)
+	{
+		if (!m_bLocked) {
+			m_bLocked = m_c.Lock(uiTimeout);
+		}
+	}
+
+	void Unlock()
+	{
+		if (m_bLocked) {
+			m_c.Unlock();
+			m_bLocked = false;
+		}
+	}
+
+	bool IsLocked()
+	{
+		return m_bLocked;
+	}
+
+	T						&m_c;
+	bool					m_bLocked;
+};
+
+typedef CCFLocker<CCFCriticalSection> 	CCFCSLocker;
+typedef CCFLocker<CCFMutex>		CCFMutexLocker;
 
 //	class CCFObjectLevelLockable
 template <class Host> class CCFObjectLevelLockable
@@ -154,39 +183,3 @@ public:
 	}
 };
 
-template< class T > class CCFLocker
-{
-public:
-	CCFLocker(T &c, uint uiTimeout = INFINITE) : m_c(c), m_bLocked(false)
-	{
-		Lock(uiTimeout);
-	}
-
-	~CCFLocker()
-	{
-		Unlock();
-	}
-
-	void Lock(uint uiTimeout = INFINITE)
-	{
-		if (!m_bLocked) {
-			m_bLocked = m_c.Lock(uiTimeout);
-		}
-	}
-
-	void Unlock()
-	{
-		if (m_bLocked) {
-			m_c.Unlock();
-			m_bLocked = false;
-		}
-	}
-
-	bool IsLocked()
-	{
-		return m_bLocked;
-	}
-
-	T						&m_c;
-	bool					m_bLocked;
-};

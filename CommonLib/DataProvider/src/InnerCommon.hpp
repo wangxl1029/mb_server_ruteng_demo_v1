@@ -1,6 +1,7 @@
 #pragma once
 
 #if defined( linux )
+#include	<typeinfo>	// add by wxl on May 18, 2018
 #else
 #pragma warning( disable: 4819 )
 #endif

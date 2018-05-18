@@ -2,6 +2,7 @@
 #define INNERCOMMON_H
 
 #if defined( linux )
+#include	<typeinfo>	// add by wxl on May 18, 2018
 #else
 #pragma warning( disable: 4819 )
 #endif
@@ -27,7 +28,7 @@
 #include	<string>
 #include	<algorithm>
 using namespace std;
-#if 0 // del by wxl
+#if WXL_CLIENT_SPECIFIED
 #include	<boost/bind.hpp>
 #include	<boost/signals2.hpp>
 #include	<boost/shared_ptr.hpp>

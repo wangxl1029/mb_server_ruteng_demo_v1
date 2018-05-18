@@ -37,13 +37,6 @@ MESSAGE (STATUS ${VERSION})
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
 
-# Add library directory to build
-ADD_SUBDIRECTORY(${FUNCTION_DIR}/RP)
-ADD_SUBDIRECTORY(${PLATFORM_DIR}/ErrLog)
-ADD_SUBDIRECTORY(${PLATFORM_DIR}/OSWrapper)
-ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/CommonFunc)
-ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/DataProvider)
-
 # Including header directory
 include_directories(
 	${FUNCTION_DIR}
@@ -56,12 +49,30 @@ file(GLOB rpmainSRC "rpmain/*.cpp")
 link_directories(${SOLUTION_DIR}/Debug)
 link_directories(${LIBRARY_OUTPUT_PATH}/Debug)
 
-add_executable(	rpmain 
-		${rpmainSRC}
-		)
+# Add library directory to build
+ADD_SUBDIRECTORY(${FUNCTION_DIR}/RP)
+ADD_SUBDIRECTORY(${PLATFORM_DIR}/ErrLog)
+ADD_SUBDIRECTORY(${PLATFORM_DIR}/OSWrapper)
+ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/CommonFunc)
+ADD_SUBDIRECTORY(${COMMOMLIB_DIR}/DataProvider)
 
+#add_executable(	rpmain ${rpmainSRC} )
 
+IF (0)
 IF (NOT MSVC)
+	target_link_libraries(	rpmain
+				DataProvider.a
+				libnds_sqlite3.a
+				libsl_dal.a
+				IOLibCommon.a
+				libio_lib_nds.a
+				libio_lib_upd.a
+				zlib.a
+				ErrLog.a
+				OSWrapper.a
+				CommFunc.a
+				RP.a
+				)
 
 ELSE()
 	target_link_libraries(	rpmain
@@ -77,4 +88,5 @@ ELSE()
 				CommFunc.lib
 				RP.lib
 				)
+ENDIF ()
 ENDIF ()
