@@ -22,7 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DataProvider", "CommonLib\D
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RP", "Function\RP\rp.vcxproj", "{68183719-9F2E-4358-A413-8ED62028899E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "navapi", "navapi\navapi.vcxproj", "{BB57A617-9D22-428A-97A0-27A903465CB6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NaviApi", "NaviApi\src\NaviApi.vcxproj", "{BB57A617-9D22-428A-97A0-27A903465CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

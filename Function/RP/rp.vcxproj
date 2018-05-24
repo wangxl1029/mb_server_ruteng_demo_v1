@@ -40,7 +40,9 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>..\..\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -48,7 +50,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WXL_COMMENT_OUT;WXL_SERVER_SPECIFIED;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Function\;$(SolutionDir)Platform\OSWrapper\include\;$(SolutionDir)Platform\ErrLog\include\;$(SolutionDir)Function\OSWrapper\include\;$(SolutionDir)ExternalLibrary\nds_sqlite3\include\;$(SolutionDir)Generated\SL_DAL\include\;$(SolutionDir)Generated\IOLibs\include\IOLibCommon\;$(SolutionDir)Generated\IOLibs\include\NDS;$(SolutionDir)CommonLib\CommonFunc\include\;$(SolutionDir)CommonLib\DataProvider\include\;src\RouteCalculator;include;src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Function\;..\..\Platform\OSWrapper\include\;..\..\Platform\ErrLog\include\;..\..\Function\OSWrapper\include\;..\..\ExternalLibrary\nds_sqlite3\include\;..\..\Generated\SL_DAL\include\;..\..\Generated\IOLibs\include\IOLibCommon\;..\..\Generated\IOLibs\include\NDS;..\..\CommonLib\CommonFunc\include\;..\..\CommonLib\DataProvider\include\;src\RouteCalculator;include;src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
