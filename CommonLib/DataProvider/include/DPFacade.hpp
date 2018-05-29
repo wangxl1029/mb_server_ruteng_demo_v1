@@ -20,7 +20,7 @@ public:
 	//virtual RESULT GetDetailLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint uiSubLevel, uint &uiDetailLevelCount) = 0;
 	//virtual RESULT GetBmdData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataBmd > &spclDataBmd) = 0;
 	virtual RESULT GetRoutingTileData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingTile > &spclDataRoutingTile) = 0;
-	//virtual RESULT GetRoutingAuxData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingAuxTile > &spclDataRoutingAuxTile) = 0;
+	virtual RESULT GetRoutingAuxData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingAuxTile > &spclDataRoutingAuxTile) = 0;
 	//virtual RESULT GetNamedObjectData(string strUpdateRegion, int iNamedObjectId, short sVersion, SmartPointer< CDPDataNamedObject > &spclDataNamedObject) = 0;
 	//virtual RESULT GetNamedObjectDataList(string strUpdateRegion, vector< int > &viNamedObjectIdList, short sVersion, vector< SmartPointer< CDPDataNamedObject > > &vspclDataNamedObjectList) = 0;
 	//virtual RESULT Get3DObjSpatialSubTree(string strUpdateRegion, int iSubTreeId, short sVersion, SmartPointer< CDP3DObjSpatialSubTree > &spclSubTree) = 0;

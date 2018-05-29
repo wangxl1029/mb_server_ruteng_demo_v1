@@ -11,7 +11,7 @@ public:
 
 	bool Initialize();
 	bool calcRoute(int iFromX, int iFromY, int iToX, int iToY);
-
+	bool extrackRouteResult();
 private:
 	shared_ptr<CPrivate>										mp;
 };

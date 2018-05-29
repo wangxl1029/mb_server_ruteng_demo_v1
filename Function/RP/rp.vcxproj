@@ -94,6 +94,7 @@
     <ClInclude Include="src\RPRCTermSearch.hpp" />
     <ClInclude Include="src\RPRCUpSearch.hpp" />
     <ClInclude Include="src\RPRouteCalcRequest.hpp" />
+    <ClInclude Include="src\RPRouteDataLoader.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\RouteCalculator\RPRCCost.cpp" />
@@ -101,6 +102,7 @@
     <ClCompile Include="src\RouteCalculator\RPRCRouteCalcCommon.cpp" />
     <ClCompile Include="src\RouteCalculator\RPRCRouteSearchCommFunc.cpp" />
     <ClCompile Include="src\RouteSession.cpp" />
+    <ClCompile Include="src\Route\RPRouteDataLoader.cpp" />
     <ClCompile Include="src\route\RPRSLink.cpp" />
     <ClCompile Include="src\route\RPSection.cpp" />
     <ClCompile Include="src\RPRCConnectSearch.cpp" />

@@ -37,7 +37,7 @@ public:
 	//virtual RESULT GetDetailLevelCount(int iLevel, BUILDING_BLOCK_ID enBuildingBlockID, uint uiSubLevel, uint &uiDetailLevelCount);
 	//virtual RESULT GetBmdData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataBmd > &spclDataBmd);
 	virtual RESULT GetRoutingTileData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingTile > &spclDataRoutingTile);
-	//virtual RESULT GetRoutingAuxData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingAuxTile > &spclDataRoutingAuxTile);
+	virtual RESULT GetRoutingAuxData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingAuxTile > &spclDataRoutingAuxTile);
 	//virtual RESULT GetNamedObjectData(string strUpdateRegion, int iNamedObjectId, short sVersion, SmartPointer< CDPDataNamedObject > &spclDataNamedObject);
 	//virtual RESULT GetNamedObjectDataList(string strUpdateRegion, vector< int > &viNamedObjectIdList, short sVersion, vector< SmartPointer< CDPDataNamedObject > > &vspclDataNamedObjectList);
 	//virtual RESULT Get3DObjSpatialSubTree(string strUpdateRegion, int iSubTreeId, short sVersion, SmartPointer< CDP3DObjSpatialSubTree > &spclSubTree);
@@ -235,6 +235,56 @@ RESULT CDPFacadeImpl::GetRoutingTileData(string strUpdateRegion, int iLevel, uin
 	return SUCCESS;
 }
 
+RESULT CDPFacadeImpl::GetRoutingAuxData(string strUpdateRegion, int iLevel, uint uiTileNo, short sVersion, SmartPointer< CDPDataRoutingAuxTile > &spclDataRoutingAuxTile)
+{
+	if (m_bDbSwitching) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderProduct >	spclProvFolderProduct;
+	if (SUCCESS != m_spclDPProvFolderRoot->GetFolderProduct(m_strProductName, spclProvFolderProduct)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvFolderUpdateRegion >	spclProvFolderUpdateRegion;
+	if (SUCCESS != spclProvFolderProduct->GetProvFolderUpdateRegion(strUpdateRegion, spclProvFolderUpdateRegion)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvShared >	spclProvShared;
+	if (SUCCESS != spclProvFolderUpdateRegion->GetProvShared(spclProvShared)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	uint		uiCoordShift = 0;
+	if (SUCCESS != spclProvShared->GetCoordShift(iLevel, BUILDING_BLOCK_ID_BASIC_MAP_DISPLAY, uiCoordShift)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	SmartPointer< CDPProvRouting >	spclProvRouting;
+	if (SUCCESS != spclProvFolderUpdateRegion->GetProvRouting(spclProvRouting)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	uint	uiPackedTileID = 0;
+	if (SUCCESS != CDPCommon::TileNoToPackedTileID(iLevel, uiTileNo, uiPackedTileID)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	if (SUCCESS != spclProvRouting->GetRoutingAuxTile(uiPackedTileID, sVersion, spclDataRoutingAuxTile, 31 - iLevel - uiCoordShift)) {
+		ERR("");
+		return FAILURE;
+	}
+
+	return SUCCESS;
+}
 
 RESULT CDPFacadeImpl::GetUpdateRegionByTile(BUILDING_BLOCK_ID enBuildingBlockID, uint uiPackedTileID, vector< string > &vstrUpdateRegionList)
 {

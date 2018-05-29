@@ -6,22 +6,22 @@
 #include "RouteSession.hpp"
 
 #pragma region Class 
-struct CNdsRouteSession::CPrivate
+struct CNdsNaviSession::CPrivate
 {
 	std::shared_ptr<CRouteSession> mRouteSess;
 };
 
-CNdsRouteSession::CNdsRouteSession()
+CNdsNaviSession::CNdsNaviSession()
 : mp(new CPrivate())
 {
 }
 
-CNdsRouteSession::~CNdsRouteSession()
+CNdsNaviSession::~CNdsNaviSession()
 {
 	delete mp;
 }
 
-bool CNdsRouteSession::Initialize()
+bool CNdsNaviSession::Initialize()
 {
 	if (! mp->mRouteSess)
 	{
@@ -31,9 +31,13 @@ bool CNdsRouteSession::Initialize()
 	return mp->mRouteSess->Initialize();
 }
 
-bool CNdsRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
+bool CNdsNaviSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 {
 	return mp->mRouteSess->calcRoute(iFromX, iFromY, iToX, iToY);
 }
 
+bool CNdsNaviSession::extractRouteResult()
+{
+	return false;
+}
 #pragma endregion

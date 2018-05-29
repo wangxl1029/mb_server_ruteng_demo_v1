@@ -14,14 +14,15 @@
 
 #pragma region Class 
 
-class SYMBOL_DECLSPEC  CNdsRouteSession
+class SYMBOL_DECLSPEC  CNdsNaviSession
 {
 	struct CPrivate;
 public:
-	CNdsRouteSession();
-	~CNdsRouteSession();
+	CNdsNaviSession();
+	~CNdsNaviSession();
 	bool Initialize();
 	bool calcRoute(int, int, int, int);
+	bool extractRouteResult();
 private:
 	CPrivate* mp;
 };
