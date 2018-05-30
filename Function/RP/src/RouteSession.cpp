@@ -75,6 +75,23 @@ bool CRouteSession::Initialize()
 		return false;
 	}
 
+	if (!mp->m_spclRouteDataLoader.Create()){
+		ERR("");
+		return false;
+	}
+
+	if (SUCCESS != mp->m_spclRouteDataLoader->Initialize(mp->m_spclDataProvider))
+	{
+		ERR("");
+		return false;
+	}
+
+
+	if (!mp->m_spclLinkRoutingTile.Create(mp->m_spclDataProvider)){
+		ERR("");
+		return false;
+	}
+
 	return true;
 }
 
@@ -266,6 +283,11 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 	SmartPointer< CDPFacade > spclDPFacade = mp->m_spclDataProvider;
 	spclDPFacade->Initialize();
 
+	if (mp->m_spclRouteDataLoader == NULL)
+	{
+		;
+	}
+
 	SmartPointer< CRPRCSectionDirector >	spclSectionDirector; // refer to CRPRCRouteDirector::Initialize()
 	if (!spclSectionDirector.Create()) {
 		ERR("");
@@ -307,7 +329,7 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 #if 0
 				link.setShapePoints(&shapePoints);
 #else
-				return false;
+				//return false;
 #endif
 			}
 
