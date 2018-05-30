@@ -33,26 +33,68 @@ public:
 	SmartPointer< CRPRCLinkCostContainerSet >					m_spclLinkCostContainerSet; // refer to CRPRCMultiRouteDirector()
 	SmartPointer< CRPRCRoutingTileProxy	>						m_spclLinkRoutingTile;
 	SmartPointer< CRPRouteDataLoader >							m_spclRouteDataLoader;
+	shared_ptr<nsRouteSession::CSectionResult>					m_spclSingleSectResult;
 	static volatile long										m_iNextRouteID;
 };
 
 volatile long		CRouteSession::CPrivate::m_iNextRouteID = 0;
 
-CRouteSession::CRouteSession()
+struct nsRouteSession::CSectionLink::CPrivate
 {
+	CRPRSLink mRSLink;
+};
+
+nsRouteSession::CSectionLink::CSectionLink() : mp(make_shared<CPrivate>())
+{}
+
+shared_ptr< vector< pair<int, int> > > nsRouteSession::CSectionLink::getAllPos()
+{
+	auto spPosVec = make_shared< vector< pair<int, int> > >();
+	auto& pos1 = mp->mRSLink.m_clStartPoint;
+	spPosVec->push_back(make_pair(pos1.x, pos1.y));
+	auto& pos2 = mp->mRSLink.m_clEndPoint;
+	spPosVec->push_back(make_pair(pos2.x, pos2.y));
+
+	return spPosVec;
 }
 
-CRouteSession::~CRouteSession()
+pair<int, int> nsRouteSession::CSectionLink::getStartPos()
 {
+	auto& pos1 = mp->mRSLink.m_clStartPoint;
+	return make_pair(pos1.x, pos1.y);
 }
+
+pair<int, int> nsRouteSession::CSectionLink::getEndPos()
+{
+	auto& pos = mp->mRSLink.m_clEndPoint;
+	return make_pair(pos.x, pos.y);
+}
+
+struct nsRouteSession::CSectionResult::CPrivate
+{
+	SmartPointer< CRPSection >									m_spclSection;
+};
+
+nsRouteSession::CSectionResult::CSectionResult() : mp(make_shared<CPrivate>())
+{}
+
+size_t nsRouteSession::CSectionResult::getLinkNum()
+{
+	return mp->m_spclSection->m_vclRSLinkList.size();
+}
+
+shared_ptr<nsRouteSession::CSectionLink> nsRouteSession::CSectionResult::getLinkAt(size_t idx)
+{
+	auto spLink = make_shared<nsRouteSession::CSectionLink>();
+	spLink->mp->mRSLink = mp->m_spclSection->m_vclRSLinkList[idx];
+	return spLink;
+}
+
+CRouteSession::CRouteSession() : mp(make_shared<CPrivate>())
+{}
 
 bool CRouteSession::Initialize()
 {
-	if (!mp)
-	{
-		mp = make_shared<CPrivate>();
-	}
-
 	mp->m_spclDataProvider = CDPFacade::Create();
 	if (mp->m_spclDataProvider == NULL)
 	{
@@ -86,11 +128,12 @@ bool CRouteSession::Initialize()
 		return false;
 	}
 
-
 	if (!mp->m_spclLinkRoutingTile.Create(mp->m_spclDataProvider)){
 		ERR("");
 		return false;
 	}
+
+	mp->m_spclSingleSectResult = make_shared<nsRouteSession::CSectionResult>();
 
 	return true;
 }
@@ -283,11 +326,6 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 	SmartPointer< CDPFacade > spclDPFacade = mp->m_spclDataProvider;
 	spclDPFacade->Initialize();
 
-	if (mp->m_spclRouteDataLoader == NULL)
-	{
-		;
-	}
-
 	SmartPointer< CRPRCSectionDirector >	spclSectionDirector; // refer to CRPRCRouteDirector::Initialize()
 	if (!spclSectionDirector.Create()) {
 		ERR("");
@@ -336,11 +374,13 @@ bool CRouteSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 		}
 	}
 
-	return false;
+	mp->m_spclSingleSectResult->mp->m_spclSection = spclSectionDirector->m_spclSection;
+
+	return true;
 }
 
-bool CRouteSession::extrackRouteResult()
+shared_ptr<nsRouteSession::CSectionResult> CRouteSession::getSectionRouteResult()
 {
-	//mp->
-	return false;
+	return mp->m_spclSingleSectResult;
 }
+

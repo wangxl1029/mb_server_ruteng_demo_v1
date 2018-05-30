@@ -6,15 +6,50 @@
 #include "RouteSession.hpp"
 
 #pragma region Class 
-struct CNdsNaviSession::CPrivate
+
+struct CSectResultLinkProxy::CPrivate
 {
-	std::shared_ptr<CRouteSession> mRouteSess;
+	shared_ptr<nsRouteSession::CSectionLink> m_spLink;
+	shared_ptr< vector< pair<int, int> > > m_spPosVec;
 };
 
-CNdsNaviSession::CNdsNaviSession()
-: mp(new CPrivate())
+CSectResultLinkProxy::CSectResultLinkProxy() : mp(new CPrivate)
 {
 }
+void CSectResultLinkProxy::getStartPos(int& x,  int& y)
+{
+	std::tie(x, y) = mp->m_spLink->getStartPos();
+}
+
+CSectResultLinkProxy::~CSectResultLinkProxy()
+{}
+
+void CSectResultLinkProxy::getEndPos(int& x, int& y)
+{
+	std::tie(x, y) = mp->m_spLink->getEndPos();
+}
+
+struct CSectResultProxy::CPrivate
+{
+	shared_ptr<nsRouteSession::CSectionResult> spSection;
+};
+
+CSectResultProxy::CSectResultProxy() : mp(new CPrivate)
+{}
+
+CSectResultProxy::~CSectResultProxy()
+{
+	delete mp;
+}
+
+struct CNdsNaviSession::CPrivate
+{
+	shared_ptr<CRouteSession> spRouteSess;
+	vector< shared_ptr<CSectResultLinkProxy> > mVecLinkProxy;
+};
+
+CNdsNaviSession::CNdsNaviSession() : mp(new(CPrivate))
+{}
 
 CNdsNaviSession::~CNdsNaviSession()
 {
@@ -23,21 +58,49 @@ CNdsNaviSession::~CNdsNaviSession()
 
 bool CNdsNaviSession::Initialize()
 {
-	if (! mp->mRouteSess)
+	if (!mp->spRouteSess)
 	{
-		mp->mRouteSess = std::make_shared<CRouteSession>();
+		mp->spRouteSess = std::make_shared<CRouteSession>();
 	}
 
-	return mp->mRouteSess->Initialize();
+	return mp->spRouteSess->Initialize();
 }
 
 bool CNdsNaviSession::calcRoute(int iFromX, int iFromY, int iToX, int iToY)
 {
-	return mp->mRouteSess->calcRoute(iFromX, iFromY, iToX, iToY);
+	bool retval = mp->spRouteSess->calcRoute(iFromX, iFromY, iToX, iToY);
+	return retval;
 }
 
-bool CNdsNaviSession::extractRouteResult()
+shared_ptr<CSectResultProxy> CNdsNaviSession::getRouteResult()
 {
-	return false;
+	auto result = make_shared<CSectResultProxy>();
+	result->mp->spSection = mp->spRouteSess->getSectionRouteResult();
+	return result;
 }
+
+size_t CSectResultProxy::getLinkNum()
+{
+	return mp->spSection->getLinkNum();
+}
+
+shared_ptr<CSectResultLinkProxy> CSectResultProxy::getLinkAt(size_t idx)
+{
+	auto spLnkPrxy = make_shared<CSectResultLinkProxy>();
+	auto linkNum = mp->spSection->getLinkNum();
+	if (idx < linkNum)
+	{
+		spLnkPrxy->mp->m_spLink = mp->spSection->getLinkAt(idx);
+		//spLnkPrxy->mp->m_spPosVec->emplace_back(spLnkPrxy->mp->m_spLink->getStartPos());
+		//spLnkPrxy->mp->m_spPosVec->emplace_back(spLnkPrxy->mp->m_spLink->getEndPos());
+	}
+	else
+	{
+		spLnkPrxy.reset();
+	}
+
+	return spLnkPrxy;
+}
+
+
 #pragma endregion
