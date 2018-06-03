@@ -70,6 +70,16 @@ pair<int, int> nsRouteSession::CSectionLink::getEndPos()
 	return make_pair(pos.x, pos.y);
 }
 
+tuple<
+	uint16_t,	// link id
+	uint32_t,		// packed tile id
+	int16_t>	// region id
+nsRouteSession::CSectionLink::getLinkID()
+{
+	return make_tuple(mp->mRSLink.m_usLinkID, mp->mRSLink.m_clTileID.m_uiPackedTileID, mp->mRSLink.m_clTileID.m_sUpdateRegionID);
+}
+
+
 struct nsRouteSession::CSectionResult::CPrivate
 {
 	SmartPointer< CRPSection >									m_spclSection;

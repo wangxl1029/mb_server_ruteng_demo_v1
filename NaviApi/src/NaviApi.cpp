@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "NaviApiDll.hpp"
+#include "navapi_session.hpp"
 #include "RouteSession.hpp"
 
 #pragma region Class 
@@ -41,6 +41,18 @@ CSectResultProxy::~CSectResultProxy()
 {
 	delete mp;
 }
+
+std::tuple<
+	uint16_t, // link id
+	uint32_t,	// packed tile id
+	int16_t>	// region id
+CSectResultLinkProxy::getLinkId()
+{
+	
+	return mp->m_spLink->getLinkID();
+}
+
+
 
 struct CNdsNaviSession::CPrivate
 {

@@ -84,6 +84,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\navapi_route.hpp" />
+    <ClInclude Include="..\include\navapi_session.hpp" />
     <ClInclude Include="..\include\NaviApiDll.hpp" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

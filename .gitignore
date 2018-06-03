@@ -2,6 +2,7 @@
 *.sdf
 *.suo
 *.zip
+*.user
 Debug/
 Generated/
 ExternalLibrary/
